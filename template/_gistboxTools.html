@@ -1,12 +1,12 @@
 {{#showTools}}
 <div class="gistbox-tools">
-    <div class="gistbox-expand"><a href="#" onclick="javascript:$(this).parent().parent().toggleClass('open');return false;"><i class="icon-caret-down"></i></a></div>
     {{#ownedCollection}}
-    <div class="gistbox-handle"><a href="#" onclick="javascript: return false;"><i class="icon-move"></i></a></div>
-    <div><a href="#" onclick="javascript:removeFromCollection('{{_id}}'); return false;"><i class="icon-minus"></i></a></div>
+    <a class='pulse-button' href="#" onclick="javascript:removeFromCollection('{{_id}}'); return false;"></a><i onclick="javascript:removeFromCollection('{{_id}}'); return false;"
+        class='bx bx-plus-circle bx-fade-hover' style='color:#1163f0; position: absolute; top: -49px; left: -43.5px; cursor: pointer;'></i></a>
     {{/ownedCollection}}
     {{^ownedCollection}}
-    <div><a href="#" onclick="javascript:addToCollection('{{_id}}');$(this).parent().parent().removeClass('open'); return false;"><i class="icon-plus"></i></a></div>
+    <a class='pulse-button' href="#" onclick="javascript:addToCollection('{{_id}}'); return false;"></a><i onclick="javascript:addToCollection('{{_id}}'); return false;"
+        class='bx bx-plus-circle bx-fade-hover' style='color:#1163f0; position: absolute; top: -49px; left: -43.5px; cursor: pointer;'></i></a>
     {{/ownedCollection}}
 </div>
 {{/showTools}}

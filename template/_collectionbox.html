@@ -1,4 +1,4 @@
-<li class="gistbox gistbox-collection">
+<!-- <li class="gistbox gistbox-collection">
     <a href="/collection/{{_id}}">
         <h1 class="gisttitle">{{name}}</h1>
         <p class="gistdescription">{{summary}}</p>
@@ -9,4 +9,57 @@
             <div class="gistbox-owner">{{type}}</div>
         </div>
     </a>
+</li> -->
+<li class="carousel-item" data-thing-id="{{_id}}">
+    <a class="gallery-item-card-container" href="/collection/{{_id}}" target="_self">
+        <div class="gallery-item-cardHomePage" title="{{name}}">
+            <div class="cover">
+                <div class="icon-cell">
+                    <img class="image-display item-icon"
+                        src="https://madskristensen.gallerycdn.vsassets.io/extensions/madskristensen/imageoptimizer/4.0.143/1633124287282/Microsoft.VisualStudio.Services.Icons.Default">
+                    <div class="bowtie-icon" style="display: none;"></div>
+                    <span style="visibility: hidden"></span>
+                </div>
+                <div class="core-info-cell">
+                    <div class="name">
+                        <span class="item-title">{{name}}</span>
+                        <span class="text-fadeout"></span>
+                    </div>
+                    <div class="core-info-second-row">
+                        <span class="installs">
+                            <i class='bx bx-download'></i>
+                            <span class="install-count">534K</span>
+                        </span>
+                        <div class="publisher">
+                            <span title="{{gitOwners.0}}">{{gitOwners.0}}</span>
+                            <span class="text-fadeout"></span>
+                        </div>
+                    </div>
+                    <div class="core-info-third-row">
+                        <!-- <i class="verified-domain-icon" title="Verified Domain"></i> -->
+                        <div class="publisher-domain">
+                            <span title="{{type}}">{{type}}</span>
+                            <span class="text-fadeout"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="stats-and-offer">
+                <div class="rating-and-price">
+                    <div role="img" class="rating">
+                        <div class="rating-control">
+                            <img alt="" class="star full-star" src="https://cdn.vsassets.io/v/M221_20230510.21/_content/FullStar.svg">
+                            <img alt="" class="star full-star" src="https://cdn.vsassets.io/v/M221_20230510.21/_content/FullStar.svg">
+                            <img alt="" class="star full-star" src="https://cdn.vsassets.io/v/M221_20230510.21/_content/FullStar.svg">
+                            <img alt="" class="star full-star" src="https://cdn.vsassets.io/v/M221_20230510.21/_content/FullStar.svg">
+                            <img alt="" class="star full-star" src="https://cdn.vsassets.io/v/M221_20230510.21/_content/FullStar.svg">
+                        </div>
+                    </div>
+                    <div class="pricing-tag" "
+                        title=" FREE">FREE</div>
+                </div>
+            </div>
+        </div>
+    </a>
+    {{>_gistboxTools}}
 </li>

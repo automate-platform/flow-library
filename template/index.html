@@ -1,6 +1,7 @@
 {{>_header}}
 {{^sessionuser}}
-<div class="grid">
+
+<!-- <div class="grid">
     <div class="front-hero">
       <div class="col-2-3" style="position:relative; background: #aa4444; border-top-right-radius:20px;border-bottom-left-radius:10px;">
           <div>
@@ -12,19 +13,101 @@
 
       </div>
   </div>
-</div>
+</div> -->
 {{/sessionuser}}
+
+<div class="homepage-searchbox-wrapper" role="search">
+    <div class="homepage-searchbox-message">
+        <h1> <span>Extensions for Visual Studio</span> </h1>
+    </div>
+    <form id="search-form" method="get" action="/search">
+        <div class="homepage-searchbox-container gist-filter">
+            <input class="search-input gist-filter-input" maxlength="200" autocomplete="off"
+                placeholder="Search Visual Studio extensions" value="{{query.term}}" id="filter-term" name="term">
+            <!-- <span role="button"
+                class="searchbutton gallery-element-focus-style-moderate bowtie-icon bowtie-search"></span> -->
+            {{^fullsearch}}
+            <div class="filter-results">
+                <ul></ul>
+            </div>
+            <script>
+                $(".filter-results").on('mousedown', function (evt) { evt.stopPropagation(); });
+                $("#filter-term").keyup(utils.debounce(function () {
+                    if ($("#filter-term").val().trim() === "") {
+                        $(".filter-term-spinner").hide();
+                        $(".filter-results").hide();
+                    }
+                    $(".filter-term-spinner").show();
+                }, function () {
+                    var list = $(".filter-results ul");
+                    list.empty();
+                    var term = $("#filter-term").val().trim();
+                    $(document).off('mousedown.search-menu');
+                    if (term === "") {
+                        $(".filter-results").hide();
+                        $(".filter-term-spinner").hide();
+                    } else {
+                        utils.loadThingSummary('/things?format=json&per_page=6&term=' + encodeURIComponent(term)).then(function (results) {
+                            $(".filter-term-spinner").hide();
+                            var data = results.data || [];
+                            if (data.length) {
+                                data.forEach(function (d) {
+                                    var link = $('<a/>');
+                                    var label = $('<span/>').appendTo(link);
+                                    var desc = $('<br><span style="font-weight: 100; font-size: 13px;"/>').appendTo(link);
+                                    var type = $('<span class="filter-result-type" style="margin-top: 5px;"/>').appendTo(link);
+                                    if (d.isNode) {
+                                        link.attr("href", "/node/" + d.name)
+                                        label.text(d.name);
+                                        desc.text(d.description)
+                                        type.addClass("filter-result-node");
+                                        type.text("node");
+                                    } else if (d.isFlow) {
+                                        link.attr("href", "/flow/" + d._id)
+                                        label.text(d.description);
+                                        desc.text(d.summary)
+                                        type.addClass("filter-result-flow");
+                                        type.text("flow") 
+                                    } else if (d.isCollection) {
+                                        link.attr("href", "/collection/" + d._id)
+                                        label.text(d.name);
+                                        desc.text(d.summary)
+                                        type.addClass("filter-result-collection");
+                                        type.text("collection")
+                                    }
+                                    $('<li>').appendTo(list).append(link);
+                                })
+                                $('<li>', { style: "text-align: right" }).appendTo(list).append($('<a>').attr("href", "/search?term=" + encodeURIComponent(term)).html("See more (" + results.meta.results.count + ')<i class="icon-caret-right"></i>'));
+                            } else {
+                                $('<li>').appendTo(list).append($('<span>').text("Nothing found"));
+                            }
+                            $(".filter-results").show();
+                            $(document).one('mousedown.search-menu', function (evt) {
+                                $(".filter-results").hide();
+                            });
+                        })
+                    }
+                }, 500));
+            </script>
+            {{/fullsearch}}
+        </div>
+    </form>
+</div>
 
 {{#nodes}}
 <div class="grid thing-list-section">
-    <div class="col-1-1 thing-list-section-header"><h2>Recent nodes</h2> <a href="/search?type=node">see more ({{count}})<i class="icon-caret-right"></i></a></div>
+    <div class="col-1-1 thing-list-section-header">
+        <h2>Recent Node</h2> <a href="/search?type=node">See more<i class='bx bx-right-arrow-circle bx-fade-right-hover' ></i></a>
+    </div>
     {{>_gistlist}}
 </div>
 {{/nodes}}
 
 {{#flows}}
 <div class="grid thing-list-section">
-    <div class="col-1-1 thing-list-section-header"><h2>Recent flows</h2> <a href="/search?type=flow">see more ({{count}})<i class="icon-caret-right"></i></a></div>
+    <div class="col-1-1 thing-list-section-header">
+        <h2>Recent flows</h2> <a href="/search?type=flow">See more<i class='bx bx-right-arrow-circle bx-fade-right-hover' ></i></a>
+    </div>
     {{>_gistlist}}
 </div>
 {{/flows}}
@@ -32,7 +115,9 @@
 
 {{#collections}}
 <div class="grid thing-list-section">
-    <div class="col-1-1 thing-list-section-header"><h2>Recent collections</h2> <a href="/search?type=collection">see more ({{count}})<i class="icon-caret-right"></i></a></div>
+    <div class="col-1-1 thing-list-section-header">
+        <h2>Recent collections</h2> <a href="/search?type=collection">See more<i class='bx bx-right-arrow-circle bx-fade-right-hover' ></i></a>
+    </div>
     {{>_gistlist}}
 </div>
 {{/collections}}
