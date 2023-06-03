@@ -1,502 +1,314 @@
 {{>_header}}
+<script>
+    function copyFlow() {
+        var ta = document.createElement('textarea');
+        let copyText = document.querySelector("#FlowCode").innerText;
+        ta.style.position = 'absolute';
+        ta.style.left = '-3000px';
+        document.body.appendChild(ta);
+        ta.value = copyText;
+        ta.select();
+        document.execCommand("copy");
+        document.body.removeChild(ta);
+        document.querySelector('#copy-button').innerText = "Copied!";
+        setTimeout(function () {
+            document.querySelector('#copy-button').innerText = "Copy";
+        }, 3000)
+    }
 
-<div class="ux-item-details" role="main">
-    <div class="ux-section-banner dynamic" id="section-banner" data-bind="style: { 'background-color': brandingColor }">
-        <div class="ux-section-core gallery-centered-content">
-            <table role="presentation">
-                <tbody>
-                    <tr>
-                        <td class="item-img" data-bind="template: { name: 'new-image-template' }" id="vss_2">
-                            <img class="image-display" alt=""
-                                data-bind="attr: { src: imageSrc }, css: imageStyle, visible: imageVisible"
-                                src="https://madskristensen.gallerycdn.vsassets.io/extensions/madskristensen/imageoptimizer/4.0.143/1633124287282/Microsoft.VisualStudio.Services.Icons.Default"
-                                style="top: 20px; visibility: visible;">
-                            <div class="bowtie-icon" data-bind="visible: isBowtieVisible(), css: bowtieStyle"
-                                style="display: none;"></div>
-                        </td>
-                        <td class="item-header">
-                            <div class="item-header-content light" data-bind="css: brandingTheme">
-                                <h1><span class="ux-item-name" data-bind="text: itemName">Image Optimizer</span></h1>
-                                <div class="ux-item-second-row-wrapper">
-                                    <div class="ux-item-publisher">
-                                        <h2 role="presentation"><a
-                                                class="ux-item-publisher-link item-banner-focussable-child-item"
-                                                data-bind="text: $data.publisherDisplayName, attr: { href: $data.publisherLink, 'aria-label': $data.publisherPageLinkDescription }, style: {color: brandingThemeColor}"
-                                                href="/publishers/MadsKristensen"
-                                                aria-label="More from Mads Kristensen publisher"
-                                                style="color: rgb(0, 0, 0);">Mads Kristensen</a></h2>
-                                    </div>
-                                    <div class="ux-verified-domain-icon">
-                                        <div data-bind="galleryReactElem: verifiedDomainIconContainer">
-                                            <div class="verified-publisher-domain-container">
-                                                <div class="verified-domain-icon-container"
-                                                    title="Mads Kristensen has a verified ownership for the domain madsk.net">
-                                                    <i data-icon-name="VerifiedBrand"
-                                                        aria-label="Mads Kristensen has a verified ownership for the domain madsk.net"
-                                                        class="verified-domain-icon-background vss-Icon root-39"
-                                                        title="Mads Kristensen has a verified ownership for the domain madsk.net"
-                                                        role="presentation"></i><i data-icon-name="VerifiedBrandSolid"
-                                                        role="presentation" aria-hidden="true"
-                                                        class="verified-domain-icon-foreground vss-Icon root-39"></i>
-                                                </div><a href="https://madsk.net"
-                                                    class="verified-publisher-domain-url">madsk.net</a>
+    // document.querySelector("#copy").addEventListener("click", copy);
+    $(window).scroll(function () {
+        if ($(window).scrollTop() > 80) {
+            $('#section-banner').addClass('static');
+            $('#section-banner').removeClass('dynamic');
+
+        } else {
+            $('#section-banner').removeClass('static');
+            $('#section-banner').addClass('dynamic');
+
+        }
+    });
+</script>
+<div class="page-content" style="display: block; min-height: 100%; position: relative;">
+    <div id="gallery-content">
+        <div class="main-content item-details-main-content" id="vss_1">
+            <div class="item-details-control-root">
+                <div class="ux-item-details" role="main">
+                    <div class="ux-section-banner dynamic" id="section-banner">
+                        <div class="ux-section-core gallery-centered-content">
+                            <table role="presentation">
+                                <tbody>
+                                    <tr>
+                                        <td class="item-img" id="vss_2">
+                                            <img class="image-display"
+                                                src="https://madskristensen.gallerycdn.vsassets.io/extensions/madskristensen/imageoptimizer/4.0.143/1633124287282/Microsoft.VisualStudio.Services.Icons.Default"
+                                                style="top: 20px; visibility: visible;">
+                                            <div class="bowtie-icon" style="display: none;"></div>
+                                        </td>
+                                        <td class="item-header">
+                                            <div class="item-header-content light">
+                                                <h1><span class="ux-item-name">{{ description }}</span>
+                                                </h1>
+                                                <div class="ux-item-second-row-wrapper">
+                                                    <div class="ux-item-publisher">
+                                                        <h2 role="presentation"><a
+                                                                class="ux-item-publisher-link item-banner-focussable-child-item"
+                                                                href="/user/{{ owner.login }}"
+                                                                style="color: rgb(0, 0, 0);">{{ owner.login }}</a></h2>
+                                                    </div>
+                                                    <div class="ux-verified-domain-icon">
+                                                        <div>
+                                                            <div class="verified-publisher-domain-container">
+                                                                <div class="verified-domain-icon-container">
+                                                                </div><a href="/search?type=node&type=collection"
+                                                                    class="verified-publisher-domain-url"
+                                                                    style="color: #1163f0;">{{type}}</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <span class="divider"> | </span>
+                                                    <div class="ux-item-rating">
+                                                        <span class="installs-text">Created {{ created_at_since
+                                                            }}</span>
+                                                    </div>
+                                                    <div class="ux-item-review-rating-wrapper">
+                                                        <span class="ux-item-review-rating">
+                                                            <span class="divider"> | </span>
+                                                            <span class="ux-item-rating-control">
+                                                                <span class="rating-control">
+                                                                    <form id="form-rate" action="/flow/{{_id}}/rate"
+                                                                        method="POST">
+                                                                        <input name="_csrf" type="hidden"
+                                                                            value="{{csrfToken}}">
+                                                                        <input name="rating" type="hidden">
+                                                                        <div class="flowinfo">Rate: <span
+                                                                                id="set-stars"></span></div>
+                                                                    </form>
+                                                                </span>
+                                                            </span>
+                                                            <span class="ux-item-rating-count">
+                                                                <span>{{count}}</span></span>
+                                                        </span>
+                                                    </div>
+                                                    <span class="divider"> | </span>
+                                                    <span class="item-price-category"><a href="{{ html_url }}"
+                                                            style="color: #1163f0;">View on github</a></span>
+                                                    <div class="ux-vsippartner" style="display: none;">
+                                                        <span class="divider"> | </span>
+                                                        <img role="none"
+                                                            src="https://cdn.vsassets.io/v/M221_20230510.21/_content/icon-vsip-partner.png">
+                                                    </div>
+                                                </div>
+                                                <div class="ux-item-shortdesc">{{summary}}</div>
+                                                <div class="ux-item-action">
+                                                    <a class="download-button-container">
+                                                        <button class="ux-button install"
+                                                            onclick="copyFlow()">Copy</button>
+                                                    </a>
+                                                    <span style="display: none;"></span>
+                                                </div>
+                                                <div class="ux-item-free-install" style="display: none;"></div>
+                                                <div class="ux-item-offers-cost-text" style="display: none;"></div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="gallery-centered-content">
+                        <div class="ux-section-details .dynamic" id="tes12">
+                            <div>
+                                <div class="ms-Fabric ux-section-details-tabs root-40">
+                                    <div>
+                                        <div class="ms-FocusZone">
+                                            <ul class="ms-Pivot root_8766283c ms-Pivot--large rootIsLarge_8766283c"
+                                                role="tablist"><button type="button" id="Pivot0-Tab0"
+                                                    class="ms-Button ms-Pivot-link link_8766283c is-selected linkIsSelected_8766283c ms-Button--action ms-Button--command root-41"
+                                                    role="tab" aria-selected="true" name="Overview"
+                                                    aria-label="Overview" data-is-focusable="true" tabindex="0">
+                                                    <div class="ms-Button-flexContainer flexContainer-42"><span
+                                                            class="ms-Pivot-link-content"><span
+                                                                class="ms-Pivot-text text_8766283c">
+                                                                Overview</span></span>
+                                                    </div>
+                                                </button><button type="button" id="Pivot0-Tab1"
+                                                    class="ms-Button ms-Pivot-link link_8766283c ms-Button--action ms-Button--command root-41"
+                                                    role="tab" aria-selected="false" name="Q &amp; A"
+                                                    aria-label="Q &amp; A" data-is-focusable="true" tabindex="-1">
+                                                    <div class="ms-Button-flexContainer flexContainer-42"><span
+                                                            class="ms-Pivot-link-content"><span
+                                                                class="ms-Pivot-text text_8766283c"> Q &amp;
+                                                                A</span></span>
+                                                    </div>
+                                                </button><button type="button" id="Pivot0-Tab2"
+                                                    class="ms-Button ms-Pivot-link link_8766283c ms-Button--action ms-Button--command root-41"
+                                                    role="tab" aria-selected="false" name="Rating &amp; Review"
+                                                    aria-label="Rating &amp; Review" data-is-focusable="true"
+                                                    tabindex="-1">
+                                                    <div class="ms-Button-flexContainer flexContainer-42"><span
+                                                            class="ms-Pivot-link-content"><span
+                                                                class="ms-Pivot-text text_8766283c"> Rating &amp;
+                                                                Review</span></span></div>
+                                                </button></ul>
+                                        </div>
+                                        <div role="tabpanel" aria-labelledby="Pivot0-Tab0">
+                                            <div>
+                                                <div class="details-tab itemdetails">
+                                                    <table class="ux-section-details-table" role="presentation">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td class="ux-itemdetails-left">
+                                                                    <div class="itemDetails">
+                                                                        <div class="markdown">
+                                                                            <h2 id="user-content-features"
+                                                                                class="link-header">
+                                                                                Features</h2>
+                                                                            {{{ readme }}}
+                                                                            <h2 id="user-content-optimize-images"
+                                                                                class="link-header">Flow</h2>
+                                                                            <pre id="flow"
+                                                                                class="highlight language-javascript"><button class="copy-button" id="copy-button" onclick="copyFlow();" type="button" >Copy</button><span id="FlowCode">{{ flow }}</span></pre>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                                <td class="ux-itemdetails-right" role="complementary">
+                                                                    <div class="itemDetails-right">
+                                                                        <div class="meta-data-list-container">
+                                                                            <div class="ux-section-meta-data-list">
+                                                                                <h3 class="ux-section-header right">
+                                                                                    Node Types
+                                                                                </h3>
+                                                                                <div class="meta-data-list" role="group"
+                                                                                    style="margin-left: 20px;">
+                                                                                    {{#nodeTypes}}
+                                                                                    {{#core.length}}
+                                                                                    <h5 style="margin-top: 5px;">Core
+                                                                                    </h5>
+                                                                                    <ul class="nodeTypeList">
+                                                                                        {{#core}}
+                                                                                        <span>{{type}}
+                                                                                            (x{{count}})</span>
+                                                                                        {{/core}}
+                                                                                    </ul>
+                                                                                    {{/core.length}}
+                                                                                    {{#other.length}}
+                                                                                    <h5 style="margin-top: 5px;">Other
+                                                                                    </h5>
+                                                                                    <ul class="nodeTypeList">
+                                                                                        {{#other}}
+                                                                                        <span>{{#module}}<a
+                                                                                                href="/node/{{module}}">{{/module}}{{type}}{{#module}}</a>{{/module}}
+                                                                                            <span class="small"
+                                                                                                style="border: none; margin-left: -3px;">(x{{count}})</span>
+                                                                                        </span>
+                                                                                        {{/other}}
+                                                                                    </ul>
+                                                                                    {{/other.length}}
+                                                                                    {{/nodeTypes}}
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="ux-section-meta-data-list">
+                                                                                <h3 class="ux-section-header right">Tags
+                                                                                </h3>
+                                                                                <div class="meta-data-list"
+                                                                                    role="group">
+                                                                                    <ul class="flow-tags">
+                                                                                        {{#tags}}
+                                                                                        <li tag="{{.}}">{{.}}</li>
+                                                                                        {{/tags}}
+                                                                                    </ul>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="ux-section-resources">
+                                                                            <h3
+                                                                                class="itemdetails-section-header right">
+                                                                                Resources</h3>
+                                                                            <ul>
+                                                                                <li><a href="https://marketplace.visualstudio.com/items/MadsKristensen.ImageOptimizer/license"
+                                                                                        target="_blank"
+                                                                                        rel="noreferrer noopener nofollow">License</a>
+                                                                                </li>
+                                                                                <li><button role="button"
+                                                                                        aria-label="Copy ID Click to copy the extension's ID to clipboard."
+                                                                                        class="ms-Link link-as-button undefined root-75"
+                                                                                        aria-disabled="false">Copy
+                                                                                        ID</button>
+                                                                                    <div class="copied-display-container"
+                                                                                        role="status"
+                                                                                        aria-live="polite">
+                                                                                        <div class="copyID-display-div"
+                                                                                            id="copied-animation">
+                                                                                            Copied to
+                                                                                            clipboard</div>
+                                                                                    </div>
+                                                                                </li>
+                                                                            </ul>
+                                                                        </div>
+                                                                        <div class="ux-section-project-details">
+                                                                            <h3
+                                                                                class="itemdetails-section-header right">
+                                                                                Project
+                                                                                Details</h3>
+                                                                            <div class="github-details">
+                                                                                <ul>
+                                                                                    <li><a class="githubLinks"
+                                                                                            href="https://github.com/madskristensen/ImageOptimizer"
+                                                                                            target="blank"
+                                                                                            rel="noreferrer noopener nofollow"><span
+                                                                                                class="api-github-response bowtie-icon bowtie-brand-github"></span><span
+                                                                                                class="api-github-response github-string">madskristensen/ImageOptimizer</span></a>
+                                                                                    </li>
+                                                                                    <li><a class="githubLinks"
+                                                                                            href="https://github.com/madskristensen/ImageOptimizer/pulls"
+                                                                                            target="blank"
+                                                                                            rel="noreferrer noopener nofollow"><span
+                                                                                                class="api-github-response bowtie-icon bowtie-tfvc-pull-request"></span><span
+                                                                                                class="api-github-response pull-request-string">No
+                                                                                                Pull Requests</span></a>
+                                                                                    </li>
+                                                                                    <li><a class="githubLinks"
+                                                                                            href="https://github.com/madskristensen/ImageOptimizer/issues"
+                                                                                            target="blank"
+                                                                                            rel="noreferrer noopener nofollow"><span
+                                                                                                class="api-github-response bowtie-icon bowtie-status-error"></span><span
+                                                                                                class="api-github-response open-issues-string">12
+                                                                                                Open Issues</span></a>
+                                                                                    </li>
+                                                                                    <li><a class="githubLinks"
+                                                                                            href="https://github.com/madskristensen/ImageOptimizer/commits"
+                                                                                            target="blank"
+                                                                                            rel="noreferrer noopener nofollow"><span
+                                                                                                class="api-github-response bowtie-icon bowtie-status-waiting-fill"></span><span
+                                                                                                class="api-github-response last-commit-string">Last
+                                                                                                commit: a year
+                                                                                                ago</span></a>
+                                                                                    </li>
+                                                                                </ul>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="ux-section-capabilities">
+                                                                            <h3
+                                                                                class="itemdetails-section-header right">
+                                                                                Using</h3>
+                                                                            <div class="capabilities-list-item">Copy
+                                                                                this flow JSON to your clipboard and
+                                                                                then import into Node-RED using the
+                                                                                <i>Import From &gt;
+                                                                                    Clipboard</i> (Ctrl-I) menu option
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <span class="divider"> | </span>
-                                    <div class="ux-item-rating">
-                                        <div class="bowtie-icon bowtie-install"></div>
-                                        <span class="installs-text"
-                                            data-bind="text: installsText, attr: { title: installsHoverText}"
-                                            title="The number of unique installations, not including updates.">534.394
-                                            installs</span>
-                                    </div>
-                                    <a href="#review-details" class="ux-item-review-rating-wrapper"
-                                        data-bind="attr: {'aria-label': $data.ratingsScreenReaderText }"
-                                        aria-label="Average rating: 4.7 out of 5. Navigate to user reviews.">
-                                        <span class="ux-item-review-rating"
-                                            data-bind="attr: { title: bannerAverageRatingText }"
-                                            title="Average rating: 4.7 out of 5">
-                                            <span class="divider"> | </span>
-                                            <span class="ux-item-rating-control"
-                                                data-bind="template: { name: 'rating-control-page-template', data: avgRatingDetailsOnBanner }">
-                                                <span class="rating-control" aria-hidden="true">
-                                                    <!-- ko foreach: fullStarArray() -->
-                                                    <img class="star full-star" alt=""
-                                                        data-bind="event: {click: $parent.fullStarClick($index()),
-                                               mouseover: $parent.fullStarMouseOver($index()), 
-                                               mouseout: $parent.fullStarMouseOut(),
-                                               keypress: $parent.fullStarKeyPress($index())},
-                                               attr: {tabindex: $parent.starTabIndex(), src: $parent.fullStarPath, 'aria-label': $index()+1+' star' }"
-                                                        src="https://cdn.vsassets.io/v/M221_20230510.21/_content/FullStar.svg"
-                                                        aria-label="1 star">
-
-                                                    <img class="star full-star" alt=""
-                                                        data-bind="event: {click: $parent.fullStarClick($index()),
-                                               mouseover: $parent.fullStarMouseOver($index()), 
-                                               mouseout: $parent.fullStarMouseOut(),
-                                               keypress: $parent.fullStarKeyPress($index())},
-                                               attr: {tabindex: $parent.starTabIndex(), src: $parent.fullStarPath, 'aria-label': $index()+1+' star' }"
-                                                        src="https://cdn.vsassets.io/v/M221_20230510.21/_content/FullStar.svg"
-                                                        aria-label="2 star">
-
-                                                    <img class="star full-star" alt=""
-                                                        data-bind="event: {click: $parent.fullStarClick($index()),
-                                               mouseover: $parent.fullStarMouseOver($index()), 
-                                               mouseout: $parent.fullStarMouseOut(),
-                                               keypress: $parent.fullStarKeyPress($index())},
-                                               attr: {tabindex: $parent.starTabIndex(), src: $parent.fullStarPath, 'aria-label': $index()+1+' star' }"
-                                                        src="https://cdn.vsassets.io/v/M221_20230510.21/_content/FullStar.svg"
-                                                        aria-label="3 star">
-
-                                                    <img class="star full-star" alt=""
-                                                        data-bind="event: {click: $parent.fullStarClick($index()),
-                                               mouseover: $parent.fullStarMouseOver($index()), 
-                                               mouseout: $parent.fullStarMouseOut(),
-                                               keypress: $parent.fullStarKeyPress($index())},
-                                               attr: {tabindex: $parent.starTabIndex(), src: $parent.fullStarPath, 'aria-label': $index()+1+' star' }"
-                                                        src="https://cdn.vsassets.io/v/M221_20230510.21/_content/FullStar.svg"
-                                                        aria-label="4 star">
-                                                    <img class="star half-star" alt=""
-                                                        data-bind="attr: {tabindex: $parent.starTabIndex(), src: $parent.halfStarPath}"
-                                                        src="https://cdn.vsassets.io/v/M221_20230510.21/_content/HalfStarDark.svg">
-                                                </span>
-
-                                            </span>
-                                            <span class="ux-item-rating-count"> (<span
-                                                    data-bind="{text: bannerTotalReviewCount }">71</span>) </span>
-                                        </span>
-                                    </a>
-                                    <span class="divider"> | </span>
-                                    <span class="item-price-category" data-bind="text: itemPriceCategory">Free</span>
-                                    <div class="ux-vsippartner" data-bind="visible: isVSIPPartner"
-                                        style="display: none;">
-                                        <span class="divider"> | </span>
-                                        <img role="none" class="ux-item-vsippartner"
-                                            data-bind="attr: { src: vsipPartnerImgPath }"
-                                            src="https://cdn.vsassets.io/v/M221_20230510.21/_content/icon-vsip-partner.png">
-                                    </div>
-
-                                    <div class="ux-vsippartner" data-bind="visible: isVSCode" style="display: none;">
-                                        <div class="ux-vsippartner" data-bind="visible: isSponsorTagAvailable"
-                                            style="display: none;">
-                                            <span class="divider"> | </span>
-                                            <a class="ux-gallery-item-sponsor-link light"
-                                                data-bind="css: brandingTheme,  attr: { href: $data.sponsorLink, target:'_blank', title:$data.sponsorLink }"
-                                                target="_blank">
-                                                <i role="presentation" aria-hidden="true"
-                                                    class="bowtie-icon bowtie-heart-fill"
-                                                    style="padding-right: 2px; color: rgb(181, 30, 120);"
-                                                    data-bind="style: {color: sponsorThemeColor}"></i>
-                                                <span>Sponsor</span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="ux-item-shortdesc" data-bind="text: itemDescription">Uses industry standard
-                                    tools to optimize any JPEG, PNG and Gifs - including animated Gifs. Can do both
-                                    lossy and lossless optimization.</div>
-                                <div class="ux-item-action">
-                                    <a class="download-button-container"
-                                        data-bind="attr: { 'data-toggle': $data.dataTogggleDownload(downloadLink), href: downloadLink }, click: startDownload"
-                                        tabindex="-1">
-                                        <button class="ux-button install"
-                                            data-bind="text: downloadButtonText">Download</button>
-                                    </a>
-                                    <span data-bind="html: offersCost, visible: offersCost"
-                                        style="display: none;"></span>
-                                </div>
-                                <div class="ux-item-free-install"
-                                    data-bind="visible: !isUnpublished &amp;&amp; actionDescriptionHtml, html: actionDescriptionHtml"
-                                    style="display: none;"></div>
-                                <div class="ux-item-offers-cost-text"
-                                    data-bind="visible: offersCostText, html: offersCostText" style="display: none;">
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <div class="gallery-centered-content">
-        <div class="ux-section-details">
-            <div data-bind="galleryReactElem: ItemDetailsComponent">
-                <div class="ms-Fabric ux-section-details-tabs root-40">
-                    <div>
-                        <div role="presentation" class="ms-FocusZone" data-focuszone-id="FocusZone1">
-                            <ul class="ms-Pivot root_8766283c ms-Pivot--large rootIsLarge_8766283c" role="tablist">
-                                <button type="button" id="Pivot0-Tab0"
-                                    class="ms-Button ms-Pivot-link link_8766283c is-selected linkIsSelected_8766283c ms-Button--action ms-Button--command root-41"
-                                    role="tab" aria-selected="true" name="Overview" aria-label="Overview"
-                                    data-is-focusable="true" tabindex="0">
-                                    <div class="ms-Button-flexContainer flexContainer-42"><span
-                                            class="ms-Pivot-link-content"><span class="ms-Pivot-text text_8766283c">
-                                                Overview</span></span></div>
-                                </button><button type="button" id="Pivot0-Tab1"
-                                    class="ms-Button ms-Pivot-link link_8766283c ms-Button--action ms-Button--command root-41"
-                                    role="tab" aria-selected="false" name="Q &amp; A" aria-label="Q &amp; A"
-                                    data-is-focusable="true" tabindex="-1">
-                                    <div class="ms-Button-flexContainer flexContainer-42"><span
-                                            class="ms-Pivot-link-content"><span class="ms-Pivot-text text_8766283c"> Q
-                                                &amp; A</span></span></div>
-                                </button><button type="button" id="Pivot0-Tab2"
-                                    class="ms-Button ms-Pivot-link link_8766283c ms-Button--action ms-Button--command root-41"
-                                    role="tab" aria-selected="false" name="Rating &amp; Review"
-                                    aria-label="Rating &amp; Review" data-is-focusable="true" tabindex="-1">
-                                    <div class="ms-Button-flexContainer flexContainer-42"><span
-                                            class="ms-Pivot-link-content"><span class="ms-Pivot-text text_8766283c">
-                                                Rating &amp; Review</span></span></div>
-                                </button>
-                            </ul>
-                        </div>
-                        <div role="tabpanel" aria-labelledby="Pivot0-Tab0">
-                            <div>
-                                <div class="details-tab itemdetails">
-                                    <table class="ux-section-details-table" role="presentation">
-                                        <tbody>
-                                            <tr>
-                                                <td class="ux-itemdetails-left">
-                                                    <div class="itemDetails">
-                                                        <div class="markdown">
-                                                            <p>Uses industry standard tools to optimize any JPEG, PNG
-                                                                and Gifs - including animated Gifs. It can do both lossy
-                                                                and lossless optimization.</p>
-                                                            <blockquote>
-                                                                <p>For a version supporting Visual Studio 2022+, get the
-                                                                    <a
-                                                                        href="https://marketplace.visualstudio.com/items?itemName=MadsKristensen.ImageOptimizer64bit">Image
-                                                                        Optimizer (64-bit) here</a>.
-                                                                </p>
-                                                            </blockquote>
-                                                            <h2 id="user-content-features" class="link-header">Features
-                                                            </h2>
-                                                            <p>Adds a right-click menu to any folder and image in
-                                                                Solution Explorer that let's you automatically optimize
-                                                                all PNG, GIF and JPEG files in that folder.</p>
-                                                            <ul>
-                                                                <li>Optimizes PNGs (uses Zopfli compression)</li>
-                                                                <li>Optimizes GIFs</li>
-                                                                <li>Optimizes animated GIFs</li>
-                                                                <li>Optimizes JPGs (uses MozJPEG)</li>
-                                                                <li>Works on single images files or entire folders</li>
-                                                                <li>Copy any image as base64 dataURI to clipboard</li>
-                                                            </ul>
-                                                            <h2 id="user-content-optimize-images" class="link-header">
-                                                                Optimize images</h2>
-                                                            <p>Simply right-click any file or folder containing images
-                                                                and click one of the image optimization buttons.</p>
-                                                            <p><a href="https://github.com/madskristensen/ImageOptimizer/blob/master/art/context-menu.png"
-                                                                    rel="noopener noreferrer" target="_blank"><img
-                                                                        src="https://github.com/madskristensen/ImageOptimizer/raw/master/art/context-menu.png"
-                                                                        alt="Context menu"></a></p>
-                                                            <p>You can also right-click a folder to optimize all images
-                                                                inside it.</p>
-                                                            <h3 id="user-content-best-quality" class="link-header">Best
-                                                                quality</h3>
-                                                            <p>If you chose best quality optimization, the tool will
-                                                                do its optimizations without changing the quality of the
-                                                                image.</p>
-                                                            <h3 id="user-content-best-compression" class="link-header">
-                                                                Best compression</h3>
-                                                            <p>If you decide to sacrifice just a small amount of image
-                                                                quality
-                                                                (which in most cases is unnoticeable to the human eye),
-                                                                you will
-                                                                be able to save up to 90% of the initial file weight.
-                                                                Lossy
-                                                                optimization will give you outstanding results with just
-                                                                a
-                                                                fraction of image quality loss.</p>
-                                                            <h2 id="user-content-output-window" class="link-header">
-                                                                Output window</h2>
-                                                            <p>The Output Window shows the detailed output from the
-                                                                optimization process and progress is displayed in the
-                                                                status bar.</p>
-                                                            <p><a href="https://github.com/madskristensen/ImageOptimizer/blob/master/art/output-window.png"
-                                                                    rel="noopener noreferrer" target="_blank"><img
-                                                                        src="https://github.com/madskristensen/ImageOptimizer/raw/master/art/output-window.png"
-                                                                        alt="Output window"></a></p>
-                                                            <h2 id="user-content-%5B%5D(https%3A%2F%2Fgithub.com%2Fmadskristensen%2Fimageoptimizer%23performance)performance"
-                                                                class="link-header"><a
-                                                                    href="https://github.com/madskristensen/ImageOptimizer#performance"
-                                                                    rel="noopener noreferrer"
-                                                                    target="_blank"></a>Performance</h2>
-                                                            <p>Optimizing an image can easily take several seconds which
-                                                                feels slow. This extension parallelizes the workload on
-                                                                each CPU core available on the machine. This speeds up
-                                                                the optimization significantly.</p>
-                                                            <h2 id="user-content-%5B%5D(https%3A%2F%2Fgithub.com%2Fmadskristensen%2Fimageoptimizer%23contribute)contribute"
-                                                                class="link-header"><a
-                                                                    href="https://github.com/madskristensen/ImageOptimizer#contribute"
-                                                                    rel="noopener noreferrer"
-                                                                    target="_blank"></a>Contribute</h2>
-                                                            <p>Check out the&nbsp;<a
-                                                                    href="https://github.com/madskristensen/ImageOptimizer/blob/master/.github/CONTRIBUTING.md"
-                                                                    rel="noopener noreferrer"
-                                                                    target="_blank">contribution guidelines</a>&nbsp;if
-                                                                you want to contribute to this project.</p>
-                                                            <p>For cloning and building this project yourself, make sure
-                                                                to install the&nbsp;<a href="">Extensibility Tools
-                                                                    2015</a>&nbsp;extension for Visual Studio which
-                                                                enables some features used by this project.</p>
-                                                            <h3 id="user-content-how-can-i-help%3F" class="link-header">
-                                                                How can I help?</h3>
-                                                            <p>If you enjoy using the extension, please give it a ★★★★★
-                                                                rating on the <a
-                                                                    href="https://marketplace.visualstudio.com/items?itemName=MadsKristensen.ImageOptimizer">Visual
-                                                                    Studio Marketplace</a>.</p>
-                                                            <p>Should you encounter bugs or if you have feature
-                                                                requests, head on over to the <a
-                                                                    href="https://github.com/madskristensen/ImageOptimizer"
-                                                                    rel="noopener noreferrer" target="_blank">GitHub
-                                                                    repo</a> to open an issue if one doesn't already
-                                                                exist.</p>
-                                                            <p>Pull requests are also very welcome, since I can't always
-                                                                get around to fixing all bugs myself. This is a personal
-                                                                passion project, so my time is limited.</p>
-                                                            <p>Another way to help out is to <a
-                                                                    href="https://github.com/sponsors/madskristensen"
-                                                                    rel="noopener noreferrer" target="_blank">sponser me
-                                                                    on GitHub</a>.</p>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="ux-itemdetails-right" role="complementary">
-                                                    <div class="itemDetails-right">
-                                                        <div class="meta-data-list-container">
-                                                            <div class="ux-section-meta-data-list">
-                                                                <h3 class="ux-section-header right">Categories</h3>
-                                                                <div class="meta-data-list" role="group"><a
-                                                                        class="meta-data-list-link"
-                                                                        href="/search?sortBy=Installs&amp;category=Tools&amp;target=VS"
-                                                                        target="_blank"
-                                                                        aria-label="Tools Category Click to search for more extensions having the Tools Category"
-                                                                        role="link">Tools</a><a
-                                                                        class="meta-data-list-link"
-                                                                        href="/search?sortBy=Installs&amp;category=Tools&amp;target=VS&amp;subCategory=Other"
-                                                                        target="_blank"
-                                                                        aria-label="Other Category Click to search for more extensions having the Other Category"
-                                                                        role="link">Other</a><a
-                                                                        class="meta-data-list-link"
-                                                                        href="/search?sortBy=Installs&amp;category=Tools&amp;target=VS&amp;subCategory=Performance"
-                                                                        target="_blank"
-                                                                        aria-label="Performance Category Click to search for more extensions having the Performance Category"
-                                                                        role="link">Performance</a><a
-                                                                        class="meta-data-list-link"
-                                                                        href="/search?sortBy=Installs&amp;category=Tools&amp;target=VS&amp;subCategory=Web"
-                                                                        target="_blank"
-                                                                        aria-label="Web Category Click to search for more extensions having the Web Category"
-                                                                        role="link">Web</a></div>
-                                                            </div>
-                                                            <div class="ux-section-meta-data-list">
-                                                                <h3 class="ux-section-header right">Tags</h3>
-                                                                <div class="meta-data-list" role="group"><a
-                                                                        class="meta-data-list-link"
-                                                                        href="/search?term=tag%3Abase64&amp;target=VS&amp;vsVersion=vs2019"
-                                                                        target="_blank"
-                                                                        aria-label="base64 Tag Click to search for more extensions having the base64 Tag"
-                                                                        role="link">base64</a><a
-                                                                        class="meta-data-list-link"
-                                                                        href="/search?term=tag%3Acompression&amp;target=VS&amp;vsVersion=vs2019"
-                                                                        target="_blank"
-                                                                        aria-label="compression Tag Click to search for more extensions having the compression Tag"
-                                                                        role="link">compression</a><a
-                                                                        class="meta-data-list-link"
-                                                                        href="/search?term=tag%3AImage&amp;target=VS&amp;vsVersion=vs2019"
-                                                                        target="_blank"
-                                                                        aria-label="Image Tag Click to search for more extensions having the Image Tag"
-                                                                        role="link">Image</a><a
-                                                                        class="meta-data-list-link"
-                                                                        href="/search?term=tag%3Ajpg&amp;target=VS&amp;vsVersion=vs2019"
-                                                                        target="_blank"
-                                                                        aria-label="jpg Tag Click to search for more extensions having the jpg Tag"
-                                                                        role="link">jpg</a><a
-                                                                        class="meta-data-list-link"
-                                                                        href="/search?term=tag%3Aoptimization&amp;target=VS&amp;vsVersion=vs2019"
-                                                                        target="_blank"
-                                                                        aria-label="optimization Tag Click to search for more extensions having the optimization Tag"
-                                                                        role="link">optimization</a><a
-                                                                        class="meta-data-list-link"
-                                                                        href="/search?term=tag%3APerformance&amp;target=VS&amp;vsVersion=vs2019"
-                                                                        target="_blank"
-                                                                        aria-label="Performance Tag Click to search for more extensions having the Performance Tag"
-                                                                        role="link">Performance</a><a
-                                                                        class="meta-data-list-link"
-                                                                        href="/search?term=tag%3Apng&amp;target=VS&amp;vsVersion=vs2019"
-                                                                        target="_blank"
-                                                                        aria-label="png Tag Click to search for more extensions having the png Tag"
-                                                                        role="link">png</a><a
-                                                                        class="meta-data-list-link"
-                                                                        href="/search?term=tag%3Asmushit&amp;target=VS&amp;vsVersion=vs2019"
-                                                                        target="_blank"
-                                                                        aria-label="smushit Tag Click to search for more extensions having the smushit Tag"
-                                                                        role="link">smushit</a></div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="ux-section-capabilities">
-                                                            <h3 class="itemdetails-section-header right">Works with</h3>
-                                                            <div class="capabilities-list-item">Visual Studio 2017, 2019
-                                                            </div>
-                                                        </div>
-                                                        <div class="ux-section-resources">
-                                                            <h3 class="itemdetails-section-header right">Resources</h3>
-                                                            <ul>
-                                                                <li><a href="https://marketplace.visualstudio.com/items/MadsKristensen.ImageOptimizer/license"
-                                                                        target="_blank"
-                                                                        rel="noreferrer noopener nofollow">License</a>
-                                                                </li>
-                                                                <li><button role="button"
-                                                                        aria-label="Copy ID Click to copy the extension's ID to clipboard."
-                                                                        class="ms-Link link-as-button undefined root-75"
-                                                                        aria-disabled="false">Copy ID</button>
-                                                                    <div class="copied-display-container" role="status"
-                                                                        aria-live="polite">
-                                                                        <div class="copyID-display-div"
-                                                                            id="copied-animation"> Copied to clipboard
-                                                                        </div>
-                                                                    </div>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                        <div class="ux-section-project-details">
-                                                            <h3 class="itemdetails-section-header right">Project Details
-                                                            </h3>
-                                                            <div class="github-details">
-                                                                <ul>
-                                                                    <li><a class="githubLinks"
-                                                                            href="https://github.com/madskristensen/ImageOptimizer"
-                                                                            target="blank"
-                                                                            rel="noreferrer noopener nofollow"><span
-                                                                                class="api-github-response bowtie-icon bowtie-brand-github"></span><span
-                                                                                class="api-github-response github-string">madskristensen/ImageOptimizer</span></a>
-                                                                    </li>
-                                                                    <li><a class="githubLinks"
-                                                                            href="https://github.com/madskristensen/ImageOptimizer/pulls"
-                                                                            target="blank"
-                                                                            rel="noreferrer noopener nofollow"><span
-                                                                                class="api-github-response bowtie-icon bowtie-tfvc-pull-request"></span><span
-                                                                                class="api-github-response pull-request-string">No
-                                                                                Pull Requests</span></a></li>
-                                                                    <li><a class="githubLinks"
-                                                                            href="https://github.com/madskristensen/ImageOptimizer/issues"
-                                                                            target="blank"
-                                                                            rel="noreferrer noopener nofollow"><span
-                                                                                class="api-github-response bowtie-icon bowtie-status-error"></span><span
-                                                                                class="api-github-response open-issues-string">12
-                                                                                Open Issues</span></a></li>
-                                                                    <li><a class="githubLinks"
-                                                                            href="https://github.com/madskristensen/ImageOptimizer/commits"
-                                                                            target="blank"
-                                                                            rel="noreferrer noopener nofollow"><span
-                                                                                class="api-github-response bowtie-icon bowtie-status-waiting-fill"></span><span
-                                                                                class="api-github-response last-commit-string">Last
-                                                                                commit: a year ago</span></a></li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                        <div class="ux-section-other">
-                                                            <h3 class="itemdetails-section-header right">More Info</h3>
-                                                            <div>
-                                                                <table class="ux-table-metadata" role="presentation">
-                                                                    <tbody>
-                                                                        <tr>
-                                                                            <td id="Version">Version</td>
-                                                                            <td role="definition"
-                                                                                aria-labelledby="Version">4.0.143</td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td id="Released_on">Released on</td>
-                                                                            <td role="definition"
-                                                                                aria-labelledby="Released_on">12:26:37
-                                                                                11/11/2010</td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td id="Last_updated">Last updated</td>
-                                                                            <td role="definition"
-                                                                                aria-labelledby="Last_updated">02:21:20
-                                                                                15/1/2022</td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td id="Publisher">Publisher</td>
-                                                                            <td role="definition"
-                                                                                aria-labelledby="Publisher">Mads
-                                                                                Kristensen</td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td id="Report">Report</td>
-                                                                            <td role="definition"
-                                                                                aria-labelledby="Report"><a
-                                                                                    href="mailto:vsmarketplace@microsoft.com?subject=Report%20abuse%20-%20Mads%20Kristensen%20/%20Image%20Optimizer&amp;Body=https://marketplace.visualstudio.com/items?itemName=MadsKristensen.ImageOptimizer&amp;ssr=false#overview%0D%0A%3Cplease%20provide%20a%20brief%20description%20of%20the%20issue%3E">Report
-                                                                                    Abuse</a></td>
-                                                                        </tr>
-                                                                    </tbody>
-                                                                </table>
-                                                            </div><span class="ux-social-icons">
-                                                                <div class="item-share-container"><a
-                                                                        href="https://www.twitter.com/home?status=Just%20discovered%20this%20on%20the%20%23VSMarketplace%3A%20https%3A%2F%2Fmarketplace.visualstudio.com%2Fitems%3FitemName%3DMadsKristensen.ImageOptimizer%26ssr%3Dfalse%23overview"
-                                                                        aria-label="share extension on twitter"
-                                                                        target="_blank"><img alt=""
-                                                                            src="https://cdn.vsassets.io/v/M221_20230510.21/_content/icon-social-twitter.svg"
-                                                                            class="social-link share-twitter-button"></a><a
-                                                                        href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fmarketplace.visualstudio.com%2Fitems%3FitemName%3DMadsKristensen.ImageOptimizer%26ssr%3Dfalse%23overview"
-                                                                        aria-label="share extension on facebook"
-                                                                        target="_blank"><img alt=""
-                                                                            src="https://cdn.vsassets.io/v/M221_20230510.21/_content/icon-social-facebook.svg"
-                                                                            class="social-link share-facebook-button"></a><a
-                                                                        href="mailto:?subject=Check%20out%20-%20Image%20Optimizer%20for%20Visual%20Studio%20IDE&amp;Body=Hi%2C%20Just%20discovered%20this%20extension%20on%20the%20%23VSMarketplace%20that%20may%20be%20of%20interest%20to%20you.%20Check%20it%20out%20%40%20https%3A%2F%2Fmarketplace.visualstudio.com%2Fitems%3FitemName%3DMadsKristensen.ImageOptimizer%26ssr%3Dfalse%23overview%20!"
-                                                                        aria-label="share extension on email"
-                                                                        target="_blank"><img alt=""
-                                                                            src="https://cdn.vsassets.io/v/M221_20230510.21/_content/icon-social-email.svg"
-                                                                            class="social-link share-email-button"></a>
-                                                                </div>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -505,185 +317,102 @@
             </div>
         </div>
     </div>
-    <div class="modal install-page" data-backdrop="static" id="install-pop-up" data-keyboard="true" tabindex="-1"
-        role="dialog" aria-labelledby="item-banner-container">
-        <div class="install-page-content gallery-centered-content">
-            <div class="item-banner-container" id="item-banner-container" role="presentation">
-                <div class="install-page-item-banner"></div>
-            </div>
-            <div class="acquire-item-workflow-container"></div>
-        </div>
-    </div>
 </div>
-
-<!-- <div class="grid thing-list-section main-content">
-    <div class="col-9-12 docs-content">
-        <h1 class="flow-title">{{ description }}</h1>
-          {{{ readme }}}
-          <pre id="flow" class="highlight language-javascript"><button class="copy-button" type="button">Copy</button><span>{{ flow }}</span></pre>
-    </div>
-    <div class="col-3-12">
-        {{>_collectionNavBox}}
-          <div class="flowmeta">
-            <h4>Flow Info</h4>
-            <div class="flowinfo">  Created {{ created_at_since }}</div>
-            {{#updated_at_since}}<div class="flowinfo">  Updated {{ updated_at_since }}</div>{{/updated_at_since}}
-            <div class="flowinfo">Rating: {{#rating}} {{score}}<i class="icon-star"></i> {{count}}<i class="icon-user"></i>{{/rating}}{{^rating}}<i>not yet rated</i>{{/rating}}</div>
-            <div class="flowinfo"><a href="{{ html_url }}">view on github</a></div>
-          </div>
-          <div class="flowmeta">
-              <h4>Owner</h4>
-              <div class="flowinfo"><a href="/user/{{ owner.login }}">{{ owner.login }}</a></div>
-          </div>
-         
-          <div class="flowmeta">
-            <h4>Actions</h4>
-            <form id="form-rate" action="/flow/{{_id}}/rate" method="POST">
-                <input name="_csrf" type="hidden" value="{{csrfToken}}">
-                <input name="rating" type="hidden">
-                <div class="flowinfo">Rate: <span id="set-stars"></span></div>
-            </form>
-            {{#sessionuser}}
-            <div class="flowinfo" style="text-align: right;"><a class="user-profile-action" href="#" onclick="javascript:addToCollection('{{_id}}');">add to collection</a></div>
-            {{#owned}}
-                <div class="flowinfo" style="text-align: right;"><img id="refresh-flow-loader" class="loader" src="/images/loader.gif" />&nbsp;&nbsp;<a class="user-profile-action" id="refresh-flow" href="#">refresh from github</a></div>
-                <div class="flowinfo" style="text-align: right;"><a class="user-profile-action" id="remove-flow" href="#">remove flow</a></div>
-            {{/owned}}
-          {{/sessionuser}}
-        </div>
-
-
-          <div class="flowmeta">
-            <h4>Node Types</h4>
-           {{#nodeTypes}}
-            {{#core.length}}
-             <h5>Core</h5>
-            <ul class="nodeTypeList">
-              {{#core}}
-              <li>{{type}} <span class="small">(x{{count}})</span></li>
-              {{/core}}
-            </ul>
-            {{/core.length}}
-            {{#other.length}}
-             <h5>Other</h5>
-            <ul class="nodeTypeList">
-              {{#other}}
-              <li>{{#module}}<a href="/node/{{module}}">{{/module}}{{type}}{{#module}}</a>{{/module}} <span class="small">(x{{count}})</span></li>
-              {{/other}}
-            </ul>
-            {{/other.length}}
-           {{/nodeTypes}}
-
-          </div>
-          <div class="flowmeta">
-            <h4>Tags</h4>
-            <ul class="flow-tags">
-            {{#tags}}
-            <li tag="{{.}}">{{.}}</li>
-            {{/tags}}
-            </ul>
-            {{#owned}}
-                <div class="flowinfo" style="text-align: right;"><a id="edit-tags" href="#">edit</a> <a style="margin-right: 10px; display:none;" id="edit-tags-cancel" href="#">cancel</a>  <img id="edit-tags-done-loader" class="loader" src="/images/loader.gif" /> <a style="display:none;" id="edit-tags-done" href="#">done</a></div>
-            {{/owned}}
-
-          </div>
-          <div class="flowmeta">
-            Copy this flow JSON to your clipboard and then import into Node-RED using the <i>Import From &gt; Clipboard</i> (Ctrl-I) menu option
-          </div>
-    </div>
-</div> -->
 {{>_rateTools}}
-<!-- <script src="/js/tags.js"></script>
+<script src="/js/tags.js"></script>
 <script>
-$(function() {
-    $(".copy-button").on("click", function(evt) {
-        evt.preventDefault();
-        var ta = document.createElement('textarea');
-        ta.value = $(this).next()[0].innerText;
-        ta.style.position = 'absolute';
-        ta.style.left = '-3000px';
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand('copy');
-        document.body.removeChild(ta);
-        $(this).text("Copied!");
-        var self = $(this);
-        setTimeout(function() {
-            self.text("Copy");
-        },3000)
-    });
-{{#owned}}
-    $('#refresh-flow').click(function(event) {
-        $("#refresh-flow-loader").show();
-        $.post("/flow/{{ id }}/refresh",function(data,textStatus,jqXHR) {
-            if (jqXHR.status != 304) {
+    $(function () {
+        // $("#copy-button").on("click", function (evt) {
+        //     // evt.preventDefault();
+        //     // var ta = document.createElement('textarea');
+        //     // ta.value = $(this).next()[0].innerText;
+        //     // ta.style.position = 'absolute';
+        //     // ta.style.left = '-3000px';
+        //     // document.body.appendChild(ta);
+        //     // ta.select();
+        //     // document.execCommand('copy');
+        //     // document.body.removeChild(ta);
+        //     // $(this).text("Copied!");
+        //     // var self = $(this);
+        //     // setTimeout(function () {
+        //     //     self.text("Copy");
+        //     // }, 3000)
+        //     console.log("hellpp")
+        // });
+        { { #owned } }
+        $('#refresh-flow').click(function (event) {
+            $("#refresh-flow-loader").show();
+            $.post("/flow/{{ id }}/refresh", function (data, textStatus, jqXHR) {
+                if (jqXHR.status != 304) {
+                    window.location.reload();
+                }
+                $("#refresh-flow-loader").hide();
+            }).fail(function (err) {
                 window.location.reload();
-            }
-            $("#refresh-flow-loader").hide();
-        }).fail(function(err) {
-            window.location.reload();
-        });
-        event.preventDefault();
-    });
-
-    $('#remove-flow').click(function(evt) {
-        evt.preventDefault();
-        var dialog = $('<div class="dialog-shade"><div class="dialog">'+
-                '<form action="/flow/{{id}}/delete" method="POST">'+
-                '<input name="_csrf" type="hidden" value="{{csrfToken}}">'+
-            '<h4>Are you sure you want to remove this flow?</h4>'+
-            '<p>It will be removed from the library, but your GitHub Gist will not be affected.'+
-            '<div class="dialog-buttons"><button type="button" onclick="return closeDialog();">Cancel</button><button type="submit">Delete</button></div>'+
-            '</form></div></div>').appendTo('body').show();
-    });
-
-
-    var tagEditor = null;
-    $('#edit-tags').click(function(event) {
-        event.preventDefault();
-        $('ul.flow-tags').attr('id',"add-flow-tags");
-        tagEditor = tagger({lipre:'',lipost:''});
-        $('#edit-tags').hide();
-        $('#edit-tags-cancel').show();
-        $('#edit-tags-done').show();
-        $('ul.flow-tags').click();
-    });
-
-    $('#edit-tags-cancel').click(function(event) {
-        if (tagEditor) {
-            $('#edit-tags-cancel').hide();
-            $('#edit-tags-done').hide();
-            tagEditor.cancel();
-            $('ul.flow-tags').attr('id',"");
-            $('#edit-tags').show();
-        }
-        event.preventDefault();
-    });
-
-
-    $('#edit-tags-done').click(function(event) {
-        $("#edit-tags-done-loader").show();
-        if (tagEditor) {
-            $('#edit-tags-cancel').hide();
-            $('#edit-tags-done').hide();
-            var tags = tagEditor.get();
-            $.post("/flow/{{ id }}/tags",{tags:tags},function(data) {
-                tagEditor.strip();
-                $('ul.flow-tags').attr('id',"");
-                tagEditor = null;
-                $('#edit-tags').show();
-                $("#edit-tags-done-loader").hide();
-            }).fail(function(err) {
-                console.log(err);
-                $("#edit-tags-done-loader").hide();
             });
-        }
-        event.preventDefault();
-    });
-{{/owned}}
+            event.preventDefault();
+        });
+
+        $('#remove-flow').click(function (evt) {
+            evt.preventDefault();
+            var dialog = $('<div class="dialog-shade"><div class="dialog">' +
+                '<form action="/flow/{{id}}/delete" method="POST">' +
+                '<input name="_csrf" type="hidden" value="{{csrfToken}}">' +
+                '<h4>Are you sure you want to remove this flow?</h4>' +
+                '<p>It will be removed from the library, but your GitHub Gist will not be affected.' +
+                '<div class="dialog-buttons"><button type="button" onclick="return closeDialog();">Cancel</button><button type="submit">Delete</button></div>' +
+                '</form></div></div>').appendTo('body').show();
+        });
 
 
-});
+        var tagEditor = null;
+        $('#edit-tags').click(function (event) {
+            event.preventDefault();
+            $('ul.flow-tags').attr('id', "add-flow-tags");
+            tagEditor = tagger({ lipre: '', lipost: '' });
+            $('#edit-tags').hide();
+            $('#edit-tags-cancel').show();
+            $('#edit-tags-done').show();
+            $('ul.flow-tags').click();
+        });
 
-</script> -->
+        $('#edit-tags-cancel').click(function (event) {
+            if (tagEditor) {
+                $('#edit-tags-cancel').hide();
+                $('#edit-tags-done').hide();
+                tagEditor.cancel();
+                $('ul.flow-tags').attr('id', "");
+                $('#edit-tags').show();
+            }
+            event.preventDefault();
+        });
+
+
+        $('#edit-tags-done').click(function (event) {
+            $("#edit-tags-done-loader").show();
+            if (tagEditor) {
+                $('#edit-tags-cancel').hide();
+                $('#edit-tags-done').hide();
+                var tags = tagEditor.get();
+                $.post("/flow/{{ id }}/tags", { tags: tags }, function (data) {
+                    tagEditor.strip();
+                    $('ul.flow-tags').attr('id', "");
+                    tagEditor = null;
+                    $('#edit-tags').show();
+                    $("#edit-tags-done-loader").hide();
+                }).fail(function (err) {
+                    console.log(err);
+                    $("#edit-tags-done-loader").hide();
+                });
+            }
+            event.preventDefault();
+        });
+        {
+            {
+                /owned}}
+
+
+            });
+
+</script>
 {{>_footer}}

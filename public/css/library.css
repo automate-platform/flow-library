@@ -305,7 +305,7 @@ h1 {
     color: #f3f3f3;
 }
 
-#flow {
+.ux-itemdetails-left #flow {
     margin-top: 30px;
     margin-bottom: 30px;
     padding: 10px;
@@ -314,9 +314,13 @@ h1 {
     font-family: monospace;
     cursor: pointer;
     position: relative;
+    background-color: #564848;
+    color: white;
+    height: 400px;
+    overflow-y: scroll;
 }
 
-button.copy-button {
+.ux-itemdetails-left button.copy-button {
     position: absolute;
     right: 0;
     top: 0px;
@@ -333,11 +337,11 @@ button.copy-button {
     cursor: pointer;
 }
 
-button.copy-button:focus {
+.ux-itemdetails-left button.copy-button:focus {
     outline: none;
 }
 
-button.copy-button:active {
+.ux-itemdetails-left button.copy-button:active {
     background: #f3f3f3;
 }
 
@@ -395,6 +399,7 @@ button.copy-button:active {
 
 .nodeTypeList {
     margin: 0;
+    margin-left: -40px;
 }
 
 .userinfo {
@@ -583,7 +588,7 @@ ul.flow-tags li {
     padding: 3px 5px 3px 5px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    background: #f5f5f5;
+    background-color: white;
     margin: 3px 3px 3px 1px;
     cursor: default;
     font-size: 14px;
@@ -766,6 +771,645 @@ ul#add-flow-tags li i.icon {
     border: none;
     text-decoration: none;
     text-shadow: none;
+}
+
+.main-content.item-details-main-content {
+    min-height: 950px;
+}
+
+.item-details-main-content {
+    background-color: #fff;
+}
+
+#section-banner.dynamic {
+    -webkit-animation: bannerAnimationDynamic 250ms forwards;
+    -moz-animation: bannerAnimationDynamic 250ms forwards;
+    -ms-animation: bannerAnimationDynamic 250ms forwards;
+}
+
+.item-details-control-root .ux-section-banner {
+    padding: 32px 0;
+    background-color: #eff1f3;
+}
+
+.ux-section-banner {
+    padding: 16px 0;
+    background-color: #eff1f3;
+    min-width: 1250px;
+}
+
+#section-banner.static {
+    -webkit-animation: bannerAnimationStatic 250ms forwards;
+    -moz-animation: bannerAnimationStatic 250ms forwards;
+    -ms-animation: bannerAnimationStatic 250ms forwards;
+}
+
+.ux-section-banner.static {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 999;
+}
+
+.item-details-control-root .ux-section-banner {
+    padding: 32px 0;
+    background-color: #eff1f3;
+}
+
+.gallery-centered-content {
+    width: 1160px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.gallery-centered-content table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+.item-details-control-root .item-img {
+    text-align: center;
+    vertical-align: top;
+    width: 132px;
+}
+
+.item-details-control-root .item-img img {
+    max-width: 128px;
+    position: relative;
+    visibility: hidden;
+}
+
+.item-details-control-root .item-header .light {
+    color: #000;
+}
+
+.item-details-control-root .item-header h1, .item-details-control-root .item-header h2 {
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+    font-size: 0;
+    font-weight: normal;
+}
+
+.item-details-control-root .ux-item-name {
+    font-size: 26px;
+    font-weight: 600;
+    display: inline-block;
+    padding-right: 8px;
+}
+
+.item-details-control-root .ux-item-second-row-wrapper {
+    margin-top: 4px;
+}
+
+.item-details-control-root .ux-item-second-row-wrapper>div:nth-child(1) {
+    margin-right: 10px;
+}
+
+.item-details-control-root .ux-item-publisher-link {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.item-details-control-root .ux-item-second-row-wrapper .ux-verified-domain-icon {
+    vertical-align: bottom;
+    height: 18px;
+    margin-right: 11px;
+}
+
+.item-details-control-root .ux-item-second-row-wrapper>div {
+    display: inline-block;
+}
+
+.verified-publisher-domain-container {
+    line-height: 7.5px;
+}
+
+.verified-domain-icon-container {
+    display: flex;
+    flex-direction: row;
+    margin-right: 6px;
+    font-size: 17px;
+    line-height: 17px;
+    color: #0078d4;
+    margin-right: 10;
+}
+
+.verified-domain-icon-container .verified-domain-icon-background {
+    color: #fff;
+    position: absolute;
+    line-height: 15px;
+}
+
+.root-39 {
+    display: inline-block;
+    -webkit-font-smoothing: antialiased;
+    font-style: normal;
+    font-weight: normal;
+    speak: none;
+    font-family: AzureDevOpsMDL2Assets;
+}
+
+.vss-Icon {
+    font-style: normal;
+}
+
+.verified-domain-icon-container .verified-domain-icon-foreground {
+    position: absolute;
+    z-index: 1;
+    line-height: 15px;
+}
+
+.verified-publisher-domain-url {
+    margin-left: 25px;
+    font-size: 16px;
+}
+
+.item-details-control-root .ux-item-second-row-wrapper>.ux-item-rating {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.item-details-control-root .ux-item-rating {
+    font-size: 14px;
+}
+
+.item-details-control-root .ux-item-second-row-wrapper .ux-item-review-rating-wrapper {
+    color: inherit;
+    padding-top: 1px;
+    padding-bottom: 3px;
+}
+
+.item-details-control-root .ux-item-second-row-wrapper .ux-item-review-rating-wrapper .ux-item-review-rating {
+    display: inline-flex;
+}
+
+.item-details-control-root .ux-item-second-row-wrapper .ux-item-review-rating-wrapper .ux-item-review-rating .ux-item-rating-control {
+    margin-left: 10px;
+    top: 2px;
+    position: relative;
+}
+
+.item-details-control-root .ux-item-second-row-wrapper .ux-item-review-rating-wrapper .ux-item-review-rating .ux-item-rating-control .rating-control .star {
+    min-width: 16px;
+    min-height: 16px;
+    padding-top: 0;
+}
+
+.rating-control .star {
+    height: 12px;
+    width: 12px;
+}
+
+.item-details-control-root .ux-item-second-row-wrapper .ux-item-review-rating-wrapper .ux-item-review-rating .ux-item-rating-count {
+    margin-left: 5px;
+    font-size: 16px;
+    margin-top: -1px;
+    margin-right: 8px;
+}
+
+.item-details-control-root .ux-item-second-row-wrapper>.item-price-category {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.item-details-control-root .ux-section-banner.dynamic .ux-item-shortdesc {
+    -webkit-animation: shortdescAnimationDynamic 250ms forwards;
+    -moz-animation: shortdescAnimationDynamic 250ms forwards;
+    -ms-animation: shortdescAnimationDynamic 250ms forwards;
+}
+
+.item-details-control-root .ux-item-shortdesc {
+    margin: 20px 0;
+    width: 608px;
+    line-height: 1.5;
+    overflow: hidden;
+}
+
+.item-details-control-root .ux-section-banner.static .ux-item-shortdesc {
+    -webkit-animation: shortdescAnimationStatic 250ms forwards;
+    -moz-animation: shortdescAnimationStatic 250ms forwards;
+    -ms-animation: shortdescAnimationStatic 250ms forwards;
+}
+
+.item-details-control-root .ux-section-banner.static .ux-item-action {
+    margin-top: 10px;
+}
+
+.item-details-control-root .light .ux-button.install {
+    background-color: #107c10;
+    color: #fff;
+    min-width: 120px;
+    border: 1px solid #666;
+}
+
+.item-details-control-root .ux-button.install {
+    overflow: visible;
+    margin: 0px;
+}
+
+.item-details-control-root .ux-button.install, button.ui-state-default, button.ui-button {
+    font-family: "Segoe UI VSS (Regular)","Segoe UI","-apple-system",BlinkMacSystemFont,Roboto,"Helvetica Neue",Helvetica,Ubuntu,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+    height: 30px;
+    border: 1px solid;
+    border-color: rgba(200,200,200,1);
+    border-color: rgba(var(--palette-neutral-20,200, 200, 200),1);
+    background-color: rgba(248,248,248,1);
+    background-color: rgba(var(--palette-neutral-2,248, 248, 248),1);
+    color: rgba(51,51,51,1);
+    color: rgba(var(--palette-neutral-80,51, 51, 51),1);
+    cursor: pointer;
+    outline: 0;
+    padding: 2px 12px 2px 12px;
+}
+
+.gallery-centered-content {
+    width: 1160px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.item-details-control-root .ux-section-details {
+    margin: 24px 0 34px 0;
+    font-size: 13px;
+}
+
+.root-40 {
+    font-family: "Segoe UI", "Segoe UI Web (West European)", "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    font-size: 14px;
+    font-weight: 400;
+    color: rgb(51, 51, 51);
+}
+
+.ux-section-details-tabs {
+    margin-top: -20px;
+}
+
+.ms-Fabric {
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    color: #333;
+    font-family: "Segoe UI Web (West European)","Segoe UI",-apple-system,BlinkMacSystemFont,"Roboto","Helvetica Neue",sans-serif;
+    font-size: 14px;
+}
+
+.item-details-control-root #section-banner.static+.gallery-centered-content>.ux-section-details .ux-section-details-tabs .ms-Pivot {
+    -webkit-animation: tabHeaderAnimationStatic 300ms forwards;
+    -moz-animation: tabHeaderAnimationStatic 300ms forwards;
+    -ms-animation: tabHeaderAnimationStatic 300ms forwards;
+    position: fixed;
+    width: 1196px;
+    background-color: #fff;
+    z-index: 998;
+    margin-top: 0;
+}
+
+.ux-section-details-tabs .ms-Pivot {
+    border-bottom: 1px solid;
+    border-bottom-color: rgba(200,200,200,1);
+    border-bottom-color: rgba(var(--palette-neutral-20,200, 200, 200),1);
+    margin-bottom: 25px;
+}
+
+.root_8766283c {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+    font-weight: 400;
+    position: relative;
+    color: #0078d4;
+    white-space: nowrap;
+}
+
+.ux-section-details-tabs .ms-Pivot button:first-child {
+    margin-left: -8px;
+}
+
+.root_8766283c.rootIsLarge_8766283c .link_8766283c {
+    font-size: 17px;
+}
+
+.root_8766283c .link_8766283c.linkIsSelected_8766283c {
+    font-weight: 600;
+}
+
+[dir='ltr'] .root_8766283c .link_8766283c {
+    margin-right: 8px;
+}
+
+.root_8766283c .link_8766283c {
+    color: #333333;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 40px;
+    padding: 0 8px;
+    text-align: center;
+    position: relative;
+    background-color: transparent;
+    border: 0;
+}
+
+.root-40 button {
+    font-family: inherit;
+}
+
+.root-41 {
+    outline: transparent;
+    position: relative;
+    font-family: "Segoe UI", "Segoe UI Web (West European)", "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    font-size: 14px;
+    font-weight: 400;
+    box-sizing: border-box;
+    border: 1px solid transparent;
+    display: inline-block;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+    vertical-align: top;
+    padding: 0px 4px;
+    border-radius: 0px;
+    height: 40px;
+    color: rgb(51, 51, 51);
+    background-color: transparent;
+    user-select: none;
+}
+
+.flexContainer-42 {
+    display: flex;
+    height: 100%;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.root_8766283c .link_8766283c .text_8766283c, .root_8766283c .link_8766283c .count_8766283c {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.ux-section-details-tabs .ms-Pivot-text {
+    font-weight: 400;
+    font-size: 16px;
+}
+
+.flexContainer-42 {
+    display: flex;
+    height: 100%;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.root_8766283c .link_8766283c .text_8766283c, .root_8766283c .link_8766283c .count_8766283c {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.item-details-control-root .ux-section-details .ux-section-details-table {
+    width: 100%;
+    table-layout: fixed;
+}
+
+.item-details-control-root .ux-itemdetails-left {
+    vertical-align: top;
+    font-size: 14px;
+    padding-right: 20px;
+    white-space: normal;
+    width: 100%;
+}
+
+.item-details-control-root .markdown {
+    color: #222;
+    line-height: 1.6;
+    position: relative;
+}
+
+.item-details-control-root .markdown {
+    color: #222;
+    line-height: 1.6;
+    position: relative;
+}
+
+.itemDetails .markdown {
+    color: #222;
+    line-height: 1.6;
+    position: relative;
+}
+
+.item-details-control-root .markdown>*:first-child {
+    margin-top: 0 !important;
+}
+
+.itemDetails .markdown>*:first-child {
+    margin-top: 0 !important;
+}
+
+.item-details-control-root .markdown>*:first-child {
+    margin-top: 0 !important;
+}
+
+.itemDetails .markdown blockquote {
+    color: #222 !important;
+}
+
+.markdown blockquote {
+    padding: 0 15px;
+    color: #777;
+    border-left: 4px solid #ddd;
+    margin: 0;
+}
+
+.markdown h2 {
+    font-size: 1.375em;
+    line-height: 1.2em;
+    border-bottom: 1px solid #eee;
+    margin-top: 2em;
+    padding-bottom: 10px;
+}
+
+.markdown h1, .markdown h2, .markdown h3, .markdown h4 {
+    line-height: 1.4;
+    margin-top: 1em;
+    margin-bottom: 16px;
+}
+
+.markdown h3 {
+    font-size: 1.25em;
+}
+
+.item-details-control-root .ux-itemdetails-right {
+    width: 34.45%;
+    vertical-align: top;
+    padding: 0 0 0 20px;
+}
+
+.meta-data-list-container .ux-section-header.right {
+    padding: 0 0 5px 0;
+    margin: 0;
+}
+
+.meta-data-list-container .ux-section-header {
+    font-size: 16px;
+    font-weight: bold;
+    color: #555;
+    padding-bottom: 16px;
+}
+
+.meta-data-list-container .ux-section-meta-data-list>div:nth-last-child(1) {
+    padding-bottom: 16px;
+}
+
+.meta-data-list-container .ux-section-meta-data-list .meta-data-list {
+    margin-top: 3px;
+}
+
+.meta-data-list-container .ux-section-meta-data-list a, .meta-data-list-container .ux-section-meta-data-list span {
+    border: 1px solid #ddd;
+    padding: 4px 6px;
+    border-radius: 3px;
+    font-size: 13px;
+    color: #333;
+    margin: 0 6px 4px 0;
+    display: inline-block;
+}
+
+.ux-section-capabilities .capabilities-list-item {
+    color: #666;
+    margin-bottom: 4px;
+}
+
+.item-details-control-root .ux-section-resources {
+    margin-top: 16px;
+}
+
+.item-details-control-root .ux-section-resources ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.item-details-control-root .ux-section-resources ul li {
+    margin-bottom: 4px;
+}
+
+.item-details-control-root .copied-display-container {
+    float: left;
+    position: relative;
+}
+
+.copied-display-container {
+    float: right;
+    position: relative;
+    margin-left: 10px;
+}
+
+.copyID-display-div {
+    font-size: 11px;
+    background-color: #000;
+    padding: 2px 4px;
+    color: #fff;
+    text-align: center;
+    border-radius: 5px;
+    border: 1px solid #fff;
+    width: 120px;
+    display: none;
+    position: absolute;
+    left: 50px;
+}
+
+.item-details-control-root .ux-section-project-details {
+    margin-top: 16px;
+}
+
+.item-details-control-root .ux-section-project-details ul li {
+    margin-bottom: 4px;
+}
+
+.item-details-control-root .ux-section-project-details ul li .api-github-response.bowtie-icon.bowtie-brand-github {
+    margin-left: 4px;
+    margin-top: 2px;
+    margin-right: 1px;
+}
+
+.item-details-control-root .ux-section-project-details span {
+    text-align: center;
+    vertical-align: top;
+    margin-left: 5px;
+}
+
+td {
+    padding: 6px 5px;
+    border-bottom: none;
+}
+
+td:not(:first-child) {
+    border-left: none;
+}
+
+@keyframes tabHeaderAnimationStatic{
+    0% {
+        top: 249px;
+        padding-top: 0;
+    }
+    100% {
+        top: 130px;
+        padding-top: 10px;
+    }
+}
+
+
+@keyframes shortdescAnimationDynamic{
+    0% {
+        max-height: 0;
+        margin: 0;
+    }
+    100% {
+        max-height: 80px;
+        margin: 20px 0;
+    }
+}
+
+@keyframes shortdescAnimationStatic{
+    0% {
+        max-height: 80px;
+        margin: 20px 0;
+    }
+    100% {
+        max-height: 0;
+        margin: 0;
+    }
+}
+
+@keyframes bannerAnimationStatic {
+    0% {
+        padding: 16px 0 16px 0;
+    }
+    100% {
+        padding: 8px 0 20px 0;
+    }
+}
+
+@keyframes bannerAnimationDynamic{
+    0% {
+        padding: 8px 0 16px 0;
+    }
+    100% {
+        padding: 16px 0 16px 0;
+    }
 }
 
 h1.flow-title {
@@ -1111,8 +1755,6 @@ ul.gistlist {
     margin: 10px 0;
     padding: 0;
     list-style-type: none;
-    display: flex;
-    justify-content: space-between;
 }
 
 ul.gistlist:after {
@@ -1123,7 +1765,7 @@ ul.gistlist:after {
 
 .carousel-item {
     float: left;
-    margin-right: 12.5px;
+    margin-right: 30px;
     margin-top: 16px;
     margin-left: 1px;
     position: relative;
