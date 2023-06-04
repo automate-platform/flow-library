@@ -38,21 +38,21 @@ app.get("/", function (req, res) {
     context.sessionuser = req.session.user;
     context.nodes = {
         type: 'node',
-        per_page: context.sessionuser?6:3,
+        per_page: context.sessionuser?5:5,
         hideOptions: true,
         hideNav: true,
         ignoreQueryParams: true
     }
     context.flows = {
         type: 'flow',
-        per_page: context.sessionuser?6:3,
+        per_page: context.sessionuser?5:5,
         hideOptions: true,
         hideNav: true,
         ignoreQueryParams: true
     }
     context.collections = {
         type: 'collection',
-        per_page: context.sessionuser?6:3,
+        per_page: context.sessionuser?5:5,
         hideOptions: true,
         hideNav: true,
         ignoreQueryParams: true
