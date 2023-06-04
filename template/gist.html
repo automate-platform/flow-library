@@ -21,11 +21,18 @@
         if ($(window).scrollTop() > 80) {
             $('#section-banner').addClass('static');
             $('#section-banner').removeClass('dynamic');
+            $('.itemDetails').addClass('static')
+            $('.itemDetails').removeClass('dynamic')
+            $('.itemDetails-right').addClass('static')
+            $('.itemDetails-right').removeClass('dynamic')
 
         } else {
             $('#section-banner').removeClass('static');
             $('#section-banner').addClass('dynamic');
-
+            $('.itemDetails').addClass('dynamic')
+            $('.itemDetails').removeClass('static')
+            $('.itemDetails-right').addClass('dynamic')
+            $('.itemDetails-right').removeClass('static')
         }
     });
 </script>
@@ -117,7 +124,7 @@
                         </div>
                     </div>
                     <div class="gallery-centered-content">
-                        <div class="ux-section-details .dynamic" id="tes12">
+                        <div class="ux-section-details" id="tes12">
                             <div>
                                 <div class="ms-Fabric ux-section-details-tabs root-40">
                                     <div>
@@ -132,7 +139,7 @@
                                                                 class="ms-Pivot-text text_8766283c">
                                                                 Overview</span></span>
                                                     </div>
-                                                </button><button type="button" id="Pivot0-Tab1"
+                                                <!-- </button><button type="button" id="Pivot0-Tab1"
                                                     class="ms-Button ms-Pivot-link link_8766283c ms-Button--action ms-Button--command root-41"
                                                     role="tab" aria-selected="false" name="Q &amp; A"
                                                     aria-label="Q &amp; A" data-is-focusable="true" tabindex="-1">
@@ -150,7 +157,7 @@
                                                             class="ms-Pivot-link-content"><span
                                                                 class="ms-Pivot-text text_8766283c"> Rating &amp;
                                                                 Review</span></span></div>
-                                                </button></ul>
+                                                </button></ul> -->
                                         </div>
                                         <div role="tabpanel" aria-labelledby="Pivot0-Tab0">
                                             <div>
@@ -221,7 +228,7 @@
                                                                                 </div>
                                                                             </div>
                                                                         </div>
-                                                                        <div class="ux-section-resources">
+                                                                        <!-- <div class="ux-section-resources">
                                                                             <h3
                                                                                 class="itemdetails-section-header right">
                                                                                 Resources</h3>
@@ -245,7 +252,7 @@
                                                                                     </div>
                                                                                 </li>
                                                                             </ul>
-                                                                        </div>
+                                                                        </div> -->
                                                                         <div class="ux-section-project-details">
                                                                             <h3
                                                                                 class="itemdetails-section-header right">

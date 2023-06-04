@@ -256,6 +256,7 @@ h1 {
     opacity: 0.6;
 }
 
+
 .user-menu {
     display: none;
     font-size: 16px;
@@ -1192,6 +1193,19 @@ ul#add-flow-tags li i.icon {
     width: 100%;
 }
 
+.item-details-control-root .ux-itemdetails-left .itemDetails.static{
+    /* -webkit-animation: detailMarginStatic 230ms forwards; */
+    /* -moz-animation: detailMarginStatic 230ms forwards; */
+    /* -ms-animation: detailMarginStatic 230ms forwards; */
+    margin-top: 210px;
+}
+.item-details-control-root .ux-itemdetails-left .itemDetails.dynamic{
+    /* -webkit-animation: detailMarginDynamic 230ms forwards; */
+    /* -moz-animation: detailMarginDynamic 230ms forwards; */
+    /* -ms-animation: detailMarginDynamic 230ms forwards; */
+    margin-top: 0;
+}
+
 .item-details-control-root .markdown {
     color: #222;
     line-height: 1.6;
@@ -1255,6 +1269,19 @@ ul#add-flow-tags li i.icon {
     width: 34.45%;
     vertical-align: top;
     padding: 0 0 0 20px;
+}
+
+.item-details-control-root .ux-itemdetails-right  .itemDetails-right.static{
+    /* -webkit-animation: detailMarginStatic 230ms forwards; */
+    /* -moz-animation: detailMarginStatic 230ms forwards; */
+    /* -ms-animation: detailMarginStatic 230ms forwards; */
+    margin-top: 210px;
+}
+.item-details-control-root .ux-itemdetails-right  .itemDetails-right.dynamic{
+    /* -webkit-animation: detailMarginDynamic 230ms forwards; */
+    /* -moz-animation: detailMarginDynamic 230ms forwards; */
+    /* -ms-animation: detailMarginDynamic 230ms forwards; */
+    margin-top: 0;
 }
 
 .meta-data-list-container .ux-section-header.right {
@@ -1368,6 +1395,24 @@ td:not(:first-child) {
     100% {
         top: 130px;
         padding-top: 10px;
+    }
+}
+
+@keyframes detailMarginStatic{
+    0% {
+    margin-top: 0;
+    }
+    100% {
+        margin-top: 210px;
+    }
+}
+
+@keyframes detailMarginDynamic{
+    0% {
+        margin-top: 210px;
+    }
+    100% {
+        margin-top: 0;
     }
 }
 
@@ -1709,7 +1754,6 @@ input[name="type"][value="collection"]:checked+label {
     font-weight: 600;
     border-right: 1px solid #eee;
 }
-
 .toolbar li a {
     display: block;
     font-size: 16px;
