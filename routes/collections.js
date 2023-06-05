@@ -13,6 +13,7 @@ const app = express();
 const {marked} = require("marked");
 const ratings = require("../lib/ratings");
 
+if(settings.template.collection){
 
 function isCollectionOwned(collection,user) {
     for (var i=0;i<collection.gitOwners.length;i++) {
@@ -255,3 +256,4 @@ app.post("/collection/:id/rate", appUtils.csrfProtection(),function(req,res) {
 
 
 module.exports = app;
+}

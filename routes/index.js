@@ -4,6 +4,7 @@ const db = require("../lib/db");
 const viewster = require("../lib/view");
 const templates = require("../lib/templates");
 const appUtils = require("../lib/utils");
+const setting = require('../config');
 
 const querystring = require('querystring');
 
@@ -38,31 +39,34 @@ app.get("/", function (req, res) {
     context.sessionuser = req.session.user;
     context.nodes = {
         type: 'node',
-        per_page: context.sessionuser?5:5,
+        per_page: context.sessionuser?6:6,
         hideOptions: true,
         hideNav: true,
-        ignoreQueryParams: true
+        ignoreQueryParams: true,
+        showIndex : setting.template.nodes
     }
     context.flows = {
         type: 'flow',
-        per_page: context.sessionuser?5:5,
+        per_page: context.sessionuser?6:6,
         hideOptions: true,
         hideNav: true,
-        ignoreQueryParams: true
+        ignoreQueryParams: true,
+        showIndex : setting.template.flows
     }
     context.collections = {
         type: 'collection',
-        per_page: context.sessionuser?5:5,
+        per_page: context.sessionuser?6:6,
         hideOptions: true,
         hideNav: true,
-        ignoreQueryParams: true
+        ignoreQueryParams: true,
+        showIndex : setting.template.collection
     }
     viewster.getTypeCounts().then(function(counts) {
         context.nodes.count = counts.node;
         context.flows.count = counts.flow;
         context.collections.count = counts.collection;
 
-        res.send(mustache.render(templates.index, context, templates.partials));
+        res.send( mustache.render(templates.index, context, templates.partials));
     });
 });
 
@@ -91,6 +95,9 @@ app.get("/things", function (req, res) {
             thing.isNode = thing.type === 'node';
             thing.isFlow = thing.type === 'flow';
             thing.isCollection = thing.type === 'collection';
+            thing.nodeShow = setting.template.nodes;
+            thing.flowsShow = setting.template.flows;
+            thing.collectionShow = setting.template.collection;
         })
         response.meta.results.count = result.count;
         response.meta.results.total = result.total;

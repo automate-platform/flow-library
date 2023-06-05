@@ -267,9 +267,9 @@ h1 {
     list-style-type: none;
     margin: 0;
     padding: 0;
-    background: #aa4444;
+    background: #e6d5d4;
     text-align: left;
-    border-bottom-left-radius: 10px;
+    /* border-bottom-left-radius: 10px; */
     border-top: 2px solid rgba(255, 255, 255, 0.3);
 }
 
@@ -1807,7 +1807,7 @@ ul.gistlist:after {
 
 .carousel-item {
     float: left;
-    margin-right: 30px;
+    margin-right: 10px;
     margin-top: 16px;
     margin-left: 1px;
     position: relative;
@@ -2446,7 +2446,7 @@ a:hover .gistbox-footer {
     display: flex;
     align-items: center;
     position: absolute;
-    right: 30px;
+    right: 5px;
     top: 7px;
     margin-right: 5px;
     font-weight: lighter;
