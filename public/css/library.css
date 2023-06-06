@@ -267,12 +267,12 @@ h1 {
     list-style-type: none;
     margin: 0;
     padding: 0;
-    background: #e6d5d4;
+    background: #d5d5d5;
     text-align: left;
+    border-radius: 10px;
     /* border-bottom-left-radius: 10px; */
-    border-top: 2px solid rgba(255, 255, 255, 0.3);
+    /* border-top: 2px solid rgba(255, 255, 255, 0.3); */
 }
-
 /* .user-menu:after {
     bottom: calc(100% + 2px);
     right: 35px;

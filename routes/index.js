@@ -35,32 +35,49 @@ function getPrevPageQueryString(count, query) {
 
 app.get("/", function (req, res) {
     var context = {};
+    let stsNavNode = true;
+    let stsNavFlow = true;
+    let stsNavCollection = true;
+    if(setting.template.nodes){
+        stsNavNode = false;
+    }
+
+    if(setting.template.flows){
+        stsNavFlow = false;
+    }
+
+    if(setting.template.collection){
+        stsNavCollection = false;
+    }
 
     context.sessionuser = req.session.user;
     context.nodes = {
         type: 'node',
         per_page: context.sessionuser?6:6,
         hideOptions: true,
-        hideNav: true,
+        hideNav: stsNavNode,
         ignoreQueryParams: true,
         showIndex : setting.template.nodes
     }
+    
     context.flows = {
         type: 'flow',
         per_page: context.sessionuser?6:6,
         hideOptions: true,
-        hideNav: true,
+        hideNav: stsNavFlow,
         ignoreQueryParams: true,
         showIndex : setting.template.flows
     }
+    
     context.collections = {
         type: 'collection',
         per_page: context.sessionuser?6:6,
         hideOptions: true,
-        hideNav: true,
+        hideNav: stsNavCollection,
         ignoreQueryParams: true,
         showIndex : setting.template.collection
     }
+    
     viewster.getTypeCounts().then(function(counts) {
         context.nodes.count = counts.node;
         context.flows.count = counts.flow;
