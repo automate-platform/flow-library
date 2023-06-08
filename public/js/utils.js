@@ -66,7 +66,7 @@ var utils = (function() {
         thingList.find('input[name="term"]').val(term);
 
         if (!type) {
-            type = ['node','flow','collection']
+            type = ['node','flow','collection','app']
         }
         thingList.find('input[name="type"]').prop('checked',false);
         type.forEach(function(t) {

@@ -16,6 +16,7 @@ function queryFromRequest(req) {
     query.page = Number(query.page) || 1;
     query.num_pages = Number(query.num_pages) || 1;
     query.page_size = Number(query.page_size) || viewster.DEFAULT_PER_PAGE;
+    query.type = query.type || "app";
     return query;
 }
 function getNextPageQueryString(count, query) {
@@ -35,27 +36,13 @@ function getPrevPageQueryString(count, query) {
 
 app.get("/", function (req, res) {
     var context = {};
-    let stsNavNode = true;
-    let stsNavFlow = true;
-    let stsNavCollection = true;
-    if(setting.template.nodes){
-        stsNavNode = false;
-    }
-
-    if(setting.template.flows){
-        stsNavFlow = false;
-    }
-
-    if(setting.template.collection){
-        stsNavCollection = false;
-    }
 
     context.sessionuser = req.session.user;
     context.nodes = {
         type: 'node',
         per_page: context.sessionuser?6:6,
         hideOptions: true,
-        hideNav: stsNavNode,
+        hideNav: true,
         ignoreQueryParams: true,
         showIndex : setting.template.nodes
     }
@@ -64,7 +51,7 @@ app.get("/", function (req, res) {
         type: 'flow',
         per_page: context.sessionuser?6:6,
         hideOptions: true,
-        hideNav: stsNavFlow,
+        hideNav: true,
         ignoreQueryParams: true,
         showIndex : setting.template.flows
     }
@@ -73,15 +60,25 @@ app.get("/", function (req, res) {
         type: 'collection',
         per_page: context.sessionuser?6:6,
         hideOptions: true,
-        hideNav: stsNavCollection,
+        hideNav: true,
         ignoreQueryParams: true,
         showIndex : setting.template.collection
+    }
+
+    context.apps = {
+        type: 'app',
+        per_page: context.sessionuser?6:6,
+        hideOptions: true,
+        hideNav: true,
+        ignoreQueryParams: true,
+        showIndex : setting.template.apps
     }
     
     viewster.getTypeCounts().then(function(counts) {
         context.nodes.count = counts.node;
         context.flows.count = counts.flow;
         context.collections.count = counts.collection;
+        context.apps.count = counts.app;
 
         res.send( mustache.render(templates.index, context, templates.partials));
     });
@@ -109,12 +106,14 @@ app.get("/things", function (req, res) {
     viewster.getForQuery(query).then(function (result) {
         result.things = result.things||[];
         result.things.forEach(function(thing) {
+            thing.isApp = thing.type === 'app';
             thing.isNode = thing.type === 'node';
             thing.isFlow = thing.type === 'flow';
             thing.isCollection = thing.type === 'collection';
             thing.nodeShow = setting.template.nodes;
             thing.flowsShow = setting.template.flows;
             thing.collectionShow = setting.template.collection;
+            thing.appsShow = setting.template.apps;
         })
         response.meta.results.count = result.count;
         response.meta.results.total = result.total;

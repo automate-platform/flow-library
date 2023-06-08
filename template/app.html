@@ -1,0 +1,425 @@
+{{>_header}}
+<script>
+    function copyFlow() {
+        var ta = document.createElement('textarea');
+        let copyText = document.querySelector("#FlowCode").innerText;
+        ta.style.position = 'absolute';
+        ta.style.left = '-3000px';
+        document.body.appendChild(ta);
+        ta.value = copyText;
+        ta.select();
+        document.execCommand("copy");
+        document.body.removeChild(ta);
+        document.querySelector('#copy-button').innerText = "Copied!";
+        setTimeout(function () {
+            document.querySelector('#copy-button').innerText = "Copy";
+        }, 3000)
+    }
+
+    // document.querySelector("#copy").addEventListener("click", copy);
+    $(window).scroll(function () {
+        if ($(window).scrollTop() > 80) {
+            $('#section-banner').addClass('static');
+            $('#section-banner').removeClass('dynamic');
+            $('.itemDetails').addClass('static')
+            $('.itemDetails').removeClass('dynamic')
+            $('.itemDetails-right').addClass('static')
+            $('.itemDetails-right').removeClass('dynamic')
+
+        } else {
+            $('#section-banner').removeClass('static');
+            $('#section-banner').addClass('dynamic');
+            $('.itemDetails').addClass('dynamic')
+            $('.itemDetails').removeClass('static')
+            $('.itemDetails-right').addClass('dynamic')
+            $('.itemDetails-right').removeClass('static')
+        }
+    });
+</script>
+<div class="page-content" style="display: block; min-height: 100%; position: relative;">
+    <div id="gallery-content">
+        <div class="main-content item-details-main-content" id="vss_1">
+            <div class="item-details-control-root">
+                <div class="ux-item-details" role="main">
+                    <div class="ux-section-banner dynamic" id="section-banner">
+                        <div class="ux-section-core gallery-centered-content">
+                            <table role="presentation">
+                                <tbody>
+                                    <tr>
+                                        <td class="item-img" id="vss_2">
+                                            <img class="image-display"
+                                                src="{{flow_icon_url}}"
+                                                style="top: 20px; visibility: visible;">
+                                            <div class="bowtie-icon" style="display: none;"></div>
+                                        </td>
+                                        <td class="item-header">
+                                            <div class="item-header-content light">
+                                                <h1><span class="ux-item-name">{{ description }}</span>
+                                                </h1>
+                                                <div class="ux-item-second-row-wrapper">
+                                                    <div class="ux-item-publisher">
+                                                        <h2 role="presentation"><a
+                                                                class="ux-item-publisher-link item-banner-focussable-child-item"
+                                                                href="/user/{{ owner.login }}"
+                                                                style="color: rgb(0, 0, 0);">{{ owner.login }}</a></h2>
+                                                    </div>
+                                                    <div class="ux-verified-domain-icon">
+                                                        <div>
+                                                            <div class="verified-publisher-domain-container">
+                                                                <div class="verified-domain-icon-container">
+                                                                </div><a href="/search?type=node&type=collection"
+                                                                    class="verified-publisher-domain-url"
+                                                                    style="color: #1163f0;">{{type}}</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <span class="divider"> | </span>
+                                                    <div class="ux-item-rating">
+                                                        <span class="installs-text">Created {{ created_at_since
+                                                            }}</span>
+                                                    </div>
+                                                    <div class="ux-item-review-rating-wrapper">
+                                                        <span class="ux-item-review-rating">
+                                                            <span class="divider"> | </span>
+                                                            <span class="ux-item-rating-control">
+                                                                <span class="rating-control">
+                                                                    <form id="form-rate" action="/app/{{_id}}/rate"
+                                                                        method="POST">
+                                                                        <input name="_csrf" type="hidden"
+                                                                            value="{{csrfToken}}">
+                                                                        <input name="rating" type="hidden">
+                                                                        <div class="flowinfo">Rate: <span
+                                                                                id="set-stars"></span></div>
+                                                                    </form>
+                                                                </span>
+                                                            </span>
+                                                            <span class="ux-item-rating-count">
+                                                                <span>{{count}}</span></span>
+                                                        </span>
+                                                    </div>
+                                                    <span class="divider"> | </span>
+                                                    <span class="item-price-category"><a href="{{ html_url }}"
+                                                            style="color: #1163f0;" target="_blank">View on github</a></span>
+                                                    <div class="ux-vsippartner" style="display: none;">
+                                                        <span class="divider"> | </span>
+                                                        <img role="none"
+                                                            src="https://cdn.vsassets.io/v/M221_20230510.21/_content/icon-vsip-partner.png">
+                                                    </div>
+                                                </div>
+                                                <div class="ux-item-shortdesc">{{summary}}</div>
+                                                <div class="ux-item-action">
+                                                    <a class="download-button-container">
+                                                        <button class="ux-button install"
+                                                            onclick="copyFlow()">Copy</button>
+                                                    </a>
+                                                    <span style="display: none;"></span>
+                                                </div>
+                                                <div class="ux-item-free-install" style="display: none;"></div>
+                                                <div class="ux-item-offers-cost-text" style="display: none;"></div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="gallery-centered-content">
+                        <div class="ux-section-details" id="tes12">
+                            <div>
+                                <div class="ms-Fabric ux-section-details-tabs root-40">
+                                    <div>
+                                        <div class="ms-FocusZone">
+                                            <ul class="ms-Pivot root_8766283c ms-Pivot--large rootIsLarge_8766283c"
+                                                role="tablist"><button type="button" id="Pivot0-Tab0"
+                                                    class="ms-Button ms-Pivot-link link_8766283c is-selected linkIsSelected_8766283c ms-Button--action ms-Button--command root-41"
+                                                    role="tab" aria-selected="true" name="Overview"
+                                                    aria-label="Overview" data-is-focusable="true" tabindex="0">
+                                                    <div class="ms-Button-flexContainer flexContainer-42"><span
+                                                            class="ms-Pivot-link-content"><span
+                                                                class="ms-Pivot-text text_8766283c">
+                                                                Overview</span></span>
+                                                    </div>
+                                                <!-- </button><button type="button" id="Pivot0-Tab1"
+                                                    class="ms-Button ms-Pivot-link link_8766283c ms-Button--action ms-Button--command root-41"
+                                                    role="tab" aria-selected="false" name="Q &amp; A"
+                                                    aria-label="Q &amp; A" data-is-focusable="true" tabindex="-1">
+                                                    <div class="ms-Button-flexContainer flexContainer-42"><span
+                                                            class="ms-Pivot-link-content"><span
+                                                                class="ms-Pivot-text text_8766283c"> Q &amp;
+                                                                A</span></span>
+                                                    </div>
+                                                </button><button type="button" id="Pivot0-Tab2"
+                                                    class="ms-Button ms-Pivot-link link_8766283c ms-Button--action ms-Button--command root-41"
+                                                    role="tab" aria-selected="false" name="Rating &amp; Review"
+                                                    aria-label="Rating &amp; Review" data-is-focusable="true"
+                                                    tabindex="-1">
+                                                    <div class="ms-Button-flexContainer flexContainer-42"><span
+                                                            class="ms-Pivot-link-content"><span
+                                                                class="ms-Pivot-text text_8766283c"> Rating &amp;
+                                                                Review</span></span></div>
+                                                </button></ul> -->
+                                        </div>
+                                        <div role="tabpanel" aria-labelledby="Pivot0-Tab0">
+                                            <div>
+                                                <div class="details-tab itemdetails">
+                                                    <table class="ux-section-details-table" role="presentation">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td class="ux-itemdetails-left">
+                                                                    <div class="itemDetails">
+                                                                        <div class="markdown">
+                                                                            <h2 id="user-content-features"
+                                                                                class="link-header">
+                                                                                Features</h2>
+                                                                            {{{ readme }}}
+                                                                            <h2 id="user-content-optimize-images"
+                                                                                class="link-header">Flow</h2>
+                                                                            <pre id="flow"
+                                                                                class="highlight language-javascript"><button class="copy-button" id="copy-button" onclick="copyFlow();" type="button" >Copy</button><span id="FlowCode">{{ flow }}</span></pre>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                                <td class="ux-itemdetails-right" role="complementary">
+                                                                    <div class="itemDetails-right">
+                                                                        <div class="meta-data-list-container">
+                                                                            <div class="ux-section-meta-data-list">
+                                                                                <h3 class="ux-section-header right">
+                                                                                    Node Types
+                                                                                </h3>
+                                                                                <div class="meta-data-list" role="group"
+                                                                                    style="margin-left: 20px;">
+                                                                                    {{#nodeTypes}}
+                                                                                    {{#core.length}}
+                                                                                    <h5 style="margin-top: 5px;">Core
+                                                                                    </h5>
+                                                                                    <ul class="nodeTypeList">
+                                                                                        {{#core}}
+                                                                                        <span>{{type}}
+                                                                                            (x{{count}})</span>
+                                                                                        {{/core}}
+                                                                                    </ul>
+                                                                                    {{/core.length}}
+                                                                                    {{#other.length}}
+                                                                                    <h5 style="margin-top: 5px;">Other
+                                                                                    </h5>
+                                                                                    <ul class="nodeTypeList">
+                                                                                        {{#other}}
+                                                                                        <span>{{#module}}<a
+                                                                                                href="/node/{{module}}">{{/module}}{{type}}{{#module}}</a>{{/module}}
+                                                                                            <span class="small"
+                                                                                                style="border: none; margin-left: -3px;">(x{{count}})</span>
+                                                                                        </span>
+                                                                                        {{/other}}
+                                                                                    </ul>
+                                                                                    {{/other.length}}
+                                                                                    {{/nodeTypes}}
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="ux-section-meta-data-list">
+                                                                                <h3 class="ux-section-header right">Tags
+                                                                                </h3>
+                                                                                <div class="meta-data-list"
+                                                                                    role="group">
+                                                                                    <ul class="flow-tags">
+                                                                                        {{#tags}}
+                                                                                        <li tag="{{.}}">{{.}}</li>
+                                                                                        {{/tags}}
+                                                                                    </ul>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <!-- <div class="ux-section-resources">
+                                                                            <h3
+                                                                                class="itemdetails-section-header right">
+                                                                                Resources</h3>
+                                                                            <ul>
+                                                                                <li><a href="https://marketplace.visualstudio.com/items/MadsKristensen.ImageOptimizer/license"
+                                                                                        target="_blank"
+                                                                                        rel="noreferrer noopener nofollow">License</a>
+                                                                                </li>
+                                                                                <li><button role="button"
+                                                                                        aria-label="Copy ID Click to copy the extension's ID to clipboard."
+                                                                                        class="ms-Link link-as-button undefined root-75"
+                                                                                        aria-disabled="false">Copy
+                                                                                        ID</button>
+                                                                                    <div class="copied-display-container"
+                                                                                        role="status"
+                                                                                        aria-live="polite">
+                                                                                        <div class="copyID-display-div"
+                                                                                            id="copied-animation">
+                                                                                            Copied to
+                                                                                            clipboard</div>
+                                                                                    </div>
+                                                                                </li>
+                                                                            </ul>
+                                                                        </div> -->
+                                                                        <!-- <div class="ux-section-project-details">
+                                                                            <h3
+                                                                                class="itemdetails-section-header right">
+                                                                                Project
+                                                                                Details</h3>
+                                                                            <div class="github-details">
+                                                                                <ul>
+                                                                                    <li><a class="githubLinks"
+                                                                                            href="https://github.com/madskristensen/ImageOptimizer"
+                                                                                            target="blank"
+                                                                                            rel="noreferrer noopener nofollow"><span
+                                                                                                class="api-github-response bowtie-icon bowtie-brand-github"></span><span
+                                                                                                class="api-github-response github-string">madskristensen/ImageOptimizer</span></a>
+                                                                                    </li>
+                                                                                    <li><a class="githubLinks"
+                                                                                            href="https://github.com/madskristensen/ImageOptimizer/pulls"
+                                                                                            target="blank"
+                                                                                            rel="noreferrer noopener nofollow"><span
+                                                                                                class="api-github-response bowtie-icon bowtie-tfvc-pull-request"></span><span
+                                                                                                class="api-github-response pull-request-string">No
+                                                                                                Pull Requests</span></a>
+                                                                                    </li>
+                                                                                    <li><a class="githubLinks"
+                                                                                            href="https://github.com/madskristensen/ImageOptimizer/issues"
+                                                                                            target="blank"
+                                                                                            rel="noreferrer noopener nofollow"><span
+                                                                                                class="api-github-response bowtie-icon bowtie-status-error"></span><span
+                                                                                                class="api-github-response open-issues-string">12
+                                                                                                Open Issues</span></a>
+                                                                                    </li>
+                                                                                    <li><a class="githubLinks"
+                                                                                            href="https://github.com/madskristensen/ImageOptimizer/commits"
+                                                                                            target="blank"
+                                                                                            rel="noreferrer noopener nofollow"><span
+                                                                                                class="api-github-response bowtie-icon bowtie-status-waiting-fill"></span><span
+                                                                                                class="api-github-response last-commit-string">Last
+                                                                                                commit: a year
+                                                                                                ago</span></a>
+                                                                                    </li>
+                                                                                </ul>
+                                                                            </div>
+                                                                        </div> -->
+                                                                        <div class="ux-section-capabilities">
+                                                                            <h3
+                                                                                class="itemdetails-section-header right">
+                                                                                Using</h3>
+                                                                            <div class="capabilities-list-item">Copy
+                                                                                this flow JSON to your clipboard and
+                                                                                then import into Node-RED using the
+                                                                                <i>Import From &gt;
+                                                                                    Clipboard</i> (Ctrl-I) menu option
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{>_rateTools}}
+<script src="/js/tags.js"></script>
+<script>
+    $(function () {
+        // $("#copy-button").on("click", function (evt) {
+        //     // evt.preventDefault();
+        //     // var ta = document.createElement('textarea');
+        //     // ta.value = $(this).next()[0].innerText;
+        //     // ta.style.position = 'absolute';
+        //     // ta.style.left = '-3000px';
+        //     // document.body.appendChild(ta);
+        //     // ta.select();
+        //     // document.execCommand('copy');
+        //     // document.body.removeChild(ta);
+        //     // $(this).text("Copied!");
+        //     // var self = $(this);
+        //     // setTimeout(function () {
+        //     //     self.text("Copy");
+        //     // }, 3000)
+        //     console.log("hellpp")
+        // });
+        { { #owned } }
+        $('#refresh-flow').click(function (event) {
+            $("#refresh-flow-loader").show();
+            $.post("/app/{{ id }}/refresh", function (data, textStatus, jqXHR) {
+                if (jqXHR.status != 304) {
+                    window.location.reload();
+                }
+                $("#refresh-flow-loader").hide();
+            }).fail(function (err) {
+                window.location.reload();
+            });
+            event.preventDefault();
+        });
+
+        $('#remove-flow').click(function (evt) {
+            evt.preventDefault();
+            var dialog = $('<div class="dialog-shade"><div class="dialog">' +
+                '<form action="/app/{{id}}/delete" method="POST">' +
+                '<input name="_csrf" type="hidden" value="{{csrfToken}}">' +
+                '<h4>Are you sure you want to remove this app?</h4>' +
+                '<p>It will be removed from the library, but your GitHub Gist will not be affected.' +
+                '<div class="dialog-buttons"><button type="button" onclick="return closeDialog();">Cancel</button><button type="submit">Delete</button></div>' +
+                '</form></div></div>').appendTo('body').show();
+        });
+
+
+        var tagEditor = null;
+        $('#edit-tags').click(function (event) {
+            event.preventDefault();
+            $('ul.flow-tags').attr('id', "add-flow-tags");
+            tagEditor = tagger({ lipre: '', lipost: '' });
+            $('#edit-tags').hide();
+            $('#edit-tags-cancel').show();
+            $('#edit-tags-done').show();
+            $('ul.flow-tags').click();
+        });
+
+        $('#edit-tags-cancel').click(function (event) {
+            if (tagEditor) {
+                $('#edit-tags-cancel').hide();
+                $('#edit-tags-done').hide();
+                tagEditor.cancel();
+                $('ul.flow-tags').attr('id', "");
+                $('#edit-tags').show();
+            }
+            event.preventDefault();
+        });
+
+
+        $('#edit-tags-done').click(function (event) {
+            $("#edit-tags-done-loader").show();
+            if (tagEditor) {
+                $('#edit-tags-cancel').hide();
+                $('#edit-tags-done').hide();
+                var tags = tagEditor.get();
+                $.post("/app/{{ id }}/tags", { tags: tags }, function (data) {
+                    tagEditor.strip();
+                    $('ul.flow-tags').attr('id', "");
+                    tagEditor = null;
+                    $('#edit-tags').show();
+                    $("#edit-tags-done-loader").hide();
+                }).fail(function (err) {
+                    console.log(err);
+                    $("#edit-tags-done-loader").hide();
+                });
+            }
+            event.preventDefault();
+        });
+        {
+            {
+                /owned}}
+
+
+            });
+
+</script>
+{{>_footer}}

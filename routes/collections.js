@@ -81,7 +81,7 @@ app.get("/collection/:id",  appUtils.csrfProtection(), function(req,res) {
     var id = req.params.id;
     context.sessionuser = req.session.user;
     context.query = {
-        type: "node,flow",
+        type: "node,flow,app",
         hideOptions: true,
         collection: req.params.id,
         ignoreQueryParams: true
