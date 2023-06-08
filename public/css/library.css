@@ -162,6 +162,9 @@ h1 {
     padding: 0 30px;
 }
 
+.grid.add-opt{
+    display: flex;
+}
 
 .library .grid.main-content {
     background: #fff;
@@ -1693,6 +1696,12 @@ input[name="type"][value="node"]:checked+label {
 
 input[name="type"][value="flow"]:checked+label {
     background: var(--flow-type-primary-color);
+    color: white;
+    border-color: var(--flow-type-secondary-color);
+}
+
+input[name="type"][value="app"]:checked+label {
+    background: red;
     color: white;
     border-color: var(--flow-type-secondary-color);
 }

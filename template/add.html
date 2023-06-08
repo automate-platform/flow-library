@@ -26,6 +26,16 @@
             {{/sessionuser}}
         </a>
     </div>
+    <div class="col-1-3 ">
+        {{#sessionuser}}<a class="thing-list-section" href="/add/app">{{/sessionuser}}
+        {{^sessionuser}}<a class="thing-list-section" href="/login?return=/add/app">{{/sessionuser}}
+            <h3>App</h3>
+            <p>Add a new example app to the library for others to learn from.</p>
+            {{^sessionuser}}
+            <p><i>You need to be logged in to add a app.</i></p>
+            {{/sessionuser}}
+        </a>
+    </div>
 </div>
 <style>
 .library .grid.add-opt {

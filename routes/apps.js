@@ -165,7 +165,7 @@ if (settings.template.apps) {
             });
         }).catch(function (err) {
             // TODO: better error logging without the full stack trace
-            console.log("Error loading flow:", id);
+            console.log("Error loading app:", id);
             console.log(err);
             try {
                 res.status(404).send(mustache.render(templates['404'], { sessionuser: req.session.user }, templates.partials));
