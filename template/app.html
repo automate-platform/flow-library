@@ -1,20 +1,20 @@
 {{>_header}}
 <script>
-    function copyFlow() {
-        var ta = document.createElement('textarea');
-        let copyText = document.querySelector("#FlowCode").innerText;
-        ta.style.position = 'absolute';
-        ta.style.left = '-3000px';
-        document.body.appendChild(ta);
-        ta.value = copyText;
-        ta.select();
-        document.execCommand("copy");
-        document.body.removeChild(ta);
-        document.querySelector('#copy-button').innerText = "Copied!";
-        setTimeout(function () {
-            document.querySelector('#copy-button').innerText = "Copy";
-        }, 3000)
-    }
+    // function copyFlow() {
+    //     var ta = document.createElement('textarea');
+    //     let copyText = document.querySelector("#FlowCode").innerText;
+    //     ta.style.position = 'absolute';
+    //     ta.style.left = '-3000px';
+    //     document.body.appendChild(ta);
+    //     ta.value = copyText;
+    //     ta.select();
+    //     document.execCommand("copy");
+    //     document.body.removeChild(ta);
+    //     document.querySelector('#copy-button').innerText = "Copied!";
+    //     setTimeout(function () {
+    //         document.querySelector('#copy-button').innerText = "Copy";
+    //     }, 3000)
+    // }
 
     // document.querySelector("#copy").addEventListener("click", copy);
     $(window).scroll(function () {
@@ -25,6 +25,8 @@
             $('.itemDetails').removeClass('dynamic')
             $('.itemDetails-right').addClass('static')
             $('.itemDetails-right').removeClass('dynamic')
+            $('.version-history-top-container').removeClass('dynamic')
+            $('.version-history-top-container').addClass('static')
 
         } else {
             $('#section-banner').removeClass('static');
@@ -33,8 +35,12 @@
             $('.itemDetails').removeClass('static')
             $('.itemDetails-right').addClass('dynamic')
             $('.itemDetails-right').removeClass('static')
+            $('.version-history-top-container').removeClass('static')
+            $('.version-history-top-container').addClass('dynamic')
         }
     });
+
+
 </script>
 <div class="page-content" style="display: block; min-height: 100%; position: relative;">
     <div id="gallery-content">
@@ -47,8 +53,7 @@
                                 <tbody>
                                     <tr>
                                         <td class="item-img" id="vss_2">
-                                            <img class="image-display"
-                                                src="{{flow_icon_url}}"
+                                            <img class="image-display" src="{{flow_icon_url}}"
                                                 style="top: 20px; visibility: visible;">
                                             <div class="bowtie-icon" style="display: none;"></div>
                                         </td>
@@ -67,7 +72,7 @@
                                                         <div>
                                                             <div class="verified-publisher-domain-container">
                                                                 <div class="verified-domain-icon-container">
-                                                                </div><a href="/search?type=node&type=collection"
+                                                                </div><a href="/search?type=app"
                                                                     class="verified-publisher-domain-url"
                                                                     style="color: #1163f0;">{{type}}</a>
                                                             </div>
@@ -99,7 +104,8 @@
                                                     </div>
                                                     <span class="divider"> | </span>
                                                     <span class="item-price-category"><a href="{{ html_url }}"
-                                                            style="color: #1163f0;" target="_blank">View on github</a></span>
+                                                            style="color: #1163f0;" target="_blank">View on
+                                                            github</a></span>
                                                     <div class="ux-vsippartner" style="display: none;">
                                                         <span class="divider"> | </span>
                                                         <img role="none"
@@ -110,7 +116,7 @@
                                                 <div class="ux-item-action">
                                                     <a class="download-button-container">
                                                         <button class="ux-button install"
-                                                            onclick="copyFlow()">Copy</button>
+                                                            onclick="copyFlow()">Install</button>
                                                     </a>
                                                     <span style="display: none;"></span>
                                                 </div>
@@ -131,7 +137,7 @@
                                         <div class="ms-FocusZone">
                                             <ul class="ms-Pivot root_8766283c ms-Pivot--large rootIsLarge_8766283c"
                                                 role="tablist"><button type="button" id="Pivot0-Tab0"
-                                                    class="ms-Button ms-Pivot-link link_8766283c is-selected linkIsSelected_8766283c ms-Button--action ms-Button--command root-41"
+                                                    class="tab-header ms-Button ms-Pivot-link link_8766283c is-selected linkIsSelected_8766283c ms-Button--action ms-Button--command root-41"
                                                     role="tab" aria-selected="true" name="Overview"
                                                     aria-label="Overview" data-is-focusable="true" tabindex="0">
                                                     <div class="ms-Button-flexContainer flexContainer-42"><span
@@ -139,16 +145,15 @@
                                                                 class="ms-Pivot-text text_8766283c">
                                                                 Overview</span></span>
                                                     </div>
-                                                <!-- </button><button type="button" id="Pivot0-Tab1"
-                                                    class="ms-Button ms-Pivot-link link_8766283c ms-Button--action ms-Button--command root-41"
+                                                </button><button type="button" id="Pivot0-Tab1"
+                                                    class="tab-header ms-Button ms-Pivot-link link_8766283c ms-Button--action ms-Button--command root-41"
                                                     role="tab" aria-selected="false" name="Q &amp; A"
                                                     aria-label="Q &amp; A" data-is-focusable="true" tabindex="-1">
                                                     <div class="ms-Button-flexContainer flexContainer-42"><span
                                                             class="ms-Pivot-link-content"><span
-                                                                class="ms-Pivot-text text_8766283c"> Q &amp;
-                                                                A</span></span>
+                                                                class="ms-Pivot-text text_8766283c">Version</span></span>
                                                     </div>
-                                                </button><button type="button" id="Pivot0-Tab2"
+                                                </button><!-- <button type="button" id="Pivot0-Tab2"
                                                     class="ms-Button ms-Pivot-link link_8766283c ms-Button--action ms-Button--command root-41"
                                                     role="tab" aria-selected="false" name="Rating &amp; Review"
                                                     aria-label="Rating &amp; Review" data-is-focusable="true"
@@ -159,76 +164,79 @@
                                                                 Review</span></span></div>
                                                 </button></ul> -->
                                         </div>
-                                        <div role="tabpanel" aria-labelledby="Pivot0-Tab0">
-                                            <div>
-                                                <div class="details-tab itemdetails">
-                                                    <table class="ux-section-details-table" role="presentation">
-                                                        <tbody>
-                                                            <tr>
-                                                                <td class="ux-itemdetails-left">
-                                                                    <div class="itemDetails">
-                                                                        <div class="markdown">
-                                                                            <h2 id="user-content-features"
-                                                                                class="link-header">
-                                                                                Features</h2>
-                                                                            {{{ readme }}}
-                                                                            <h2 id="user-content-optimize-images"
-                                                                                class="link-header">Flow</h2>
-                                                                            <pre id="flow"
-                                                                                class="highlight language-javascript"><button class="copy-button" id="copy-button" onclick="copyFlow();" type="button" >Copy</button><span id="FlowCode">{{ flow }}</span></pre>
-                                                                        </div>
-                                                                    </div>
-                                                                </td>
-                                                                <td class="ux-itemdetails-right" role="complementary">
-                                                                    <div class="itemDetails-right">
-                                                                        <div class="meta-data-list-container">
-                                                                            <div class="ux-section-meta-data-list">
-                                                                                <h3 class="ux-section-header right">
-                                                                                    Node Types
-                                                                                </h3>
-                                                                                <div class="meta-data-list" role="group"
-                                                                                    style="margin-left: 20px;">
-                                                                                    {{#nodeTypes}}
-                                                                                    {{#core.length}}
-                                                                                    <h5 style="margin-top: 5px;">Core
-                                                                                    </h5>
-                                                                                    <ul class="nodeTypeList">
-                                                                                        {{#core}}
-                                                                                        <span>{{type}}
-                                                                                            (x{{count}})</span>
-                                                                                        {{/core}}
-                                                                                    </ul>
-                                                                                    {{/core.length}}
-                                                                                    {{#other.length}}
-                                                                                    <h5 style="margin-top: 5px;">Other
-                                                                                    </h5>
-                                                                                    <ul class="nodeTypeList">
-                                                                                        {{#other}}
-                                                                                        <span>{{#module}}<a
-                                                                                                href="/node/{{module}}">{{/module}}{{type}}{{#module}}</a>{{/module}}
-                                                                                            <span class="small"
-                                                                                                style="border: none; margin-left: -3px;">(x{{count}})</span>
-                                                                                        </span>
-                                                                                        {{/other}}
-                                                                                    </ul>
-                                                                                    {{/other.length}}
-                                                                                    {{/nodeTypes}}
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="ux-section-meta-data-list">
-                                                                                <h3 class="ux-section-header right">Tags
-                                                                                </h3>
-                                                                                <div class="meta-data-list"
-                                                                                    role="group">
-                                                                                    <ul class="flow-tags">
-                                                                                        {{#tags}}
-                                                                                        <li tag="{{.}}">{{.}}</li>
-                                                                                        {{/tags}}
-                                                                                    </ul>
-                                                                                </div>
+                                        <div class="container-content">
+                                            <div role="tabpanel" class="tab-content" aria-labelledby="Pivot0-Tab0">
+                                                <div>
+                                                    <div class="details-tab itemdetails">
+                                                        <table class="ux-section-details-table" role="presentation">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td class="ux-itemdetails-left">
+                                                                        <div class="itemDetails">
+                                                                            <div class="markdown">
+                                                                                {{{ readme }}}
+                                                                                <!-- <h2 id="user-content-optimize-images"
+                                                                                    class="link-header">Flow</h2>
+                                                                                <pre id="flow"
+                                                                                    class="highlight language-javascript"><button class="copy-button" id="copy-button" onclick="copyFlow();" type="button" >Copy</button><span id="FlowCode">{{ flow }}</span></pre> -->
                                                                             </div>
                                                                         </div>
-                                                                        <!-- <div class="ux-section-resources">
+                                                                    </td>
+                                                                    <td class="ux-itemdetails-right"
+                                                                        role="complementary">
+                                                                        <div class="itemDetails-right">
+                                                                            <div class="meta-data-list-container">
+                                                                                <div class="ux-section-meta-data-list">
+                                                                                    <h3 class="ux-section-header right">
+                                                                                        Node Types
+                                                                                    </h3>
+                                                                                    <div class="meta-data-list"
+                                                                                        role="group"
+                                                                                        style="margin-left: 20px;">
+                                                                                        {{#nodeTypes}}
+                                                                                        {{#core.length}}
+                                                                                        <h5 style="margin-top: 5px;">
+                                                                                            Core
+                                                                                        </h5>
+                                                                                        <ul class="nodeTypeList">
+                                                                                            {{#core}}
+                                                                                            <span>{{type}}
+                                                                                                (x{{count}})</span>
+                                                                                            {{/core}}
+                                                                                        </ul>
+                                                                                        {{/core.length}}
+                                                                                        {{#other.length}}
+                                                                                        <h5 style="margin-top: 5px;">
+                                                                                            Other
+                                                                                        </h5>
+                                                                                        <ul class="nodeTypeList">
+                                                                                            {{#other}}
+                                                                                            <span>{{#module}}<a
+                                                                                                    href="/node/{{module}}">{{/module}}{{type}}{{#module}}</a>{{/module}}
+                                                                                                <span class="small"
+                                                                                                    style="border: none; margin-left: -3px;">(x{{count}})</span>
+                                                                                            </span>
+                                                                                            {{/other}}
+                                                                                        </ul>
+                                                                                        {{/other.length}}
+                                                                                        {{/nodeTypes}}
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="ux-section-meta-data-list">
+                                                                                    <h3 class="ux-section-header right">
+                                                                                        Tags
+                                                                                    </h3>
+                                                                                    <div class="meta-data-list"
+                                                                                        role="group">
+                                                                                        <ul class="flow-tags">
+                                                                                            {{#tags}}
+                                                                                            <li tag="{{.}}">{{.}}</li>
+                                                                                            {{/tags}}
+                                                                                        </ul>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!-- <div class="ux-section-resources">
                                                                             <h3
                                                                                 class="itemdetails-section-header right">
                                                                                 Resources</h3>
@@ -253,7 +261,7 @@
                                                                                 </li>
                                                                             </ul>
                                                                         </div> -->
-                                                                        <!-- <div class="ux-section-project-details">
+                                                                            <!-- <div class="ux-section-project-details">
                                                                             <h3
                                                                                 class="itemdetails-section-header right">
                                                                                 Project
@@ -295,23 +303,139 @@
                                                                                 </ul>
                                                                             </div>
                                                                         </div> -->
-                                                                        <div class="ux-section-capabilities">
-                                                                            <h3
-                                                                                class="itemdetails-section-header right">
-                                                                                Using</h3>
-                                                                            <div class="capabilities-list-item">Copy
-                                                                                this flow JSON to your clipboard and
-                                                                                then import into Node-RED using the
-                                                                                <i>Import From &gt;
-                                                                                    Clipboard</i> (Ctrl-I) menu option
+                                                                            <div class="ux-section-capabilities">
+                                                                                <h3
+                                                                                    class="itemdetails-section-header right">
+                                                                                    Using</h3>
+                                                                                <div class="capabilities-list-item">Copy
+                                                                                    this flow JSON to your clipboard and
+                                                                                    then import into Node-RED using the
+                                                                                    <i>Import From &gt;
+                                                                                        Clipboard</i> (Ctrl-I) menu
+                                                                                    option
+                                                                                </div>
                                                                             </div>
-                                                                        </div>
 
-                                                                    </div>
-                                                                </td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div role="tabpanel" class="tab-content" aria-labelledby="Pivot0-Tab1">
+                                                <div>
+                                                    <div class="details-tab">
+                                                        <div class="version-history-top-container">
+                                                            <div class="ms-grid vh-redirection-message-bar-container">
+                                                                <div class="vh-redirection-message-bar"><i
+                                                                        class="vh-redirection-info-icon bowtie-icon bowtie-status-info-outline"></i><span
+                                                                        class="vh-redirection-info-text"
+                                                                        role="status"><a
+                                                                            href="https://marketplace.visualstudio.com/items/adpyke.codesnap/changelog"
+                                                                            target="_blank" rel="noreferrer noopener"
+                                                                            title="Changelog"
+                                                                            class="vh-redirection-info-text-anchor-tag">CHANGE
+                                                                            LOG</a></span></div>
+                                                            </div>
+                                                            <div class="ms-Grid version-history-container-grid">
+                                                                <table class="version-history-table" role="table"
+                                                                    aria-label="Version History Table">
+                                                                    <thead class="version-history-table-thead">
+                                                                        <tr class="version-history-container-row">
+                                                                            <th
+                                                                                class="version-history-container-column">
+                                                                                Version</th>
+                                                                            <th
+                                                                                class="version-history-container-column">
+                                                                                Last Updated</th>
+                                                                            <th
+                                                                                class="version-history-container-column">
+                                                                            </th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody class="version-history-table-body">
+                                                                        <tr class="version-history-container-row">
+                                                                            <td
+                                                                                class="version-history-container-column">
+                                                                                1.3.4</td>
+                                                                            <td class="version-history-container-column"
+                                                                                title="22:18:21 2/7/2021">02/07/2021
+                                                                            </td>
+                                                                            <td
+                                                                                class="version-history-container-column">
+                                                                                <a href="_apis/public/gallery/publishers/adpyke/vsextensions/codesnap/1.3.4/vspackage"
+                                                                                    rel="noreferrer noopener"
+                                                                                    title="Download"
+                                                                                    aria-label="version 1.3.4 Download">Download</a>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr class="version-history-container-row">
+                                                                            <td
+                                                                                class="version-history-container-column">
+                                                                                1.3.3</td>
+                                                                            <td class="version-history-container-column"
+                                                                                title="22:15:25 2/7/2021">02/07/2021
+                                                                            </td>
+                                                                            <td
+                                                                                class="version-history-container-column">
+                                                                                <a href="_apis/public/gallery/publishers/adpyke/vsextensions/codesnap/1.3.3/vspackage"
+                                                                                    rel="noreferrer noopener"
+                                                                                    title="Download"
+                                                                                    aria-label="version 1.3.3 Download">Download</a>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr class="version-history-container-row">
+                                                                            <td
+                                                                                class="version-history-container-column">
+                                                                                1.3.2</td>
+                                                                            <td class="version-history-container-column"
+                                                                                title="03:06:12 17/4/2021">16/04/2021
+                                                                            </td>
+                                                                            <td
+                                                                                class="version-history-container-column">
+                                                                                <a href="_apis/public/gallery/publishers/adpyke/vsextensions/codesnap/1.3.2/vspackage"
+                                                                                    rel="noreferrer noopener"
+                                                                                    title="Download"
+                                                                                    aria-label="version 1.3.2 Download">Download</a>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr class="version-history-container-row">
+                                                                            <td
+                                                                                class="version-history-container-column">
+                                                                                1.3.1</td>
+                                                                            <td class="version-history-container-column"
+                                                                                title="23:24:18 16/4/2021">16/04/2021
+                                                                            </td>
+                                                                            <td
+                                                                                class="version-history-container-column">
+                                                                                <a href="_apis/public/gallery/publishers/adpyke/vsextensions/codesnap/1.3.1/vspackage"
+                                                                                    rel="noreferrer noopener"
+                                                                                    title="Download"
+                                                                                    aria-label="version 1.3.1 Download">Download</a>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr class="version-history-container-row">
+                                                                            <td
+                                                                                class="version-history-container-column">
+                                                                                1.3.0</td>
+                                                                            <td class="version-history-container-column"
+                                                                                title="00:26:50 16/4/2021">15/04/2021
+                                                                            </td>
+                                                                            <td
+                                                                                class="version-history-container-column">
+                                                                                <a href="_apis/public/gallery/publishers/adpyke/vsextensions/codesnap/1.3.0/vspackage"
+                                                                                    rel="noreferrer noopener"
+                                                                                    title="Download"
+                                                                                    aria-label="version 1.3.0 Download">Download</a>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -421,5 +545,21 @@
 
             });
 
+</script>
+<script>
+    const tabs = document.querySelectorAll(".tab-header");
+    const contents = document.querySelectorAll(".tab-content");
+
+    tabs.forEach((tab, index) => {
+        tab.addEventListener("click", () => {
+            tabs.forEach((tab) => tab.classList.remove("active"));
+            tab.classList.add("active");
+
+            contents.forEach((c) => c.classList.remove("active"));
+            contents[index].classList.add("active");
+        });
+    });
+
+    tabs[0].click();
 </script>
 {{>_footer}}
