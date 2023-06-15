@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="auto">
+
+<head>
+  <meta charset="utf-8" />
+  <title>Extension</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"
+    integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS"
+    crossorigin="anonymous"></script>
+
+  <!-- Custom styles for this template -->
+  <link href="../public/css/extension.css" rel="stylesheet" />
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/4.1.0/mustache.min.js"
+    integrity="sha512-HYiNpwSxYuji84SQbCU5m9kHEsRqwWypXgJMBtbRSumlx1iBB6QaxgEBZHSHEGM+fKyCX/3Kb5V5jeVXm0OglQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+
+<body>
+  <div class="background"></div>
+  <div class="spinner-custom" id="spinner-custom">
+    <div id="wrapper">
+      <div class="loader">
+        <i class='bx bx-check-double'></i>
+      </div>
+      <div class="loading-bar">
+        <div class="progress-bar"></div>
+      </div>
+      <div class="status">
+        <div class="state"></div>
+        <div class="percentage"></div>
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid" id="wrapper">
+    <div class="row">
+      <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-body-tertiary sidebar collapse pt-1">
+        <div class="position-sticky pt-3 sidebar-sticky">
+          <div class="composite title" style="margin-top: -9px;">
+            <div class="title-label">
+              <h2 draggable="true" style="color: rgb(204, 204, 204);" title="Extensions (Ctrl+Shift+X)">Extensions</h2>
+            </div>
+          </div>
+          <div class="search mx-2 mb-3">
+            <form action="" method="get">
+              <input type="text" class="outline-none shadow-none search-box" id="search"
+                placeholder="Search Extensions in Marketplace" autocomplete="off" style="
+              padding-left: 7px;" />
+            </form>
+          </div>
+        </div>
+        <div class="split-view-app">
+          <div class="pane vertical expanded">
+            <div class="pane-header extension-view-header expanded" tabindex="0" role="button"
+              style="display: flex; align-items: center; line-height: 10px;">
+              <div class="codicon codicon-view-pane-container-expanded"><i class='bx bx-chevron-right bx-rotate-90'
+                  style="font-size: large;"></i></div>
+              <h3 class="title" title="Application">Application</h3>
+            </div>
+          </div>
+          <div class="pane-body">
+            <div class="extensions-list">
+              <div class="monaco-list">
+                <div class="monaco-list-rows">
+                  <div class="monaco-list-row" onclick="openDetailTab('{{_id}}')">
+                    <div class="extension-list-item">
+                      <div class="icon-container">
+                        <img class="icon" src="{{flow_icon_url}}" style="visibility: inherit;">
+                      </div>
+                      <div class="details">
+                        <div class="header-container">
+                          <div class="header">
+                            <span class="name">{{description}}</span><span
+                              class="install-count extension-install-count"><span
+                                class="codicon codicon-extensions-install-count"><i class='bx bx-cloud-download'
+                                  style='color:#f7f2f2'></i></span><span class="count">87.8M</span></span><span
+                              class="ratings extension-ratings small" title="Average rating: 4 out of 5"><span
+                                class="codicon codicon-extensions-star-full"><i class='bx bxs-star'></i></span><span
+                                class="count">4</span></span><span class="sync-ignored"></span><span
+                              class="activation-status"></span>
+                            <div class="extension-remote-badge-container">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="description ellipsis">
+                          {{summary}}
+                        </div>
+                        <div class="footer">
+                          <div class="author ellipsis">
+                            <div class="verified-publisher">
+                              <span class="extension-verified-publisher clickable"><span
+                                  class="codicon codicon-extensions-verified-publisher"></span></span>
+                            </div>
+                            <div class="publisher-name ellipsis" style="text-transform: uppercase;">
+                              {{type}}
+                            </div>
+                          </div>
+                          <div class="monaco-action-bar">
+                            <ul class="actions-container" role="toolbar">
+                              <li class="action-item action-dropdown-item" role="presentation" title="">
+                                <a class="action-label codicon extension-action label prominent install action-dropdown"
+                                  role="button" aria-label="" onclick="installExtension('{{_id}}')">Install</a>
+                                <div class="action-dropdown-item-separator prominent">
+                                  <div>
+                                  </div>
+                                </div>
+                                <div class="monaco-dropdown">
+                                  <div class="dropdown-label">
+                                    <a
+                                      class="action-label dropdown codicon codicon-drop-down-button extension-action label prominent install action-dropdown"><i
+                                        class='bx bx-down-arrow-alt' style='color:#f7f2f2; font-size: 10px;'></i></a>
+                                  </div>
+                                </div>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <div class="col-md-9 col-lg-10 d-md-block bg-body-tertiary collapse split-view-view"
+        style="display: none!important;">
+        <div class="split-view-container">
+          <div class="title tabs show-file-icons">
+            <div class="tabs-and-actions-container tabs-border-bottom"
+              style="--tabs-border-bottom-color: rgba(255, 255, 255, 0.08);">
+              <div class="monaco-scrollable-element">
+                <div class="tabs-container">
+                  <div class="tab tab-actions-right sizing-fit active has-icon tab-border-bottom tab-border-top">
+                    <div class="tab-border-top-container">
+                    </div>
+                    <div class="monaco-icon-label file-icon tab-label tab-label-has-badge italic">
+                      <div class="monaco-icon-label-container">
+                        <span class="monaco-icon-name-container"><a class="label-name"
+                            style="color: white;">Extension:{{description}}</a></span>
+                      </div>
+                    </div>
+                    <!-- <div class="tab-actions">
+                      <div class="monaco-action-bar animated">
+                        <ul class="actions-container" role="presentation" aria-label="Tab actions">
+                          <li class="action-item" role="presentation" title="Close (Ctrl+F4)">
+                            <a class="action-label codicon codicon-close" role="button" aria-label="Close (Ctrl+F4)"
+                              tabindex="0"></a>
+                          </li>
+                        </ul>
+                      </div>
+                    </div> -->
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="editor-container" style="background-color: rgb(31, 31, 31); height: 735px;">
+            <div class="editor-instance">
+              <div class="extension-editor" data-keybinding-context="30" tabindex="0" role="document"
+                style="outline: none;">
+                <div class="header">
+                  <div class="icon-container detail">
+                    <img class="icon" draggable="false" src="{{flow_icon_url}}">
+                    <div class="extension-remote-badge-container">
+                    </div>
+                  </div>
+                  <div class="details">
+                    <div class="title">
+                      <span class="name clickable" title="Extension name" role="heading"
+                        tabindex="0">{{description}}</span><code class="version"
+                        title="Extension Version">v2023.8.0</code>
+                    </div>
+                    <div class="subtitle">
+                      <div class="subtitle-entry">
+                        <div class="publisher clickable" title="Publisher" tabindex="0" role="button">
+                          <div class="publisher-name">
+                            {{gitOwners.0}}
+                          </div>
+                          <div class="verified-publisher">
+                            <span class="extension-verified-publisher clickable" tabindex="0" title="" role="link"><span
+                                class="codicon codicon-extensions-verified-publisher"></span><span
+                                class="extension-verified-publisher-domain">{{type}}</span></span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="subtitle-entry">
+                        <span class="install extension-install-count" title="Install count" tabindex="0"><span
+                            class="codicon codicon-extensions-install-count"></span><span class="count">Created
+                            {{created_at_since}}</span></span>
+                      </div>
+                      <div class="subtitle-entry">
+                        <span class="rating clickable extension-ratings" title="Average rating: 4 out of 5" tabindex="0"
+                          role="link"><span class="codicon codicon-extensions-star-full"></span><span
+                            class="codicon codicon-extensions-star-full"></span><span
+                            class="codicon codicon-extensions-star-full"></span><span
+                            class="codicon codicon-extensions-star-full"></span><span
+                            class="codicon codicon-extensions-star-empty"></span><span style="padding-left: 1px;">
+                            (542)</span></span>
+                      </div>
+                      <div class="subtitle-entry">
+                      </div>
+                    </div>
+                    <div class="description">
+                      {{summary}}
+                    </div>
+                    <div class="actions-status-container">
+                      <div class="monaco-action-bar">
+                        <ul class="actions-container" role="toolbar">
+                          <li class="action-item action-dropdown-item" role="presentation" title="">
+                            <a class="action-label codicon extension-action label prominent install action-dropdown"
+                              role="button" aria-label="" tabindex="0" onclick="installExtension('{{_id}}')">Install</a>
+                            <div class="action-dropdown-item-separator prominent">
+                              <div>
+                              </div>
+                            </div>
+                            <div class="monaco-dropdown">
+                              <div class="dropdown-label">
+                                <a class="action-label dropdown codicon codicon-drop-down-button extension-action label prominent install action-dropdown"
+                                  role="button" aria-haspopup="true" aria-expanded="false" title="More Actions..."
+                                  aria-label="More Actions..." tabindex="0"></a>
+                              </div>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="body">
+                  <div class="navbar" style="padding-bottom: 0;">
+                    <div class="monaco-action-bar">
+                      <ul class="actions-container" role="toolbar">
+                        <li class="action-item" role="presentation"
+                          title="Extension details, rendered from the extension's 'README.md' file">
+                          <a class="action-label checked" role="button"
+                            aria-label="Extension details, rendered from the extension's 'README.md' file"
+                            tabindex="0">Details</a>
+                        </li>
+                        <li class="action-item" role="presentation"
+                          title="Lists contributions to VS Code by this extension">
+                          <a class="action-label" role="button"
+                            aria-label="Lists contributions to VS Code by this extension">Feature
+                            Contributions</a>
+                        </li>
+                        <li class="action-item" role="presentation"
+                          title="Extension update history, rendered from the extension's 'CHANGELOG.md' file">
+                          <a class="action-label" role="button"
+                            aria-label="Extension update history, rendered from the extension's 'CHANGELOG.md' file">Changelog</a>
+                        </li>
+                        <li class="action-item" role="presentation"
+                          title="Lists extensions those will be installed together with this extension">
+                          <a class="action-label" role="button"
+                            aria-label="Lists extensions those will be installed together with this extension">Extension
+                            Pack</a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="content" id="2a9bfb5c-8c22-412e-92f4-b44deec459e3">
+                    <div class="details">
+                      <div class="readme-container">
+                        {{{readme}}}
+                      </div>
+                      <div class="additional-details-container">
+                        <div class="monaco-scrollable-element " role="presentation"
+                          style="position: relative; overflow: hidden;">
+                          <div class="additional-details-content" tabindex="0" style="overflow: hidden;">
+                            <div class="categories-container additional-details-element">
+                              <div class="additional-details-title">
+                                Categories
+                              </div>
+                              <div class="categories" style="white-space: normal">
+                                <span class="category" tabindex="0">Programming
+                                  Languages</span><span class="category" tabindex="0">Linters</span><span
+                                  class="category" tabindex="0">Debuggers</span><span class="category"
+                                  tabindex="0">Formatters</span><span class="category" tabindex="0">Data
+                                  Science</span><span class="category" tabindex="0">Machine
+                                  Learning</span><span class="category" tabindex="0">Notebooks</span>
+                              </div>
+                            </div>
+                            <div class="resources-container additional-details-element">
+                              <div class="additional-details-title">
+                                Extension
+                                Resources
+                              </div>
+                              <div class="resources">
+                                <a class="resource"
+                                  title="https://marketplace.visualstudio.com/items?itemName%3Dms-python.python"
+                                  tabindex="0">Marketplace</a><a class="resource"
+                                  title="https://github.com/Microsoft/vscode-python.git" tabindex="0">Repository</a><a
+                                  class="resource"
+                                  title="https://ms-python.gallerycdn.vsassets.io/extensions/ms-python/python/2023.8.0/1683153251161/Microsoft.VisualStudio.Services.Content.License"
+                                  tabindex="0">License</a><a class="resource"
+                                  title="https://marketplace.visualstudio.com/publishers/ms-python"
+                                  tabindex="0">Microsoft</a>
+                              </div>
+                            </div>
+                            <div class="more-info-container additional-details-element">
+                              <div class="additional-details-title">
+                                More
+                                Info
+                              </div>
+                              <div class="more-info">
+                                <div class="more-info-entry">
+                                  <div>
+                                    Published
+                                  </div>
+                                  <div>
+                                    22:03:11
+                                    19/1/2016
+                                  </div>
+                                </div>
+                                <div class="more-info-entry">
+                                  <div>
+                                    Last
+                                    released
+                                  </div>
+                                  <div>
+                                    17:20:22
+                                    7/6/2023
+                                  </div>
+                                </div>
+                                <div class="more-info-entry">
+                                  <div>
+                                    Identifier
+                                  </div>
+                                  <code>ms-python.python</code>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <div id="snackbar"></div>
+</body>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"
+  integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+<!-- <script src="js/main.js">
+</script> -->
+<script src="../public/js/main.js">
+</script>
+<script src="../app.js"></script>
+
+</html>
