@@ -1,5 +1,13 @@
 [
     {
+        "id": "c5e3d2bbac78be49",
+        "type": "tab",
+        "label": "[PAP] Get List App",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
         "id": "d7d708d595b6a64b",
         "type": "comment",
         "z": "c5e3d2bbac78be49",
@@ -282,7 +290,7 @@
         "type": "http in",
         "z": "c5e3d2bbac78be49",
         "name": "Get App By Id",
-        "url": "/app/:desc",
+        "url": "/app/search/:desc",
         "method": "get",
         "upload": true,
         "swaggerDoc": "",
