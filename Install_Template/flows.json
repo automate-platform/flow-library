@@ -1,13 +1,5 @@
 [
     {
-        "id": "c5e3d2bbac78be49",
-        "type": "tab",
-        "label": "[PAP] Get List App",
-        "disabled": false,
-        "info": "",
-        "env": []
-    },
-    {
         "id": "d7d708d595b6a64b",
         "type": "comment",
         "z": "c5e3d2bbac78be49",
@@ -255,6 +247,130 @@
         "wires": []
     },
     {
+        "id": "f454e22156f0e776",
+        "type": "comment",
+        "z": "c5e3d2bbac78be49",
+        "name": "Find App by Contain Desc",
+        "info": "",
+        "x": 210,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "faf67fc9bb7e31f6",
+        "type": "mongodb4",
+        "z": "c5e3d2bbac78be49",
+        "clientNode": "0a9f23fd1fc93a63",
+        "mode": "collection",
+        "collection": "flows",
+        "operation": "find",
+        "output": "toArray",
+        "maxTimeMS": "",
+        "handleDocId": false,
+        "name": "Mongodb",
+        "x": 600,
+        "y": 420,
+        "wires": [
+            [
+                "96a741ac781bba72",
+                "83153cae31cbd6d8"
+            ]
+        ]
+    },
+    {
+        "id": "f1117854ffd1e4bd",
+        "type": "http in",
+        "z": "c5e3d2bbac78be49",
+        "name": "Get App By Id",
+        "url": "/app/:desc",
+        "method": "get",
+        "upload": true,
+        "swaggerDoc": "",
+        "x": 220,
+        "y": 400,
+        "wires": [
+            [
+                "37e9a640b3df50fb"
+            ]
+        ]
+    },
+    {
+        "id": "58455fe47eba860e",
+        "type": "inject",
+        "z": "c5e3d2bbac78be49",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 240,
+        "y": 440,
+        "wires": [
+            [
+                "37e9a640b3df50fb"
+            ]
+        ]
+    },
+    {
+        "id": "37e9a640b3df50fb",
+        "type": "function",
+        "z": "c5e3d2bbac78be49",
+        "name": "Create array store db",
+        "func": "const options = {\n    projection: { _id: 1, description: 1, flow_icon_url: 1, summary: 1, type: 1, gitOwners: 1, readme: 1, flow:1}\n};\nconst desc = \"/\" + msg.req.params.desc + \"/\"\nconst query = {\n    type: 'app',\n    description: { $regex: msg.req.params.desc, $options: \"i\"}\n};\nmsg.payload = [query, options];\nreturn msg;\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 430,
+        "y": 420,
+        "wires": [
+            [
+                "faf67fc9bb7e31f6"
+            ]
+        ]
+    },
+    {
+        "id": "83153cae31cbd6d8",
+        "type": "http response",
+        "z": "c5e3d2bbac78be49",
+        "name": "response",
+        "statusCode": "200",
+        "headers": {},
+        "x": 740,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "96a741ac781bba72",
+        "type": "debug",
+        "z": "c5e3d2bbac78be49",
+        "name": "debug 6",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 740,
+        "y": 400,
+        "wires": []
+    },
+    {
         "id": "0a9f23fd1fc93a63",
         "type": "mongodb4-client",
         "name": "Get Apps",
@@ -274,8 +390,8 @@
         "minPoolSize": "",
         "maxPoolSize": "",
         "maxIdleTimeMS": "",
-        "uri": "",
+        "uri": "mongodb://user09:xkfxWZ2U@103.154.100.20/flows?authMechanism=SCRAM-SHA-1&authSource=admin",
         "advanced": "",
-        "uriTabActive": "tab-uri-simple"
+        "uriTabActive": "tab-uri-advanced"
     }
 ]

@@ -1,11 +1,19 @@
 
+const templateList = document.querySelector('.monaco-list-rows').innerHTML;
+const templateDetail = document.querySelector('.split-view-view').innerHTML;
+const base_url = "http://127.0.0.1:1880";
+const typingTimer = '';
+let recommendApp = [];
+let installedApp = [];
+let currentApp = {};
+
+
 window.onload = function () {
     fetch('http://127.0.0.1:1880/app')
         .then(response => response.json()).then(data => {
-            const template = document.querySelector('.monaco-list-rows').innerHTML;
             document.querySelector('.monaco-list-rows').innerHTML = '';
             data.forEach(element => {
-                const rendered = Mustache.render(template, element);
+                const rendered = Mustache.render(templateList, element);
                 document.querySelector('.monaco-list-rows').innerHTML += rendered;
             });
         })
@@ -14,7 +22,6 @@ window.onload = function () {
         });
 }
 
-const template = document.querySelector('.split-view-view').innerHTML;
 
 function openDetailTab(_id) {
     document.querySelector('.split-view-view').style.display = 'block';
@@ -22,25 +29,13 @@ function openDetailTab(_id) {
     fetch('http://127.0.0.1:1880/app/' + _id)
         .then(response => response.json()).then(data => {
             console.log(data)
-            const rendered = Mustache.render(template, data);
+            const rendered = Mustache.render(templateDetail, data);
             document.querySelector('.split-view-view').innerHTML = rendered;
-            // data.forEach(element => {
-            //     if (element._id === _id) {
-            //         const rendered = Mustache.render(template, element);
-            //         document.querySelector('.split-view-view').innerHTML = rendered;
-            //     }
-            // });
         })
         .catch(function (error) {
             console.error(error);
         });
 }
-
-let recommendApp = [];
-let installedApp = [];
-let currentApp = {};
-
-const base_url = "http://127.0.0.1:1880";
 
 function showSpinner(isShow) {
     if (isShow === true) {
@@ -126,3 +121,23 @@ function getResource(appId) {
         .catch((error) => { showSpinner(false); console.log("error", error) });
 }
 
+
+$(document).ready(function () {
+    $('#myForm').submit(function (event) {
+        event.preventDefault();
+        const desc = document.querySelector('#searchForm').value
+        document.querySelector('.monaco-list-rows').innerHTML = '';
+        $.ajax({
+            url: 'http://127.0.0.1:1880/app/' + desc,
+            success: function (response) {
+                response.forEach(element => {
+                    const rendered = Mustache.render(templateList, element);
+                    document.querySelector('.monaco-list-rows').innerHTML += rendered;
+                });
+            },
+            error: function () {
+                console.log('Error submitting the form.');
+            }
+        });
+    });
+});
