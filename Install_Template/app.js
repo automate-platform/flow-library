@@ -25,10 +25,10 @@ window.onload = function () {
 
 function openDetailTab(_id) {
     document.querySelector('.split-view-view').style.display = 'block';
-    document.querySelector('.split-view-view').innerHTML = '';
     fetch('http://127.0.0.1:1880/app/' + _id)
         .then(response => response.json()).then(data => {
-            console.log(data)
+            document.querySelector('.split-view-view').innerHTML = '';
+            // console.log(data)
             const rendered = Mustache.render(templateDetail, data);
             document.querySelector('.split-view-view').innerHTML = rendered;
         })
@@ -128,7 +128,7 @@ $(document).ready(function () {
         const desc = document.querySelector('#searchForm').value
         document.querySelector('.monaco-list-rows').innerHTML = '';
         $.ajax({
-            url: 'http://127.0.0.1:1880/app/' + desc,
+            url: 'http://127.0.0.1:1880/app/search/' + desc,
             success: function (response) {
                 response.forEach(element => {
                     const rendered = Mustache.render(templateList, element);
