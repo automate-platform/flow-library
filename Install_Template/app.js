@@ -81,7 +81,6 @@ function installExtension(_id) {
                 .then(response => response.text())
                 .then(result => {
                     result = JSON.parse(result)
-                    console.log(result);
                     // if (result.id) {
                     //     setTimeout(() => {
                     //         getResource(currentApp.app_id);
@@ -96,7 +95,6 @@ function installExtension(_id) {
         })
         .catch(function (error) {
             console.error(error);
-            // showSpinner(false);
         });
 }
 
