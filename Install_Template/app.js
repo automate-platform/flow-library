@@ -124,14 +124,28 @@ $(document).ready(function () {
     $('#myForm').submit(function (event) {
         event.preventDefault();
         const desc = document.querySelector('#searchForm').value
-        document.querySelector('.monaco-list-rows').innerHTML = '';
         $.ajax({
             url: 'http://127.0.0.1:1880/app/search/' + desc,
             success: function (response) {
-                response.forEach(element => {
-                    const rendered = Mustache.render(templateList, element);
-                    document.querySelector('.monaco-list-rows').innerHTML += rendered;
-                });
+                if (response) {
+                    document.querySelector('.monaco-list-rows').innerHTML = '';
+                    response.forEach(element => {
+                        const rendered = Mustache.render(templateList, element);
+                        document.querySelector('.monaco-list-rows').innerHTML += rendered;
+                    });
+                } else {
+                    fetch('http://127.0.0.1:1880/app')
+                        .then(response => response.json()).then(data => {
+                            document.querySelector('.monaco-list-rows').innerHTML = '';
+                            data.forEach(element => {
+                                const rendered = Mustache.render(templateList, element);
+                                document.querySelector('.monaco-list-rows').innerHTML += rendered;
+                            });
+                        })
+                        .catch(function (error) {
+                            console.error(error);
+                        });
+                }
             },
             error: function () {
                 console.log('Error submitting the form.');
