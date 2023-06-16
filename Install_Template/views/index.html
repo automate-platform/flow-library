@@ -28,15 +28,29 @@
 
 <body>
   <div class="background"></div>
-  <div class="spinner-custom" id="spinner-custom">
-    <div id="wrapper">
-      <div class="loader">
-        <i class='bx bx-check-double'></i>
+  <div class="spinner-custom error" id="spinner-custom">
+    <div id="wrapper" class="error">
+      <div class="loader error">
+        <i class='bx bx-error-alt'></i>
       </div>
-      <div class="loading-bar">
+      <div class="loading-bar error">
         <div class="progress-bar"></div>
       </div>
-      <div class="status">
+      <div class="status error">
+        <div class="state"></div>
+        <div class="percentage"></div>
+      </div>
+    </div>
+  </div>
+  <div class="spinner-custom success" id="spinner-custom">
+    <div id="wrapper" class="success">
+      <div class="loader success">
+        <i class='bx bx-check-double'></i>
+      </div>
+      <div class="loading-bar success">
+        <div class="progress-bar"></div>
+      </div>
+      <div class="status success">
         <div class="state"></div>
         <div class="percentage"></div>
       </div>

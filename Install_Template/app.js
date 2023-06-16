@@ -42,13 +42,25 @@ let currentApp = {};
 
 const base_url = "http://127.0.0.1:1880";
 
+function showSpinner(isShow) {
+    if (isShow === true) {
+        document.querySelector('.spinner-custom.success').style.display = 'block';
+        document.querySelector('.background.').style.display = 'block';
+        setTimeout(() => {
+            document.querySelector('.spinner-custom.success').style.display = 'none';
+            document.querySelector('.background').style.display = 'none';
+        }, 5000)
+    } else {
+        document.querySelector('.spinner-custom.error').style.display = 'block';
+        document.querySelector('.background').style.display = 'block';
+        setTimeout(() => {
+            document.querySelector('.spinner-custom.error').style.display = 'none';
+            document.querySelector('.background').style.display = 'none';
+        }, 5000)
+    }
+}
+
 function installExtension(_id) {
-    document.querySelector('.spinner-custom').style.display = 'block';
-    document.querySelector('.background').style.display = 'block';
-    setTimeout(() =>{
-        document.querySelector('.spinner-custom').style.display = 'none';
-        document.querySelector('.background').style.display = 'none';
-    }, 5000)
     var myHeaders = new Headers();
     myHeaders.append("Accept", "application/json");
     myHeaders.append("Node-RED-API-Version", "v2");
@@ -80,15 +92,16 @@ function installExtension(_id) {
                     //         getResource(currentApp.app_id);
                     //     }, 200);
                     // }
+                    showSpinner(true);
                 })
                 .catch(error => {
                     console.log('error', error);
-                    // showSpinner(false);
-                    // showMessage("install extension error");
+                    showSpinner(false);
                 });
         })
         .catch(function (error) {
             console.error(error);
+            // showSpinner(false);
         });
 }
 

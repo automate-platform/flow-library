@@ -1131,7 +1131,16 @@ body {
   }
 }
 
-.spinner-custom {
+.spinner-custom.success {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 1000000;
+  transform: translate(-50%, -50%);
+  display: none;
+}
+
+.spinner-custom.error {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -1163,7 +1172,7 @@ body {
   }
 }
 
-.spinner-custom #wrapper {
+.spinner-custom.success #wrapper.success {
   position: relative;
   width: 150px;
   animation-delay: 5s;
@@ -1172,6 +1181,18 @@ body {
   transform-origin: center -50%;
   animation: out .3s forwards ease;
   animation-delay: 4s;
+
+}
+
+.spinner-custom.error #wrapper.error {
+  position: relative;
+  width: 150px;
+  animation-delay: 5s;
+  transform: scale(1);
+  opacity: 1;
+  transform-origin: center -50%;
+  animation: out .3s forwards ease;
+  animation-delay: 6s;
 
 }
 
@@ -1188,8 +1209,23 @@ body {
   }
 }
 
-.spinner-custom #wrapper .loader {
+.spinner-custom.success #wrapper.success .loader.success {
   animation: rotation 3.5s forwards linear;
+  position: absolute;
+  top: -90px;
+  left: calc(50% - 35px);
+  border: 5px solid #fff;
+  border-radius: 50%;
+  border-top-color: #887fff;
+  height: 30px;
+  width: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.spinner-custom.error #wrapper.error .loader.error {
+  animation: rotation-error 3.5s forwards linear;
   position: absolute;
   top: -90px;
   left: calc(50% - 35px);
@@ -1223,11 +1259,42 @@ body {
   }
 }
 
-.spinner-custom #wrapper .loader i {
+@keyframes rotation-error {
+  0% {
+    transform: rotate(0);
+  }
+
+  84% {
+    transform: rotate(500deg);
+  }
+
+  95% {
+    border: 5px solid #fff;
+    border-top-color: #655bff;
+  }
+
+  100% {
+    transform: rotate(0);
+    border: 5px solid #ff0000;
+  }
+}
+
+.spinner-custom.success #wrapper.success .loader.success i {
   font-family: "Font Awesome 5 Free";
   font-weight: 900;
   font-size: 2em;
   color: #2ed573;
+  animation: overspin 0.5s forwards cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  animation-delay: 3.4s;
+  transform: rotate(180deg);
+  opacity: 0;
+}
+
+.spinner-custom.error #wrapper.error .loader.error i {
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  font-size: 2em;
+  color: #ff0000;
   animation: overspin 0.5s forwards cubic-bezier(0.175, 0.885, 0.32, 1.275);
   animation-delay: 3.4s;
   transform: rotate(180deg);
@@ -1246,7 +1313,7 @@ body {
   }
 }
 
-.spinner-custom #wrapper .loading-bar {
+.spinner-custom.success #wrapper.success .loading-bar.success {
   position: relative;
   top: -40px;
   left: -16px;
@@ -1256,12 +1323,50 @@ body {
   border-radius: 5px;
 }
 
-.spinner-custom #wrapper .loading-bar .progress-bar {
+.spinner-custom.error #wrapper.error .loading-bar.error {
+  position: relative;
+  top: -40px;
+  left: -16px;
+  width: 100%;
+  height: 5px;
+  background: #dfe6e9;
+  border-radius: 5px;
+}
+
+.spinner-custom.success #wrapper.success .loading-bar.success .progress-bar {
   animation: progress 3.5s forwards;
   width: 6%;
   height: 100%;
   background: #655bff;
   border-radius: 5px;
+}
+
+.spinner-custom.error #wrapper.error .loading-bar.error .progress-bar {
+  animation: progress-error 3.5s forwards;
+  width: 6%;
+  height: 100%;
+  background: #655bff;
+  border-radius: 5px;
+}
+
+@keyframes progress-error {
+  0% {
+    width: 6%;
+  }
+
+  85% {
+    width: 11%;
+    background: #655bff;
+  }
+
+  95% {
+    width: 100%;
+  }
+
+  100% {
+    width: 0%;
+    background: #ff0000;
+  }
 }
 
 @keyframes progress {
@@ -1284,12 +1389,17 @@ body {
   }
 }
 
-.spinner-custom #wrapper .status {
+.spinner-custom.success #wrapper.success .status.success {
   margin-top: -30px;
   margin-left: -25px;
 }
 
-.spinner-custom #wrapper .status .state {
+.spinner-custom.error #wrapper.error .status.error {
+  margin-top: -30px;
+  margin-left: -25px;
+}
+
+.spinner-custom.success #wrapper.success .status.success .state {
   float: left;
   font-size: 0.9em;
   letter-spacing: 1pt;
@@ -1299,7 +1409,29 @@ body {
   position: relative;
 }
 
-.spinner-custom #wrapper .status .state:before {
+.spinner-custom.error #wrapper.error .status.error .state {
+  float: left;
+  font-size: 0.9em;
+  letter-spacing: 1pt;
+  text-transform: uppercase;
+  width: 100px;
+  height: 20px;
+  position: relative;
+}
+
+.spinner-custom.success #wrapper.success .status.success .state:before {
+  content: "Loading";
+  font-weight: 600;
+  font-size: small;
+  position: absolute;
+  left: 0;
+  top: 0;
+  animation: fadeLeft 0.5s forwards ease;
+  animation-delay: 3.2s;
+  color: white;
+}
+
+.spinner-custom.error #wrapper.error .status.error .state:before {
   content: "Loading";
   font-weight: 600;
   font-size: small;
@@ -1323,7 +1455,21 @@ body {
   }
 }
 
-.spinner-custom #wrapper .status .state:after {
+.spinner-custom.success #wrapper.success .status.success .state:after {
+  content: "Complete";
+  position: absolute;
+  font-weight: 600;
+  font-size: small;
+  left: 0;
+  top: 0;
+  text-indent: 100px;
+  opacity: 0;
+  animation: fadeLeft2 0.5s forwards ease;
+  animation-delay: 3.2s;
+  color: white;
+}
+
+.spinner-custom.error #wrapper.error .status.error .state:after {
   content: "Complete";
   position: absolute;
   font-weight: 600;
@@ -1349,12 +1495,27 @@ body {
   }
 }
 
-.spinner-custom #wrapper .status .percentage {
+.spinner-custom.success #wrapper.success .status.success .percentage {
   float: right;
 }
 
-.spinner-custom #wrapper .status .percentage:before {
+.spinner-custom.error #wrapper.error .status.error .percentage {
+  float: right;
+}
+
+.spinner-custom.success #wrapper.success .status.success .percentage:before {
   -webkit-animation: percentage-slow 3s forwards, percentage-fast 0.4s forwards;
+  -webkit-animation-delay: 0s, 3s;
+  content: "10%";
+  font-size: 0.9em;
+  letter-spacing: 1pt;
+  font-weight: 600;
+  font-size: small;
+  color: white;
+}
+
+.spinner-custom.error #wrapper.error .status.error .percentage:before {
+  -webkit-animation: percentage-slow 3s forwards, percentage-fast-error 0.4s forwards;
   -webkit-animation-delay: 0s, 3s;
   content: "10%";
   font-size: 0.9em;
@@ -1745,5 +1906,367 @@ body {
 
   100% {
     content: "100%";
+  }
+}
+
+@keyframes percentage-fast-error {
+  11% {
+    content: "11%";
+  }
+
+  12% {
+    content: "12%";
+  }
+
+  13% {
+    content: "13%";
+  }
+
+  14% {
+    content: "14%";
+  }
+
+  15% {
+    content: "15%";
+  }
+
+  16% {
+    content: "16%";
+  }
+
+  17% {
+    content: "17%";
+  }
+
+  18% {
+    content: "18%";
+  }
+
+  19% {
+    content: "19%";
+  }
+
+  20% {
+    content: "20%";
+  }
+
+  21% {
+    content: "21%";
+  }
+
+  22% {
+    content: "22%";
+  }
+
+  23% {
+    content: "23%";
+  }
+
+  24% {
+    content: "24%";
+  }
+
+  25% {
+    content: "25%";
+  }
+
+  26% {
+    content: "26%";
+  }
+
+  27% {
+    content: "27%";
+  }
+
+  28% {
+    content: "28%";
+  }
+
+  29% {
+    content: "29%";
+  }
+
+  30% {
+    content: "30%";
+  }
+
+  31% {
+    content: "31%";
+  }
+
+  32% {
+    content: "32%";
+  }
+
+  33% {
+    content: "33%";
+  }
+
+  34% {
+    content: "34%";
+  }
+
+  35% {
+    content: "35%";
+  }
+
+  36% {
+    content: "36%";
+  }
+
+  37% {
+    content: "37%";
+  }
+
+  38% {
+    content: "38%";
+  }
+
+  39% {
+    content: "39%";
+  }
+
+  40% {
+    content: "40%";
+  }
+
+  41% {
+    content: "41%";
+  }
+
+  42% {
+    content: "42%";
+  }
+
+  43% {
+    content: "43%";
+  }
+
+  44% {
+    content: "44%";
+  }
+
+  45% {
+    content: "45%";
+  }
+
+  46% {
+    content: "46%";
+  }
+
+  47% {
+    content: "47%";
+  }
+
+  48% {
+    content: "48%";
+  }
+
+  49% {
+    content: "49%";
+  }
+
+  50% {
+    content: "50%";
+  }
+
+  51% {
+    content: "51%";
+  }
+
+  52% {
+    content: "52%";
+  }
+
+  53% {
+    content: "53%";
+  }
+
+  54% {
+    content: "54%";
+  }
+
+  55% {
+    content: "55%";
+  }
+
+  56% {
+    content: "56%";
+  }
+
+  57% {
+    content: "57%";
+  }
+
+  58% {
+    content: "58%";
+  }
+
+  59% {
+    content: "59%";
+  }
+
+  60% {
+    content: "60%";
+  }
+
+  61% {
+    content: "61%";
+  }
+
+  62% {
+    content: "62%";
+  }
+
+  63% {
+    content: "63%";
+  }
+
+  64% {
+    content: "64%";
+  }
+
+  65% {
+    content: "65%";
+  }
+
+  66% {
+    content: "66%";
+  }
+
+  67% {
+    content: "67%";
+  }
+
+  68% {
+    content: "68%";
+  }
+
+  69% {
+    content: "69%";
+  }
+
+  70% {
+    content: "70%";
+  }
+
+  71% {
+    content: "71%";
+  }
+
+  72% {
+    content: "72%";
+  }
+
+  73% {
+    content: "73%";
+  }
+
+  74% {
+    content: "74%";
+  }
+
+  75% {
+    content: "75%";
+  }
+
+  76% {
+    content: "76%";
+  }
+
+  77% {
+    content: "77%";
+  }
+
+  78% {
+    content: "78%";
+  }
+
+  79% {
+    content: "79%";
+  }
+
+  80% {
+    content: "79%";
+  }
+
+  81% {
+    content: "78%";
+  }
+
+  82% {
+    content: "77%";
+  }
+
+  83% {
+    content: "75%";
+  }
+
+  84% {
+    content: "73%";
+  }
+
+  85% {
+    content: "70%";
+  }
+
+  86% {
+    content: "68%";
+  }
+
+  87% {
+    content: "64%";
+  }
+
+  88% {
+    content: "61%";
+  }
+
+  89% {
+    content: "58%";
+  }
+
+  90% {
+    content: "52%";
+  }
+
+  91% {
+    content: "47%";
+  }
+
+  92% {
+    content: "41%";
+  }
+
+  93% {
+    content: "37%";
+  }
+
+  94% {
+    content: "32%";
+  }
+
+  95% {
+    content: "30%";
+  }
+
+  96% {
+    content: "27%";
+  }
+
+  97% {
+    content: "22%";
+  }
+
+  98% {
+    content: "17%";
+  }
+
+  99% {
+    content: "10%";
+  }
+
+  100% {
+    content: "0%";
   }
 }
