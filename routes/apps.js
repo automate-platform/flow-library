@@ -11,16 +11,16 @@ var templates = require("../lib/templates");
 var collections = require("../lib/collections");
 var ratings = require("../lib/ratings");
 var uuid = require('uuid');
-var { storage, upload } = require("../lib/apps");
-const path = require('path');
-const multer = require('multer');
-const os = require('os');
+var { storage, uploadzip } = require("../lib/apps");
+
+
 
 var app = express();
 if (settings.template.apps) {
 
     app.post("/app", function (req, res) {
         if (req.session.accessToken) {
+     
             var app_post = {
                 description: req.body.title,
                 public: false,
@@ -30,7 +30,10 @@ if (settings.template.apps) {
                     },
                     'README.md': {
                         content: req.body.description
-                    }
+                    },
+                    'icon.ico': {
+                        content: req.body.icondata
+                   }
                 }
             };
             apper.create(req.session.accessToken, app_post, req.body.tags || []).then(function (id) {
@@ -46,50 +49,28 @@ if (settings.template.apps) {
         }
     });
 
-    
-    app.post("/source", upload.single('zip'), (req, res) => {
+    app.post('/source', uploadzip.single('source'), (req, res) => {
         const id = req.body.id;
-        const icon = req.body.icondata;
         let zipFileName = "";
         if (req.file && req.file.path) {
+
             zipFileName = req.file.originalname;
         } else {
+
             console.log("No file was uploaded with the request.");
             res.status(400).send({ error: "No file was uploaded with the request." });
             return;
         }
-        const username = os.userInfo().username;
-
-        const homeDir = os.homedir();
-     
-        let url = settings.app.zipUrl;
-    
-        const outputFilePath = path.join(homeDir, url ,zipFileName);
 
 
         var app_post = {
-
-            icon_flow: icon,
-            zip_url: outputFilePath
+            zip_url: req.file.path
         };
-
-        const dirPath = path.dirname(outputFilePath);
-        if (!fs.existsSync(dirPath)) {
-            fs.mkdirSync(dirPath, { recursive: true });
-        }
-        
-        const writeStream = fs.createWriteStream(outputFilePath )
-        writeStream.end();
-
-        writeStream.on('finish', function () {
-            apper.update(id, app_post || [])
-            res.writeHead(303, {
-                Location: "/app/" + id
-            });
-            res.end();
+        apper.update(id, app_post || [])
+        res.writeHead(303, {
+            Location: "/app/" + id
         });
-
-
+        res.end();
     });
     app.get("/app/:id", appUtils.csrfProtection(), function (req, res) { getFlow(req.params.id, null, req, res); });
     app.get("/app/:id/in/:collection", appUtils.csrfProtection(), function (req, res) { getFlow(req.params.id, req.params.collection, req, res); });
