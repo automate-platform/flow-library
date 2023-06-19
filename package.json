@@ -11,6 +11,7 @@
     "dependencies": {
         "acorn": "8.8.0",
         "acorn-walk": "^8.0.2",
+        "archiver": "^5.3.1",
         "aws-sdk": "^2.1237.0",
         "body-parser": "1.20.1",
         "connect-mongo": "4.6.0",
@@ -22,7 +23,8 @@
         "marked": "4.1.1",
         "mastodon": "1.2.2",
         "mongojs": "3.1.0",
-        "mustache": "4.2.0",
+        "multer": "^1.4.5-lts.1",
+        "mustache": "^4.2.0",
         "node-red-dev": "^0.1.5",
         "oauth": "0.10.0",
         "request": "2.88.2",
