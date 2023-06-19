@@ -13,6 +13,8 @@ var ratings = require("../lib/ratings");
 var uuid = require('uuid');
 var { storage, upload } = require("../lib/apps");
 const path = require('path');
+const multer = require('multer');
+const os = require('os');
 
 var app = express();
 if (settings.template.apps) {
