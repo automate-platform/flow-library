@@ -11,6 +11,8 @@ var templates = require("../lib/templates");
 var collections = require("../lib/collections");
 var ratings = require("../lib/ratings");
 var uuid = require('uuid');
+var { storage, upload } = require("../lib/apps");
+const path = require('path');
 
 var app = express();
 if (settings.template.apps) {
@@ -48,26 +50,20 @@ if (settings.template.apps) {
         const icon = req.body.icondata;
         let zipFileName = "";
         if (req.file && req.file.path) {
-            // If req.file is defined and has a path property
             zipFileName = req.file.originalname;
         } else {
-            // Handle the case where no file was uploaded
             console.log("No file was uploaded with the request.");
             res.status(400).send({ error: "No file was uploaded with the request." });
             return;
         }
-        //const outputFilePath = __dirname + "\\app";
         const username = os.userInfo().username;
 
-        // Đường dẫn tới thư mục home
         const homeDir = os.homedir();
      
         let url = settings.app.zipUrl;
     
-        // Đường dẫn tới thư mục marketApp/app
         const outputFilePath = path.join(homeDir, url ,zipFileName);
 
-        //process.env.APP_FLOW_URL;
 
         var app_post = {
 
@@ -90,7 +86,6 @@ if (settings.template.apps) {
             });
             res.end();
         });
-        //   readStream.pipe(writeStream);
 
 
     });

@@ -42,6 +42,9 @@ var settings = {
         nodes: false,
         flows: true,
         collection: false
+    },
+    app: {
+        zipUrl: 'Documents/marketApp/app/'
     }
 };
 

@@ -33,4 +33,6 @@ try {
     module.exports.aws.accessKeyId = process.env.NR_AWS_ACCESS_KEY_ID || module.exports.aws.accessKeyId
     module.exports.aws.secretAccessKey = process.env.NR_AWS_SECRET_ACCESS_KEY || module.exports.aws.secretAccessKey
     module.exports.aws.region = process.env.NR_AWS_REGION || module.exports.aws.region
+
+    module.exports.app.zipUrl = process.env.APP_FLOW_URL ||  module.exports.app.zipUrl
 }
