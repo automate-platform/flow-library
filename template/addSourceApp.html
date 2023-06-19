@@ -1,0 +1,94 @@
+<!-- <script src="/js/marked.js"></script>
+<script src="/js/tags.js"></script> -->
+
+{{>_header}}
+<div class="grid add-form" style="background: none;">
+    <div class="add-form-row">
+        <div class="col-1-12">&nbsp;</div>
+        <div class="col-10-12 thing-list-section"
+            style="background: white; padding: 10px 50px;">
+            <h2 class="pagetitle">Add detail</h2>
+            <p></p>{{id}}
+            <label for="image">Image:</label>
+            <input  accept=".jpg, .jpeg, .png, .ico" onchange="checkFileImg()" type="file" id="icon" name="icon"><br><br>
+            <div style="position:relative"><div class="add-collection-img-warning dialog-warning">Only png, img, ico</div></div>
+            <form action="/source?id={{id}}" method="post"
+                enctype="multipart/form-data">
+                <br>
+                <input type="hidden" id="myId" name="id" value>
+                <label for="zip">Zip File:</label>
+                <input onchange="checkFileZip()" type="file" id="zip" name="zip" accept=".zip"><br><br>
+                <div class="add-collection-img-warning dialog-warning" style="display:none">Only png, img, ico</div>
+
+                <input type="hidden" id="icondata" name="icondata" value>
+                <a id="add-flow-create" href="#" class="btn-upload">   <input type="submit" value="Submit" id="add-flow-label"></a>
+              
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="/js/marked.js"></script>
+<script src="/js/tags.js"></script>
+<script>
+const urlParams = new URLSearchParams(window.location.search);
+const ids = urlParams.get('id');
+console.log(ids)
+// Set the value of the "id" input field
+document.querySelector('p').textContent = ids;
+document.getElementById('myId').value = ids;
+const inputElement = document.getElementById("icon");
+
+inputElement.addEventListener("change", handleFiles, false);
+
+function handleFiles() {
+  const fileList = this.files;
+  if (fileList.length === 0) {
+    console.log("No file selected");
+    return;
+  }
+  
+  const file = fileList[0];
+  const reader = new FileReader();
+  reader.readAsDataURL(file);
+  
+  reader.onload = function () {
+    // const base64String = reader.result.split(",")[1]; // Get base64 string
+    document.getElementById('icondata').value = reader.result; // Send to server using fetch
+  };
+  reader.onerror = function (error) {
+    console.log("Error: ", error);
+  };
+}
+
+function checkFileZip() {
+  const fileInput = document.getElementById('zip');
+  const filePath = fileInput.value;
+  const allowedExtensions = /(\.zip)$/i;
+
+  if (!allowedExtensions.exec(filePath)) {
+    const warningDiv = fileInput.parentElement.querySelector('.add-collection-zip-warning');
+    warningDiv.style.display = 'block';
+    submitButton.disabled = true;
+    return false;
+  }else{submitButton.disabled = false;}
+  
+
+}
+
+function checkFileImg() {
+  const fileInput = document.getElementById('icon');
+  const filePath = fileInput.value;
+  const allowedExtensions = /(\.jpg|\.jpeg|\.png|\.ico)$/i;
+
+  if (!allowedExtensions.exec(filePath)) {
+    const warningDiv = fileInput.parentElement.querySelector('.add-collection-img-warning');
+    warningDiv.style.display = 'block';
+    submitButton.disabled = true;
+    return false;
+  }else{submitButton.disabled = false;}
+
+}
+</script>
+
+{{>_footer}}

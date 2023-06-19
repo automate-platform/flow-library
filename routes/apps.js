@@ -30,7 +30,9 @@ if (settings.template.apps) {
                 }
             };
             apper.create(req.session.accessToken, app_post, req.body.tags || []).then(function (id) {
-                res.send("/app/" + id);
+                let url = '/add/app/source?id=' + id
+
+                res.send(url);
             }).catch(function (err) {
                 console.log("Error creating app:", err);
                 res.send(err);
@@ -40,6 +42,58 @@ if (settings.template.apps) {
         }
     });
 
+    
+    app.post("/source", upload.single('zip'), (req, res) => {
+        const id = req.body.id;
+        const icon = req.body.icondata;
+        let zipFileName = "";
+        if (req.file && req.file.path) {
+            // If req.file is defined and has a path property
+            zipFileName = req.file.originalname;
+        } else {
+            // Handle the case where no file was uploaded
+            console.log("No file was uploaded with the request.");
+            res.status(400).send({ error: "No file was uploaded with the request." });
+            return;
+        }
+        //const outputFilePath = __dirname + "\\app";
+        const username = os.userInfo().username;
+
+        // Đường dẫn tới thư mục home
+        const homeDir = os.homedir();
+     
+        let url = settings.app.zipUrl;
+    
+        // Đường dẫn tới thư mục marketApp/app
+        const outputFilePath = path.join(homeDir, url ,zipFileName);
+
+        //process.env.APP_FLOW_URL;
+
+        var app_post = {
+
+            icon_flow: icon,
+            zip_url: outputFilePath
+        };
+
+        const dirPath = path.dirname(outputFilePath);
+        if (!fs.existsSync(dirPath)) {
+            fs.mkdirSync(dirPath, { recursive: true });
+        }
+        
+        const writeStream = fs.createWriteStream(outputFilePath )
+        writeStream.end();
+
+        writeStream.on('finish', function () {
+            apper.update(id, app_post || [])
+            res.writeHead(303, {
+                Location: "/app/" + id
+            });
+            res.end();
+        });
+        //   readStream.pipe(writeStream);
+
+
+    });
     app.get("/app/:id", appUtils.csrfProtection(), function (req, res) { getFlow(req.params.id, null, req, res); });
     app.get("/app/:id/in/:collection", appUtils.csrfProtection(), function (req, res) { getFlow(req.params.id, req.params.collection, req, res); });
     function getFlow(id, collection, req, res) {
@@ -266,6 +320,15 @@ if (settings.template.apps) {
         context.sessionuser = req.session.user;
         res.send(mustache.render(templates.addApp, context, templates.partials));
     });
+    app.get("/add/app/source", function (req, res) {
+        if (!req.session.user) {
+            return res.redirect("/add")
+        }
+        var context = {};
+        context.sessionuser = req.session.user;
+        res.send(mustache.render(templates.addSourceApp, context, templates.partials));
+    });
+
 
     module.exports = app;
 }

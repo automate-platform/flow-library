@@ -776,6 +776,22 @@ ul#add-flow-tags li i.icon {
     text-shadow: none;
 }
 
+.btn-upload input[type="submit"] {
+    color: #eee !important;
+    border: 2px solid #aa6767;
+    text-align: center;
+    display: inline-block;
+    border-radius: 4px;
+    background: #aa6767;
+    text-shadow: none;
+    font-size: 16px;
+    padding: 15px;
+    min-width: 110px;
+    margin: 0;
+    cursor: pointer;
+  
+  }
+
 .main-content.item-details-main-content {
     min-height: 950px;
 }
