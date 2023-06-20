@@ -3,58 +3,71 @@
 
 {{>_header}}
 <div class="grid add-form" style="background: none;">
-    <div class="add-form-row">
-        <div class="col-1-12">&nbsp;</div>
-        <div class="col-10-12 thing-list-section"
-            style="background: white; padding: 10px 50px;">
-            <h2 class="pagetitle">Add detail</h2>
+  <div class="add-form-row">
+    <div class="col-1-12">&nbsp;</div>
+    <div class="col-10-12 thing-list-section" style="background: white; padding: 10px 50px;">
+      <h2 class="pagetitle">Add detail</h2>
+
+      <h4><span id="title" style="color: black;"></span></h4>
+      <form action="/source" method="post" enctype="multipart/form-data">
         
-            
-            <form action="/source" method="post"  enctype="multipart/form-data">
-                <br>
-                <input type="text" id="myId" name="id" value="" readonly>
-                <label for="zip">Zip File:</label>
-                <input onchange="checkFileZip()" type="file" id="source" name="source" accept=".zip"><br><br>
-                <div class="add-collection-img-warning dialog-warning" style="display:none">Only .zip</div>
-                <!-- <label for="image">Image:</label>
-                <input  accept=".jpg, .jpeg, .png, .ico" onchange="checkFileImg()" type="file" id="icon" name="icon"><br><br>
-                <div style="position:relative"><div class="add-collection-img-warning dialog-warning">Only png, img, ico</div></div>-->
-                <a id="add-flow-create" href="#" class="btn-upload">   <input type="submit" value="Submit" id="add-flow-label"></a> 
-              
-            </form>
-        </div>
+      
+        <input type="hidden" id="myId" name="id" value="" readonly>
+        <p>Uploading the source code of an application is a mandatory requirement.Uploading the source code of an
+          application is a mandatory requirement
+        </p>
+        <label for="zip">Zip File:</label>
+        <input onchange="checkFileZip()" type="file" id="source" name="source" accept=".zip"><br><br>
+        <div class="add-collection-zip-warning dialog-warning">Only .zip</div> <br> <br>
+
+        <a id="add-flow-create" href="#" class="btn-upload"> <input type="submit" value="Submit"
+            id="upload-flow-label"></a>
+
+      </form>
     </div>
+  </div>
 </div>
 <!-- -->
 <script src="/js/marked.js"></script>
 <script src="/js/tags.js"></script>
 <script>
-const urlParams = new URLSearchParams(window.location.search);
-const ids = urlParams.get('id');
 
-// Set the value of the "id" input field
-// document.querySelector('p').textContent = ids;
-document.getElementById('myId').value = ids;
+  const urlParams = new URLSearchParams(window.location.search);
+  const ids = urlParams.get('id');
+  const title = urlParams.get('name')
+  const name = decodeURIComponent(title)
+  document.getElementById('myId').value = ids;
+  document.getElementById('title').textContent  = name;
+ 
+  const uploadButton = document.getElementById('upload-flow-label');
+  var zipValid = false;
 
 
-
-
-function checkFileZip() {
-  const fileInput = document.getElementById('source');
-  const filePath = fileInput.value;
-  const allowedExtensions = /(\.zip)$/i;
-
-  if (!allowedExtensions.exec(filePath)) {
-    const warningDiv = fileInput.parentElement.querySelector('.add-collection-zip-warning');
-    warningDiv.style.display = 'block';
-   
-    return false;
+  function checkFileZip() {
+    console.log('checkFileZip called');
+    const fileInput = document.getElementById('source');
+    const filePath = fileInput.value;
+    const allowedExtensions = /(\.zip)$/i;
+    if (filePath == "") {
+      $(".add-collection-zip-warning").show();
+      zipValid = false;
+    }
+    else if (!allowedExtensions.exec(filePath)) {
+      $(".add-collection-zip-warning").show();
+      fileInput.value = '';
+      zipValid = false;
+    } else {
+      $(".add-collection-zip-warning").hide();
+      zipValid = true;
+    }
   }
-  
 
-}
-
-
+  uploadButton.addEventListener('click', (event) => {
+    if (!zipValid) {
+      event.preventDefault(); // stop the form from being submitted
+      $(".add-collection-zip-warning").show();
+    }
+  });
 </script>
 
 {{>_footer}}

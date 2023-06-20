@@ -37,7 +37,7 @@ if (settings.template.apps) {
                 }
             };
             apper.create(req.session.accessToken, app_post, req.body.tags || []).then(function (id) {
-                let url = '/add/app/source?id=' + id
+                let url = '/add/app/source?id=' + id + '&name='+encodeURIComponent(req.body.title);
 
                 res.send(url);
             }).catch(function (err) {
