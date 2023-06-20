@@ -13,8 +13,9 @@
             </div>
 
             <h4 class="add-flow-label"><label for="add-flow-desc">Icon</label></h4>
-            <input type="file" name="icon" id="icon" required>
+            <input type="file" name="icon" id="icon" accept=".jpg, .png, .ico">
             <p>Icon for your app </p>
+            <!-- <div class="add-collection-icon-warning dialog-warning">Icon file must be .png , .jpeg or .ico</div> -->
 
             <h4 class="add-flow-label"><label for="add-flow-desc">Description</label></h4>
             <p>Describe what the App does and how it is used.</p>
@@ -116,28 +117,49 @@
         }
 
         const inputElement = document.getElementById("icon");
-       
-        inputElement.addEventListener("change", handleFiles, false);
-        let iconBase = "";;
-        function handleFiles() {
+        let iconBase = "";
+        // if (inputElement.files.length === 0) {
+        //     $(".add-collection-icon-warning").show();
+        // } else {
+        //     $(".add-collection-icon-warning").hide();
+        //     for (let i = 0; i < inputElement.files.length; i++) {
+        //         const file = inputElement.files[i];
+        //         if (checkIcon(file)) {
+        //             inputElement.addEventListener("change", handleIcon, false);
+        //         } else {
+        //             // handle invalid file type error
+        //         }
+        //     }
+        // }
+        inputElement.addEventListener("change", handleIcon, false);
+        function handleIcon() {
             const fileList = this.files;
             if (fileList.length === 0) {
                 console.log("No file selected");
                 return;
             }
-
             const file = fileList[0];
             const reader = new FileReader();
             reader.readAsDataURL(file);
 
             reader.onload = function () {
-                // const base64String = reader.result.split(",")[1]; // Get base64 string
-                iconBase = reader.result; // Send to server using fetch
-                console.log(iconBase)
+
+                iconBase = reader.result;
+                
             };
             reader.onerror = function (error) {
                 console.log("Error: ", error);
             };
+        }
+        function checkIcon(file) {
+            const validImageTypes = ['image/jpeg', 'image/png', 'image/x-icon'];
+            if (!validImageTypes.includes(file.type)) {
+               
+                $(".add-collection-icon-warning").show();
+                return false;
+            }
+            $(".add-collection-icon-warning").hide();
+            return true;
         }
 
         $("#add-flow-flow").keyup(validateFlow);
