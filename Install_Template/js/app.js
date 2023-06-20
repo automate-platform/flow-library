@@ -121,7 +121,7 @@ function getResource(appId) {
 
 
 $(document).ready(function () {
-    $('#myForm').submit(function (event) {
+    $('#myForm').on('input', function(event) {
         event.preventDefault();
         const desc = document.querySelector('#searchForm').value
         $.ajax({
