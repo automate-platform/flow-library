@@ -87,7 +87,7 @@
             <div class="extensions-list">
               <div class="monaco-list">
                 <div class="monaco-list-rows">
-                  <div class="monaco-list-row" onclick="openDetailTab('{{_id}}')">
+                  <div class="monaco-list-row" onclick="openDetail('{{_id}}')">
                     <div class="extension-list-item">
                       <div class="icon-container">
                         <img class="icon" src="{{{icon_flow}}}" style="visibility: inherit;">
@@ -156,33 +156,32 @@
             <div class="tabs-and-actions-container tabs-border-bottom"
               style="--tabs-border-bottom-color: rgba(255, 255, 255, 0.08);">
               <div class="monaco-scrollable-element">
-                <div class="tabs-container">
-                  <div class="tab tab-actions-right sizing-fit active has-icon tab-border-bottom tab-border-top">
+                <div class="tabs-container" >
+                  <div class="tab tab-actions-right sizing-fit has-icon tab-border-bottom tab-border-top" id="{{_id}}">
                     <div class="tab-border-top-container">
                     </div>
                     <div class="monaco-icon-label file-icon tab-label tab-label-has-badge italic">
                       <div class="monaco-icon-label-container">
                         <span class="monaco-icon-name-container"><a class="label-name"
-                            style="color: white;">Extension:{{description}}</a></span>
+                            style="color: white;" onclick="openDetailTab('{{_id}}')" >{{description}}</a></span>
                       </div>
                     </div>
-                    <!-- <div class="tab-actions">
+                    <div class="tab-actions" onclick="closeTab()">
                       <div class="monaco-action-bar animated">
                         <ul class="actions-container" role="presentation" aria-label="Tab actions">
-                          <li class="action-item" role="presentation" title="Close (Ctrl+F4)">
+                          <li class="action-item" role="presentation" title="Close (Ctrl+F4)" >
                             <a class="action-label codicon codicon-close" role="button" aria-label="Close (Ctrl+F4)"
-                              tabindex="0"></a>
+                              tabindex="0"><i class='bx bx-x'></i></a>
                           </li>
                         </ul>
                       </div>
-                    </div> -->
-
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="editor-container" style="background-color: rgb(31, 31, 31); height: 735px;">
+          <div class="editor-container" style="background-color: rgb(31, 31, 31); height: 100%;">
             <div class="editor-instance">
               <div class="extension-editor" data-keybinding-context="30" tabindex="0" role="document"
                 style="outline: none;">
@@ -258,41 +257,110 @@
                   <div class="navbar" style="padding-bottom: 0;">
                     <div class="monaco-action-bar">
                       <ul class="actions-container" role="toolbar">
-                        <li class="action-item" role="presentation"
-                          title="Extension details, rendered from the extension's 'README.md' file">
-                          <a class="action-label checked" role="button"
-                            aria-label="Extension details, rendered from the extension's 'README.md' file"
-                            tabindex="0">Details</a>
+                        <li class="action-item " role="presentation">
+                          <a class="action-label tab-header" onclick="ClickFunc($(this),$('.readme-container.tab-content'))">Details</a>
                         </li>
-                        <li class="action-item" role="presentation"
-                          title="Lists contributions to VS Code by this extension">
-                          <a class="action-label" role="button"
-                            aria-label="Lists contributions to VS Code by this extension">Feature
-                            Contributions</a>
-                        </li>
-                        <li class="action-item" role="presentation"
-                          title="Extension update history, rendered from the extension's 'CHANGELOG.md' file">
-                          <a class="action-label" role="button"
-                            aria-label="Extension update history, rendered from the extension's 'CHANGELOG.md' file">Changelog</a>
-                        </li>
-                        <li class="action-item" role="presentation"
-                          title="Lists extensions those will be installed together with this extension">
-                          <a class="action-label" role="button"
-                            aria-label="Lists extensions those will be installed together with this extension">Extension
-                            Pack</a>
+                        <li class="action-item " role="presentation">
+                          <a class="action-label tab-header" onclick="ClickFunc($(this), $('.version-container.tab-content'))">Version</a>
                         </li>
                       </ul>
                     </div>
                   </div>
-                  <div class="content" id="2a9bfb5c-8c22-412e-92f4-b44deec459e3">
+                  <div class="content">
                     <div class="details">
-                      <div class="readme-container">
+                      <div class="readme-container tab-content">
                         {{{readme}}}
+                      </div>
+                      <div class="version-container tab-content">
+                        <div class="details-tab">
+                          <div class="version-history-top-container">
+                            <div class="ms-grid vh-redirection-message-bar-container">
+                              <div class="vh-redirection-message-bar"><i
+                                  class="vh-redirection-info-icon bowtie-icon bowtie-status-info-outline"></i><span
+                                  class="vh-redirection-info-text" role="status"><a
+                                    href="https://marketplace.visualstudio.com/items/adpyke.codesnap/changelog"
+                                    target="_blank" rel="noreferrer noopener" title="Changelog"
+                                    class="vh-redirection-info-text-anchor-tag">CHANGE
+                                    LOG</a></span></div>
+                            </div>
+                            <div class="ms-Grid version-history-container-grid">
+                              <table class="version-history-table" role="table" aria-label="Version History Table">
+                                <thead class="version-history-table-thead">
+                                  <tr class="version-history-container-row">
+                                    <th class="version-history-container-column">
+                                      Version</th>
+                                    <th class="version-history-container-column" style=" margin-left: 28px;">
+                                      Last Updated</th>
+                                    <th class="version-history-container-column">
+                                    </th>
+                                  </tr>
+                                </thead>
+                                <tbody class="version-history-table-body">
+                                  <tr class="version-history-container-row">
+                                    <td class="version-history-container-column">
+                                      1.3.4</td>
+                                    <td class="version-history-container-column" title="22:18:21 2/7/2021">02/07/2021
+                                    </td>
+                                    <td class="version-history-container-column">
+                                      <a href="_apis/public/gallery/publishers/adpyke/vsextensions/codesnap/1.3.4/vspackage"
+                                        rel="noreferrer noopener" title="Download"
+                                        aria-label="version 1.3.4 Download">Download</a>
+                                    </td>
+                                  </tr>
+                                  <tr class="version-history-container-row">
+                                    <td class="version-history-container-column">
+                                      1.3.3</td>
+                                    <td class="version-history-container-column" title="22:15:25 2/7/2021">02/07/2021
+                                    </td>
+                                    <td class="version-history-container-column">
+                                      <a href="_apis/public/gallery/publishers/adpyke/vsextensions/codesnap/1.3.3/vspackage"
+                                        rel="noreferrer noopener" title="Download"
+                                        aria-label="version 1.3.3 Download">Download</a>
+                                    </td>
+                                  </tr>
+                                  <tr class="version-history-container-row">
+                                    <td class="version-history-container-column">
+                                      1.3.2</td>
+                                    <td class="version-history-container-column" title="03:06:12 17/4/2021">16/04/2021
+                                    </td>
+                                    <td class="version-history-container-column">
+                                      <a href="_apis/public/gallery/publishers/adpyke/vsextensions/codesnap/1.3.2/vspackage"
+                                        rel="noreferrer noopener" title="Download"
+                                        aria-label="version 1.3.2 Download">Download</a>
+                                    </td>
+                                  </tr>
+                                  <tr class="version-history-container-row">
+                                    <td class="version-history-container-column">
+                                      1.3.1</td>
+                                    <td class="version-history-container-column" title="23:24:18 16/4/2021">16/04/2021
+                                    </td>
+                                    <td class="version-history-container-column">
+                                      <a href="_apis/public/gallery/publishers/adpyke/vsextensions/codesnap/1.3.1/vspackage"
+                                        rel="noreferrer noopener" title="Download"
+                                        aria-label="version 1.3.1 Download">Download</a>
+                                    </td>
+                                  </tr>
+                                  <tr class="version-history-container-row">
+                                    <td class="version-history-container-column">
+                                      1.3.0</td>
+                                    <td class="version-history-container-column" title="00:26:50 16/4/2021">15/04/2021
+                                    </td>
+                                    <td class="version-history-container-column">
+                                      <a href="_apis/public/gallery/publishers/adpyke/vsextensions/codesnap/1.3.0/vspackage"
+                                        rel="noreferrer noopener" title="Download"
+                                        aria-label="version 1.3.0 Download">Download</a>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                       <div class="additional-details-container">
                         <div class="monaco-scrollable-element " role="presentation"
                           style="position: relative; overflow: hidden;">
-                          <div class="additional-details-content" tabindex="0" style="overflow: hidden;">
+                          <div class="additional-details-content" tabindex="0">
                             <div class="categories-container additional-details-element">
                               <div class="additional-details-title">
                                 Categories
