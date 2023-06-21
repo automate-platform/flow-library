@@ -457,9 +457,6 @@ h1 {
     right: 0;
 }
 
-.add-form .dialog-warning.add-collection-icon-warning {
-    right: 0;
-}
 .add-form input[type=text] {
     margin-bottom: 0;
     height: 40px;
