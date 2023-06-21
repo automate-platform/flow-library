@@ -858,7 +858,7 @@ ul#add-flow-tags li i.icon {
 }
 
 .item-details-control-root .item-img img {
-    max-width: 128px;
+    width: 128px;
     position: relative;
     visibility: hidden;
 }

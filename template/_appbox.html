@@ -1,23 +1,11 @@
-<!-- <li class="gistbox gistbox-flow" data-thing-id="{{_id}}">
-    <a href="/flow/{{_id}}{{#collection}}/in/{{.}}{{/collection}}">
-        <h1 class="gisttitle">{{description}}</h1>
-    <p class="gistdescription">{{summary}}</p>
-    <div class="gistbox-footer">
-        <div class="gistbox-type">
-        {{gitOwners.0}} {{#rating}}<i class="icon-star"></i><span class="gistbox-score">{{#toFixed}}{{score}}{{/toFixed}}</span>{{/rating}}
-        </div>
-        <div class="gistbox-owner">{{type}}</div>
-    </div>
-    </a>    
-    {{>_gistboxTools}}
-</li> -->
+
 <li class="carousel-item" data-thing-id="{{_id}}">
     <a class="gallery-item-card-container" href="/app/{{_id}}{{#collection}}/in/{{.}}{{/collection}}" target="_self">
         <div class="gallery-item-cardHomePage" title="{{description}}">
             <div class="cover">
                 <div class="icon-cell">
                     <img class="image-display item-icon"
-                        src="{{flow_icon_url}}">
+                        src="{{{icon_flow}}}">
                     <div class="bowtie-icon" style="display: none;"></div>
                     <span style="visibility: hidden"></span>
                 </div>
