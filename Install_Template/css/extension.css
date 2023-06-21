@@ -551,11 +551,11 @@ body {
   opacity: 1;
 }
 
-.title .tabs-container>.tab .bx {
+.title .tabs-container>.tab .tab-actions {
   display: none;
 }
 
-.title .tabs-container>.tab.active .bx {
+.title .tabs-container>.tab.active .tab-actions{
   display: block;
 }
 

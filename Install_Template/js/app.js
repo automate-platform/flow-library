@@ -2,14 +2,15 @@
 let templateList = document.querySelector('.monaco-list-rows').innerHTML;
 let templateDetail = document.querySelector('.editor-container').innerHTML;
 let tabHeader = document.querySelector('.tabs-container').innerHTML;
-let base_url = "http://127.0.0.1:1880";
+let base_url = "http://localhost:1880";
 let recommendApp = [];
 let installedApp = [];
 let currentApp = {};
 
 window.onload = function () {
+    sessionStorage.clear();
     document.querySelector('.tabs-container').innerHTML = '';
-    fetch('http://127.0.0.1:1880/app')
+    fetch(base_url + '/app')
         .then(response => response.json()).then(data => {
             document.querySelector('.monaco-list-rows').innerHTML = '';
             data.forEach(element => {
@@ -32,27 +33,28 @@ function openDetail(_id) {
         container.appendChild(newDiv);
     }
     document.querySelector('.split-view-view').style.display = 'block';
-    fetch('http://127.0.0.1:1880/app/' + _id)
+    fetch(base_url + '/app/' + _id)
         .then(response => response.json()).then(data => {
             document.querySelector('.editor-container').innerHTML = '';
             const renderedData = Mustache.render(templateDetail, data);
             const renderedTab = Mustache.render(tabHeader, data);
             const allTabs = document.querySelectorAll('.tab-actions-right');
-            // allTabs.forEach((tab) => {
-            //     if (!tab.id === (_id + ' ').trim()) {
-            //         document.querySelector('.editor-container').innerHTML = renderedData;
-            //         document.querySelector('.tabs-container').innerHTML += renderedTab;
-            //         var tabs = document.querySelectorAll('.tab-actions-right')
-            //         tabs.forEach((tab) => tab.classList.remove('active'));
-            //         tabs[tabs.length - 1].classList.add('active')
-            //     }
-            // });
+
             document.querySelector('.editor-container').innerHTML = renderedData;
             document.querySelector('.tabs-container').innerHTML += renderedTab;
             var tabs = document.querySelectorAll('.tab-actions-right')
             tabs.forEach((tab) => tab.classList.remove('active'));
             tabs[tabs.length - 1].classList.add('active')
 
+            var clickedElementId = _id;
+            var storedIds = sessionStorage.getItem('clickedIds');
+            var clickedIds = [];
+            if (storedIds) {
+                clickedIds = JSON.parse(storedIds);
+            }
+            clickedIds.push(clickedElementId);
+            sessionStorage.setItem('clickedIds', JSON.stringify(clickedIds));
+            console.log(clickedIds);
         })
         .catch(function (error) {
             console.error(error);
@@ -62,7 +64,7 @@ function openDetail(_id) {
 
 function openDetailTab(_id) {
     document.querySelector('.split-view-view').style.display = 'block';
-    fetch('http://127.0.0.1:1880/app/' + _id)
+    fetch(base_url + '/app/' + _id)
         .then(response => response.json()).then(data => {
             document.querySelector('.editor-container').innerHTML = '';
             const renderedData = Mustache.render(templateDetail, data);
@@ -81,22 +83,30 @@ function openDetailTab(_id) {
     });
 }
 
-function closeTab() {
-    let closeBtns = document.querySelectorAll(".tab-actions");
+
+
+function closeTab(div) {
+    tabActive = JSON.parse(sessionStorage.getItem('clickedIds'));
+    let index = tabActive.indexOf(div.id);
+    if (tabActive.length < 2) {
+        index = 1
+    }
+    div.remove();
+    openDetailTab(tabActive[index - 1]);
+
     let tabClose = document.querySelectorAll(".tab-actions-right");
-    const count = tabClose.length
-    closeBtns.forEach((tab, index) => {
+    tabClose.forEach((tab, index) => {
         tab.addEventListener('click', () => {
-            tabClose[index].remove();
-            count--;
+            tabClose.forEach((tabActive) => tabActive.classList.remove('active'));
+            tab.classList.add('active')
         });
     });
-    if (count <= 1) {
-        document.querySelector('.editor-instance').remove()
-        document.querySelector('.tabs-container').remove()
+    document.getElementById(tabActive[index - 1]).click();
+    if (index > -1) {
+        tabActive.splice(index, 1);
     }
-    tabClose.forEach((tabActive) => tabActive.classList.remove('active'));
-    tabClose[0].classList.add('active')
+    sessionStorage.setItem('clickedIds', JSON.stringify(tabActive))
+    // console.log(tabActive)
 }
 
 function showSpinner(isShow) {
@@ -123,7 +133,7 @@ function installExtension(_id) {
     myHeaders.append("Node-RED-API-Version", "v2");
     myHeaders.append("Content-Type", "application/json");
 
-    fetch('http://127.0.0.1:1880/app/' + _id)
+    fetch(base_url + '/app/' + _id)
         .then(response => response.json()).then(dataRes => {
             currentApp = dataRes;
             const data = JSON.parse(currentApp.flow);
@@ -187,7 +197,7 @@ $(document).ready(function () {
         event.preventDefault();
         const desc = document.querySelector('#searchForm').value
         $.ajax({
-            url: 'http://127.0.0.1:1880/app/search/' + desc,
+            url: base_url + '/app/search/' + desc,
             success: function (response) {
                 if (response) {
                     document.querySelector('.monaco-list-rows').innerHTML = '';
@@ -196,7 +206,7 @@ $(document).ready(function () {
                         document.querySelector('.monaco-list-rows').innerHTML += rendered;
                     });
                 } else {
-                    fetch('http://127.0.0.1:1880/app')
+                    fetch(base_url + '/app')
                         .then(response => response.json()).then(data => {
                             document.querySelector('.monaco-list-rows').innerHTML = '';
                             data.forEach(element => {
