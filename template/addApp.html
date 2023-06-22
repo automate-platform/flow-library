@@ -13,9 +13,12 @@
             </div>
 
             <h4 class="add-flow-label"><label for="add-flow-desc">Icon</label></h4>
-            <input type="file" name="icon" id="icon" accept=".jpg, .png, .ico">
             <p>Icon for your app </p>
-            <!-- <div class="add-collection-icon-warning dialog-warning">Icon file must be .png , .jpeg or .ico</div> -->
+            <input type="file" name="icon" id="icon" accept=".jpg,.png,.ico,.icons">
+            <div style="position:relative">
+                <div class="add-collection-icon-limit-warning dialog-warning">Icon file limit is 60kb </div>
+                <div class="add-collection-icon-warning dialog-warning">Icon file must be .png , .jpeg or .ico</div>
+            </div>
 
             <h4 class="add-flow-label"><label for="add-flow-desc">Description</label></h4>
             <p>Describe what the App does and how it is used.</p>
@@ -60,11 +63,12 @@
 <script>
 
     $(function () {
-
+        var iconValid = false;
         var titleValid = false;
         var descValid = false;
         var flowValid = false;
 
+        let iconBase = "";
         $("#add-flow-title").keyup(function (e) {
             var val = $(this).val().trim();
             if (val.length < 10) {
@@ -89,7 +93,23 @@
                 $(this).removeClass("input-error");
             }
         });
-
+        $("#icon").keyup(function (e) {
+            var val = $(this).val().trim();
+            if (val.length == 0) {
+                iconValid = false;
+                $(".add-collection-icon-warning").show();
+                $(this).addClass("input-error");
+            } else if (iconBase == "") {
+                iconValid = false;
+                $(".add-collection-icon-warning").show();
+                $(this).addClass("input-error");
+            }
+            else {
+                iconValid = true;
+                $(".add-collection-icon-warning").hide();
+                $(this).removeClass("input-error");
+            }
+        });
         function validateFlow(e) {
             var flow = $(this).val().trim();
             if (flow == "") {
@@ -117,47 +137,53 @@
         }
 
         const inputElement = document.getElementById("icon");
-        let iconBase = "";
-        // if (inputElement.files.length === 0) {
-        //     $(".add-collection-icon-warning").show();
-        // } else {
-        //     $(".add-collection-icon-warning").hide();
-        //     for (let i = 0; i < inputElement.files.length; i++) {
-        //         const file = inputElement.files[i];
-        //         if (checkIcon(file)) {
-        //             inputElement.addEventListener("change", handleIcon, false);
-        //         } else {
-        //             // handle invalid file type error
-        //         }
-        //     }
-        // }
+
         inputElement.addEventListener("change", handleIcon, false);
         function handleIcon() {
             const fileList = this.files;
             if (fileList.length === 0) {
-                console.log("No file selected");
-                return;
-            }
-            const file = fileList[0];
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-
-            reader.onload = function () {
-
-                iconBase = reader.result;
-                
-            };
-            reader.onerror = function (error) {
-                console.log("Error: ", error);
-            };
-        }
-        function checkIcon(file) {
-            const validImageTypes = ['image/jpeg', 'image/png', 'image/x-icon'];
-            if (!validImageTypes.includes(file.type)) {
-               
                 $(".add-collection-icon-warning").show();
+                $(".add-collection-icon-limit-warning").hide();
+                iconValid = false;
+                return false;
+            } else {
+                const file = fileList[0];
+                const fileSizeKB = file.size / 1024;
+                console.log(fileSizeKB)
+                if (!checkIcon(file)) {
+                    $(".add-collection-icon-warning").show();
+                    $(".add-collection-icon-limit-warning").hide();
+                    iconValid = false;
+                    return false;
+                } else if (fileSizeKB > 60) {
+                    $(".add-collection-icon-warning").hide();
+                    $(".add-collection-icon-limit-warning").show();
+                    iconValid = false;
+                    return false;
+                } else {
+                    const reader = new FileReader();
+                    reader.readAsDataURL(file);
+
+                    reader.onload = function () {
+                        iconBase = reader.result;
+                    };
+
+                    reader.onerror = function (error) {
+                        console.log("Error: ", error);
+                    };
+                }
+                iconValid = true;
+                $(".add-collection-icon-warning").hide();
+                $(".add-collection-icon-limit-warning").hide();
+                return true;
+            }
+        };
+        function checkIcon(file) {
+            const validImageTypes = ['image/jpeg', 'image/png', 'image/x-icon', 'image/icons'];
+            if (!validImageTypes.includes(file.type)) {
                 return false;
             }
+
             $(".add-collection-icon-warning").hide();
             return true;
         }
@@ -194,10 +220,11 @@
             if (createSubmitted) {
                 return;
             }
-            if (!titleValid || !descValid || !flowValid) {
+            if (!titleValid || !descValid || !flowValid || !iconValid) {
                 $("#add-flow-title").trigger("keyup");
                 $("#add-flow-desc").trigger("keyup");
                 $("#add-flow-flow").trigger("keyup");
+                $("#icon").trigger("keyup");
                 window.scrollTo(0, 0);
                 return;
             }
