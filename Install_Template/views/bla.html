@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    #resizableDiv {
+      width: 200px;
+      height: 200px;
+      background-color: lightgray;
+      overflow: auto;
+      position: relative;
+    }
+
+    #resizeHandle {
+      width: 100%;
+      height: 8px;
+      background-color: gray;
+      position: absolute;
+      top: 0;
+      cursor: ns-resize;
+    }
+  </style>
+</head>
+<body>
+  <div id="resizableDiv">
+    <div id="resizeHandle"></div>
+  </div>
+
+  <script>
+    // Get the resizable div and resize handle elements
+    const resizableDiv = document.getElementById('resizableDiv');
+    const resizeHandle = document.getElementById('resizeHandle');
+
+    let isResizing = false;
+    let startY, startHeight, originalHeight;
+    const minHeight = 50; // Minimum height for the resizable div
+    const maxHeight = 200; // Minimum height for the resizable div
+
+
+    // Function to handle the resizing
+    function resizeDiv(event) {
+      if (!isResizing) return;
+
+      const deltaY = startY - event.clientY;
+      const newHeight = startHeight + deltaY;
+
+      if (newHeight >= minHeight && newHeight <= maxHeight) {
+        resizableDiv.style.height = newHeight + 'px';
+        resizableDiv.style.top = originalHeight - newHeight + 'px';
+      }
+    }
+
+    // Event listener for starting the resizing
+    resizeHandle.addEventListener('mousedown', function(event) {
+      isResizing = true;
+      startY = event.clientY;
+      startHeight = resizableDiv.offsetHeight;
+      originalHeight = resizableDiv.offsetHeight + resizableDiv.offsetTop;
+    });
+
+    // Event listeners for resizing
+    document.addEventListener('mousemove', resizeDiv);
+    document.addEventListener('mouseup', function() {
+      isResizing = false;
+    });
+  </script>
+</body>
+</html>
