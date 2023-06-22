@@ -1,0 +1,859 @@
+[
+    {
+        "id": "6faeac41438d96b0",
+        "type": "tab",
+        "label": "[PAP Market App]001",
+        "disabled": false,
+        "info": "",
+        "env": [
+            {
+                "name": "MARKET_SERVER",
+                "value": "http://127.0.0.1:1880/",
+                "type": "str"
+            },
+            {
+                "name": "MINI_APP_NAME",
+                "value": "26a52fdb538b477c2f7efc0e828d2df1",
+                "type": "str"
+            },
+            {
+                "name": "MINI_APPS_FOLDER",
+                "value": "APPS",
+                "type": "str"
+            }
+        ]
+    },
+    {
+        "id": "9912cf70e6952313",
+        "type": "inject",
+        "z": "6faeac41438d96b0",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{}",
+        "payloadType": "json",
+        "x": 110,
+        "y": 60,
+        "wires": [
+            [
+                "e971053f5ea82246"
+            ]
+        ]
+    },
+    {
+        "id": "e971053f5ea82246",
+        "type": "function",
+        "z": "6faeac41438d96b0",
+        "name": "set env",
+        "func": "msg.HOME_DIR = os.homedir()\nmsg.USER = os.userInfo()\nmsg.APP_NAME = \"PAP\"\nmsg.APP_DIR = path.join(msg.HOME_DIR, \".\" + msg.APP_NAME)\nmsg.MINI_APP_DIR = path.join(msg.APP_DIR, env.get(\"MINI_APPS_FOLDER\"))\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [
+            {
+                "var": "os",
+                "module": "os"
+            },
+            {
+                "var": "path",
+                "module": "path"
+            }
+        ],
+        "x": 280,
+        "y": 60,
+        "wires": [
+            [
+                "d3700a5cf63b2437"
+            ]
+        ]
+    },
+    {
+        "id": "d3700a5cf63b2437",
+        "type": "change",
+        "z": "6faeac41438d96b0",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "env.HOME_DIR",
+                "pt": "flow",
+                "to": "HOME_DIR",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "env.USER",
+                "pt": "flow",
+                "to": "USER",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "env.APP_DIR",
+                "pt": "flow",
+                "to": "APP_DIR",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "env.MINI_APP_DIR",
+                "pt": "flow",
+                "to": "MINI_APP_DIR",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "env.APP_DIR",
+                "pt": "flow",
+                "to": "APP_DIR",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 460,
+        "y": 60,
+        "wires": [
+            [
+                "49fdae3eb0788fca"
+            ]
+        ]
+    },
+    {
+        "id": "25853abb78861219",
+        "type": "http in",
+        "z": "6faeac41438d96b0",
+        "name": "",
+        "url": "/app/upload",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 120,
+        "y": 160,
+        "wires": [
+            [
+                "3d6fba603b63499b"
+            ]
+        ]
+    },
+    {
+        "id": "ec681580963f83bd",
+        "type": "http request",
+        "z": "6faeac41438d96b0",
+        "name": "post upload app",
+        "method": "POST",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "{{{MARKET_SERVER}}}app/upload",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 740,
+        "y": 160,
+        "wires": [
+            [
+                "535afdd54ef18e16",
+                "49fdae3eb0788fca"
+            ]
+        ]
+    },
+    {
+        "id": "535afdd54ef18e16",
+        "type": "http response",
+        "z": "6faeac41438d96b0",
+        "name": "response",
+        "statusCode": "200",
+        "headers": {},
+        "x": 940,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "fa6abd08b4f252bd",
+        "type": "function",
+        "z": "6faeac41438d96b0",
+        "name": "zip file/dir",
+        "func": "var app_dir = path.join(msg.MINI_APP_DIR, msg.app_id)\nvar zip_dir = path.join(msg.MINI_APP_DIR, 'zip');\nnode.warn(app_dir);\nnode.warn(app_dir);\n\nif (!fs.existsSync(zip_dir)) {\n    fs.mkdirSync(zip_dir);\n}\nif (!fs.existsSync(app_dir)) {\n    fs.mkdirSync(app_dir);\n}\nvar zip_file = path.join(zip_dir, msg.app_id + '.zip')\nawait zipAFolder.zip(app_dir, zip_file);\n\n// add file zip to request body\nmsg.headers = {\n    \"accept\": \"application/json\",\n    \"content-type\": \"multipart/form-data\"\n}\nmsg.payload = {\n    \"name\": msg.app_id,\n    \"description\": \"description\",\n    \"inputfile\": {\n        \"value\": fs.createReadStream(zip_file),\n        \"options\": {\n            \"filename\": msg.app_id + '.zip'\n        }\n    }\n};\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [
+            {
+                "var": "zipAFolder",
+                "module": "zip-a-folder"
+            },
+            {
+                "var": "fs",
+                "module": "fs"
+            },
+            {
+                "var": "path",
+                "module": "path"
+            }
+        ],
+        "x": 540,
+        "y": 160,
+        "wires": [
+            [
+                "ec681580963f83bd"
+            ]
+        ]
+    },
+    {
+        "id": "2a7eb53e885ab7ec",
+        "type": "comment",
+        "z": "6faeac41438d96b0",
+        "name": "upload app to market",
+        "info": "Upload resource app to market",
+        "x": 140,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "3d6fba603b63499b",
+        "type": "change",
+        "z": "6faeac41438d96b0",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "MINI_APP_DIR",
+                "pt": "msg",
+                "to": "env.MINI_APP_DIR",
+                "tot": "flow"
+            },
+            {
+                "t": "set",
+                "p": "app_id",
+                "pt": "msg",
+                "to": "MINI_APP_NAME",
+                "tot": "env"
+            },
+            {
+                "t": "set",
+                "p": "MARKET_SERVER",
+                "pt": "msg",
+                "to": "MARKET_SERVER",
+                "tot": "env"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 340,
+        "y": 160,
+        "wires": [
+            [
+                "fa6abd08b4f252bd"
+            ]
+        ]
+    },
+    {
+        "id": "be32dcd8a9e52f0a",
+        "type": "http in",
+        "z": "6faeac41438d96b0",
+        "name": "API Install",
+        "url": "/app/install/:appId/:flowId",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 100,
+        "y": 260,
+        "wires": [
+            [
+                "fb4498c082bc21c0"
+            ]
+        ]
+    },
+    {
+        "id": "fb4498c082bc21c0",
+        "type": "change",
+        "z": "6faeac41438d96b0",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "MINI_APP_DIR",
+                "pt": "msg",
+                "to": "env.MINI_APP_DIR",
+                "tot": "flow"
+            },
+            {
+                "t": "set",
+                "p": "MARKET_SERVER",
+                "pt": "msg",
+                "to": "MARKET_SERVER",
+                "tot": "env"
+            },
+            {
+                "t": "set",
+                "p": "app_id",
+                "pt": "msg",
+                "to": "req.params.appId",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "flow_id",
+                "pt": "msg",
+                "to": "req.params.flowId",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "app_dir",
+                "pt": "msg",
+                "to": "env.APP_DIR",
+                "tot": "flow"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 340,
+        "y": 260,
+        "wires": [
+            [
+                "802f4e16b24903a1"
+            ]
+        ]
+    },
+    {
+        "id": "3bb7861382103b62",
+        "type": "comment",
+        "z": "6faeac41438d96b0",
+        "name": "install app from market",
+        "info": "",
+        "x": 140,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "802f4e16b24903a1",
+        "type": "http request",
+        "z": "6faeac41438d96b0",
+        "name": "get app data",
+        "method": "GET",
+        "ret": "bin",
+        "paytoqs": "ignore",
+        "url": "{{{MARKET_SERVER}}}server/app/install/{{{app_id}}}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 550,
+        "y": 260,
+        "wires": [
+            [
+                "db160362b93c616b"
+            ]
+        ]
+    },
+    {
+        "id": "a78b14a61e0c8b30",
+        "type": "file",
+        "z": "6faeac41438d96b0",
+        "name": "write file zip",
+        "filename": "zip_file",
+        "filenameType": "msg",
+        "appendNewline": true,
+        "createDir": true,
+        "overwriteFile": "true",
+        "encoding": "none",
+        "x": 110,
+        "y": 320,
+        "wires": [
+            [
+                "e02345a0fa9f4db5"
+            ]
+        ]
+    },
+    {
+        "id": "db160362b93c616b",
+        "type": "function",
+        "z": "6faeac41438d96b0",
+        "name": "zip file/dir",
+        "func": "// var app_dir = path.join(msg.MINI_APP_DIR, msg.app_id)\nvar zip_dir = path.join(\"C:\\\\Users\\\\haiqd\\\\Test_Market\\\\output\", msg.app_id +'zip');\nif (!fs.existsSync(zip_dir)) {\n    fs.mkdirSync(zip_dir);\n}\n// if (!fs.existsSync(app_dir)) {\n//     fs.mkdirSync(app_dir);\n// }\nmsg.zip_file = path.join(zip_dir, msg.app_id + '.zip')\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [
+            {
+                "var": "zipAFolder",
+                "module": "zip-a-folder"
+            },
+            {
+                "var": "fs",
+                "module": "fs"
+            },
+            {
+                "var": "path",
+                "module": "path"
+            }
+        ],
+        "x": 760,
+        "y": 260,
+        "wires": [
+            [
+                "a78b14a61e0c8b30"
+            ]
+        ]
+    },
+    {
+        "id": "ee9d4b66cb114e60",
+        "type": "http response",
+        "z": "6faeac41438d96b0",
+        "name": "response",
+        "statusCode": "200",
+        "headers": {},
+        "x": 720,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "e02345a0fa9f4db5",
+        "type": "function",
+        "z": "6faeac41438d96b0",
+        "name": "unzip resource",
+        "func": "var app_dir = path.join(\"C:\\\\Users\\\\haiqd\\\\Test_Market\\\\output\", msg.app_id)\n\nlet promise = new Promise(function (resolve, reject) {\n    var extract = unzipStream.Extract({ path: app_dir })\n    var pstream = fs.createReadStream(msg.zip_file).pipe(extract)\n    pstream.on('finish', () => {\n        resolve({ code: 200, message: \"install app complete\" })\n    })\n    pstream.on('error', () => {        \n        resolve({ code: 400, error: null, data: \"load template failure.\" })\n    })\n    pstream.on('close', () => {                        \n        resolve({ code: 200, error: null, data: \"load template successful.\" })\n    })     \n});\n\nmsg.payload = await promise\nreturn msg;\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [
+            {
+                "var": "unzipStream",
+                "module": "unzip-stream"
+            },
+            {
+                "var": "fs",
+                "module": "fs"
+            },
+            {
+                "var": "path",
+                "module": "path"
+            }
+        ],
+        "x": 300,
+        "y": 320,
+        "wires": [
+            [
+                "ee9d4b66cb114e60",
+                "959e8721c4532046"
+            ]
+        ]
+    },
+    {
+        "id": "49fdae3eb0788fca",
+        "type": "debug",
+        "z": "6faeac41438d96b0",
+        "name": "debug 3",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 640,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "de603f6c2fed1e7e",
+        "type": "function",
+        "z": "6faeac41438d96b0",
+        "name": "update app menu",
+        "func": "if (!msg.payload.some(app => app.app_id === msg.app_id))\n    msg.payload.push(\n        {\n            \"app_id\": msg.app_id,\n            \"app_name\": \"CoreUi\",\n            \"app_type\": 2,\n            \"app_url\": \"C:\\\\Users\\\\haiqd\\\\Test_Market\\\\output\",\n            \"app_hotkey\": \"CmdOrCtrl+2\",\n            \"flow_id\": msg.flow_id\n        }\n    )\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 650,
+        "y": 400,
+        "wires": [
+            [
+                "30bb5b914ae251a5"
+            ]
+        ]
+    },
+    {
+        "id": "2e37655a6fc92ba7",
+        "type": "file in",
+        "z": "6faeac41438d96b0",
+        "name": "",
+        "filename": "file_path",
+        "filenameType": "msg",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 320,
+        "y": 400,
+        "wires": [
+            [
+                "c1b6bc51993cc17e"
+            ]
+        ]
+    },
+    {
+        "id": "959e8721c4532046",
+        "type": "function",
+        "z": "6faeac41438d96b0",
+        "name": "menu file path",
+        "func": "msg.file_path = path.join(\"C:\\\\Users\\\\haiqd\\\\Test_Market\", \"menu.json\")\nreturn msg;\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [
+            {
+                "var": "unzipStream",
+                "module": "unzip-stream"
+            },
+            {
+                "var": "fs",
+                "module": "fs"
+            },
+            {
+                "var": "path",
+                "module": "path"
+            }
+        ],
+        "x": 140,
+        "y": 400,
+        "wires": [
+            [
+                "2e37655a6fc92ba7"
+            ]
+        ]
+    },
+    {
+        "id": "c1b6bc51993cc17e",
+        "type": "json",
+        "z": "6faeac41438d96b0",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 470,
+        "y": 400,
+        "wires": [
+            [
+                "de603f6c2fed1e7e",
+                "27f69adcc7212672"
+            ]
+        ]
+    },
+    {
+        "id": "f84f0e0f61f2b635",
+        "type": "debug",
+        "z": "6faeac41438d96b0",
+        "name": "debug 4",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 280,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "ce84d2e477bff6ca",
+        "type": "inject",
+        "z": "6faeac41438d96b0",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 120,
+        "y": 740,
+        "wires": [
+            [
+                "96c7d34f7cb5e031"
+            ]
+        ]
+    },
+    {
+        "id": "96c7d34f7cb5e031",
+        "type": "http request",
+        "z": "6faeac41438d96b0",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://127.0.0.1:1880/app/001/install",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 300,
+        "y": 740,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "30bb5b914ae251a5",
+        "type": "file",
+        "z": "6faeac41438d96b0",
+        "name": "",
+        "filename": "file_path",
+        "filenameType": "msg",
+        "appendNewline": true,
+        "createDir": true,
+        "overwriteFile": "true",
+        "encoding": "none",
+        "x": 120,
+        "y": 460,
+        "wires": [
+            [
+                "f84f0e0f61f2b635"
+            ]
+        ]
+    },
+    {
+        "id": "27f69adcc7212672",
+        "type": "debug",
+        "z": "6faeac41438d96b0",
+        "name": "debug 76",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 620,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "35a60285387ca7fc",
+        "type": "file in",
+        "z": "6faeac41438d96b0",
+        "name": "Menu",
+        "filename": "C:\\Users\\haiqd\\Test_Market\\menu.json",
+        "filenameType": "str",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 90,
+        "y": 640,
+        "wires": [
+            [
+                "4b1be3d6583b8884"
+            ]
+        ]
+    },
+    {
+        "id": "4b1be3d6583b8884",
+        "type": "json",
+        "z": "6faeac41438d96b0",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 210,
+        "y": 640,
+        "wires": [
+            [
+                "ab2d2d8f10b9cc0f"
+            ]
+        ]
+    },
+    {
+        "id": "6fd6292f9570900e",
+        "type": "debug",
+        "z": "6faeac41438d96b0",
+        "name": "debug 82",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 640,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "ab2d2d8f10b9cc0f",
+        "type": "function",
+        "z": "6faeac41438d96b0",
+        "name": "function 31",
+        "func": "let appInstalled = msg.payload\nlet app_id = msg.req.params.id\nappInstalled = appInstalled.filter(app => app.app_id !== app_id);\nmsg.payload = appInstalled\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 350,
+        "y": 640,
+        "wires": [
+            [
+                "a0db72d338892783"
+            ]
+        ]
+    },
+    {
+        "id": "a0db72d338892783",
+        "type": "file",
+        "z": "6faeac41438d96b0",
+        "name": "write file",
+        "filename": "C:\\Users\\haiqd\\Test_Market\\menu.json",
+        "filenameType": "str",
+        "appendNewline": true,
+        "createDir": false,
+        "overwriteFile": "true",
+        "encoding": "none",
+        "x": 500,
+        "y": 640,
+        "wires": [
+            [
+                "6fd6292f9570900e"
+            ]
+        ]
+    },
+    {
+        "id": "299c7ba843d765bf",
+        "type": "http in",
+        "z": "6faeac41438d96b0",
+        "name": "",
+        "url": "/app/delete/:id",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 130,
+        "y": 600,
+        "wires": [
+            [
+                "c0f457eba94270ce"
+            ]
+        ]
+    },
+    {
+        "id": "b2b372d5cd781d24",
+        "type": "http response",
+        "z": "6faeac41438d96b0",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 470,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "c0f457eba94270ce",
+        "type": "function",
+        "z": "6faeac41438d96b0",
+        "name": "delete folder",
+        "func": "\nfunction deleteFolder(_dir) {\n    fs.rmdir(_dir, { recursive: true, force: true }, (err) => {\n\n        if (err) {\n            node.error(\"error occurred in deleting directory\", err);\n        } else {\n            node.warn(\"Directory deleted successfully\");\n        }\n    });\n}\nlet zip_dir = path.join(\"C:\\\\Users\\\\haiqd\\\\Test_Market\\\\output\", msg.req.params.id + '');\nlet unzip_dir = path.join(\"C:\\\\Users\\\\haiqd\\\\Test_Market\\\\output\", msg.req.params.id + 'zip');\n\ndeleteFolder(unzip_dir.trim())\ndeleteFolder(zip_dir.trim())\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [
+            {
+                "var": "fs",
+                "module": "fs"
+            },
+            {
+                "var": "path",
+                "module": "path"
+            }
+        ],
+        "x": 310,
+        "y": 600,
+        "wires": [
+            [
+                "9e62e5d411d5cd6c",
+                "35a60285387ca7fc",
+                "b2b372d5cd781d24"
+            ]
+        ]
+    },
+    {
+        "id": "9e62e5d411d5cd6c",
+        "type": "debug",
+        "z": "6faeac41438d96b0",
+        "name": "debug 83",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 480,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "f386084f5204fc5a",
+        "type": "comment",
+        "z": "6faeac41438d96b0",
+        "name": "Delete app installed",
+        "info": "",
+        "x": 110,
+        "y": 560,
+        "wires": []
+    }
+]

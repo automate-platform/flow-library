@@ -457,9 +457,6 @@ h1 {
     right: 0;
 }
 
-.add-form .dialog-warning.add-collection-icon-warning {
-    right: 0;
-}
 .add-form input[type=text] {
     margin-bottom: 0;
     height: 40px;
@@ -861,7 +858,7 @@ ul#add-flow-tags li i.icon {
 }
 
 .item-details-control-root .item-img img {
-    max-width: 128px;
+    width: 128px;
     position: relative;
     visibility: hidden;
 }

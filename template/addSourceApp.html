@@ -3,13 +3,11 @@
 
 {{>_header}}
 <div class="grid add-form" style="background: none;">
-  <div class="add-form-row">
-    <div class="col-1-12">&nbsp;</div>
-    <div class="col-10-12 thing-list-section" style="background: white; padding: 10px 50px;">
-      <h2 class="pagetitle">Add detail</h2>
-
-      <h4><span id="title" style="color: black;"></span></h4>
-      <form action="/source" method="post" enctype="multipart/form-data">
+    <div class="add-form-row">
+        <div class="col-1-12">&nbsp;</div>
+        <div class="col-10-12 thing-list-section"
+            style="background: white; padding: 10px 50px;">
+            <h2 class="pagetitle">Add detail</h2>
         
       
         <input type="hidden" id="myId" name="id" value="" readonly>
@@ -25,49 +23,37 @@
 
       </form>
     </div>
-  </div>
 </div>
 <!-- -->
 <script src="/js/marked.js"></script>
 <script src="/js/tags.js"></script>
 <script>
+const urlParams = new URLSearchParams(window.location.search);
+const ids = urlParams.get('id');
 
-  const urlParams = new URLSearchParams(window.location.search);
-  const ids = urlParams.get('id');
-  const title = urlParams.get('name')
-  const name = decodeURIComponent(title)
-  document.getElementById('myId').value = ids;
-  document.getElementById('title').textContent  = name;
- 
-  const uploadButton = document.getElementById('upload-flow-label');
-  var zipValid = false;
+// Set the value of the "id" input field
+// document.querySelector('p').textContent = ids;
+document.getElementById('myId').value = ids;
 
 
-  function checkFileZip() {
-    console.log('checkFileZip called');
-    const fileInput = document.getElementById('source');
-    const filePath = fileInput.value;
-    const allowedExtensions = /(\.zip)$/i;
-    if (filePath == "") {
-      $(".add-collection-zip-warning").show();
-      zipValid = false;
-    }
-    else if (!allowedExtensions.exec(filePath)) {
-      $(".add-collection-zip-warning").show();
-      fileInput.value = '';
-      zipValid = false;
-    } else {
-      $(".add-collection-zip-warning").hide();
-      zipValid = true;
-    }
+
+
+function checkFileZip() {
+  const fileInput = document.getElementById('source');
+  const filePath = fileInput.value;
+  const allowedExtensions = /(\.zip)$/i;
+
+  if (!allowedExtensions.exec(filePath)) {
+    const warningDiv = fileInput.parentElement.querySelector('.add-collection-zip-warning');
+    warningDiv.style.display = 'block';
+   
+    return false;
   }
+  
 
-  uploadButton.addEventListener('click', (event) => {
-    if (!zipValid) {
-      event.preventDefault(); // stop the form from being submitted
-      $(".add-collection-zip-warning").show();
-    }
-  });
+}
+
+
 </script>
 
 {{>_footer}}
