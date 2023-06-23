@@ -64,7 +64,7 @@ if (settings.template.apps) {
 
 
         var app_post = {
-            zip_url: req.file.path
+            zip_url: zipFileName
         };
         apper.update(id, app_post || [])
         res.writeHead(303, {
