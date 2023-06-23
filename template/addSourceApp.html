@@ -9,20 +9,19 @@
             style="background: white; padding: 10px 50px;">
             <h2 class="pagetitle">Add detail</h2>
         
-            
-            <form action="/source" method="post"  enctype="multipart/form-data">
-                <br>
-                <input type="text" id="myId" name="id" value="" readonly>
-                <label for="zip">Zip File:</label>
-                <input onchange="checkFileZip()" type="file" id="source" name="source" accept=".zip"><br><br>
-                <div class="add-collection-img-warning dialog-warning" style="display:none">Only .zip</div>
-                <!-- <label for="image">Image:</label>
-                <input  accept=".jpg, .jpeg, .png, .ico" onchange="checkFileImg()" type="file" id="icon" name="icon"><br><br>
-                <div style="position:relative"><div class="add-collection-img-warning dialog-warning">Only png, img, ico</div></div>-->
-                <a id="add-flow-create" href="#" class="btn-upload">   <input type="submit" value="Submit" id="add-flow-label"></a> 
-              
-            </form>
-        </div>
+      
+        <input type="hidden" id="myId" name="id" value="" readonly>
+        <p>Uploading the source code of an application is a mandatory requirement.Uploading the source code of an
+          application is a mandatory requirement
+        </p>
+        <label for="zip">Zip File:</label>
+        <input onchange="checkFileZip()" type="file" id="source" name="source" accept=".zip"><br><br>
+        <div class="add-collection-zip-warning dialog-warning">File must have type is .zip</div> <br> <br>
+
+        <a id="add-flow-create" href="#" class="btn-upload"> <input type="submit" value="Submit"
+            id="upload-flow-label"></a>
+
+      </form>
     </div>
 </div>
 <!-- -->
