@@ -41,7 +41,9 @@ var settings = {
     template: {
         nodes: false,
         flows: true,
-        collection: false
+        collection: false,
+        apps: true,
+        footer:false
     },
     app: {
         zipUrl: 'Documents/marketApp/app/'

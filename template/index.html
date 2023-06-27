@@ -1,29 +1,13 @@
 {{>_header}}
-{{^sessionuser}}
-
-<!-- <div class="grid">
-    <div class="front-hero">
-      <div class="col-2-3" style="position:relative; background: #aa4444; border-top-right-radius:20px;border-bottom-left-radius:10px;">
-          <div>
-        <h2>Node-RED Library</h2>
-        <p>Find new nodes, share your flows and see what other people have done with Node-RED.</p>
-        </div>
-      </div>
-      <div class="col-1-3" style="position: relative">
-
-      </div>
-  </div>
-</div> -->
-{{/sessionuser}}
 
 <div class="homepage-searchbox-wrapper" role="search">
     <div class="homepage-searchbox-message">
-        <h1> <span>Extensions for Visual Studio</span> </h1>
+        <h1> <span>Eco-App Market</span> </h1>
     </div>
     <form id="search-form" method="get" action="/search">
         <div class="homepage-searchbox-container gist-filter">
             <input class="search-input gist-filter-input" maxlength="200" autocomplete="off"
-                placeholder="Search Visual Studio extensions" value="{{query.term}}" id="filter-term" name="term">
+            placeholder="Search Application" value="{{query.term}}" id="filter-term" name="term">
             <!-- <span role="button"
                 class="searchbutton gallery-element-focus-style-moderate bowtie-icon bowtie-search"></span> -->
             {{^fullsearch}}
