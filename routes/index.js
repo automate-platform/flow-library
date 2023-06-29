@@ -4,7 +4,7 @@ const db = require("../lib/db");
 const viewster = require("../lib/view");
 const templates = require("../lib/templates");
 const appUtils = require("../lib/utils");
-const setting = require('../config');
+const setting = require('../default-settings');
 
 const querystring = require('querystring');
 
@@ -170,12 +170,14 @@ app.get("/search", function(req,res) {
     context.fullsearch = true;
     var query = queryFromRequest(req);
     context.query = query;
+    context.display = setting.template;
     res.send(mustache.render(templates.search, context, templates.partials));
 });
 
 app.get("/add",function(req,res) {
     var context = {};
     context.sessionuser = req.session.user;
+    context.display = setting.template;
     res.send(mustache.render(templates.add,context,templates.partials));
 });
 

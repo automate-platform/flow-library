@@ -1,64 +1,79 @@
 {{>_header}}
-  <div class="grid add-opt">
+<div class="grid add-opt">
+    {{#display.nodes}}
     <div class="col-1-3 ">
-        <a  class="thing-list-section" href="/add/node">
+        <a class="thing-list-section" href="/add/node">
             <h3>Node</h3>
             <p>Find out how nodes are listed on the library and how you can get yours included.</p>
         </a>
     </div>
+    {{/display.nodes}}
+
+    {{#display.flows}}
     <div class="col-1-3   ">
         {{#sessionuser}}<a class="thing-list-section" href="/add/flow">{{/sessionuser}}
-        {{^sessionuser}}<a class="thing-list-section" href="/login?return=/add/flow">{{/sessionuser}}
-            <h3>Flow</h3>
-            <p>Add a new example flow to the library for others to learn from.</p>
-            {{^sessionuser}}
-            <p><i>You need to be logged in to add a flow.</i></p>
-            {{/sessionuser}}
-        </a>
+            {{^sessionuser}}<a class="thing-list-section" href="/login?return=/add/flow">{{/sessionuser}}
+                <h3>Flow</h3>
+                <p>Add a new example flow to the library for others to learn from.</p>
+                {{^sessionuser}}
+                <p><i>You need to be logged in to add a flow.</i></p>
+                {{/sessionuser}}
+            </a>
     </div>
+    {{/display.flows}}
+
+    {{#display.collection}}
     <div class="col-1-3 ">
         {{#sessionuser}}<a class="thing-list-section" href="/add/collection">{{/sessionuser}}
-        {{^sessionuser}}<a class="thing-list-section" href="/login?return=/add/collection">{{/sessionuser}}
-            <h3>Collection</h3>
-            <p>Create a new collection of nodes and flows to share with others.</p>
-            {{^sessionuser}}
-            <p><i>You need to be logged in to create a collection.</i></p>
-            {{/sessionuser}}
-        </a>
+            {{^sessionuser}}<a class="thing-list-section" href="/login?return=/add/collection">{{/sessionuser}}
+                <h3>Collection</h3>
+                <p>Create a new collection of nodes and flows to share with others.</p>
+                {{^sessionuser}}
+                <p><i>You need to be logged in to create a collection.</i></p>
+                {{/sessionuser}}
+            </a>
     </div>
+    {{/display.collection}}
+
+    {{#display.apps}}
     <div class="col-1-3 ">
         {{#sessionuser}}<a class="thing-list-section" href="/add/app">{{/sessionuser}}
-        {{^sessionuser}}<a class="thing-list-section" href="/login?return=/add/app">{{/sessionuser}}
-            <h3>App</h3>
-            <p>Add a new example app to the library for others to learn from.</p>
-            {{^sessionuser}}
-            <p><i>You need to be logged in to add a app.</i></p>
-            {{/sessionuser}}
-        </a>
+            {{^sessionuser}}<a class="thing-list-section" href="/login?return=/add/app">{{/sessionuser}}
+                <h3>App</h3>
+                <p>Add a new example app to the library for others to learn from.</p>
+                {{^sessionuser}}
+                <p><i>You need to be logged in to add a app.</i></p>
+                {{/sessionuser}}
+            </a>
     </div>
+    {{/display.apps}}
 </div>
 <style>
-.library .grid.add-opt {
-    background: none;
-    min-height: 500px;
-}
-.add-opt .thing-list-section {
-    min-height: 250px;
-}
-.add-opt  a {
-    display: inline-block;
-    width:100%;
-    color: #444;
-    padding: 5px 40px;
-    min-height: 200px;
-    background: white;
-}
-.add-opt  a:hover {
-    text-decoration: none;
-    background: #fee;
-}
-.add-opt  a h3 {
-    margin-top: 5px;
-}
+    .library .grid.add-opt {
+        background: none;
+        min-height: 500px;
+    }
+
+    .add-opt .thing-list-section {
+        min-height: 250px;
+    }
+
+    .add-opt a {
+        display: inline-block;
+        width: 100%;
+        color: #444;
+        padding: 5px 40px;
+        min-height: 200px;
+        background: white;
+    }
+
+    .add-opt a:hover {
+        text-decoration: none;
+        background: #fee;
+    }
+
+    .add-opt a h3 {
+        margin-top: 5px;
+    }
 </style>
 {{>_footer}}

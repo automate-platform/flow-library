@@ -291,7 +291,7 @@ if (settings.template.apps) {
     });
 
     app.get("/add/app", function (req, res) {
-        if (!req.session.user) { m
+        if (!req.session.user) { 
             return res.redirect("/add")
         }
         var context = {};
