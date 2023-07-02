@@ -1095,6 +1095,10 @@ ul#add-flow-tags li i.icon {
     margin-right: 8px;
 }
 
+.item-details-control-root .ux-item-second-row-wrapper .ux-item-review-rating-wrapper .flowinfo #set-stars i:not(:first-child){
+    color: yellowgreen;
+}
+
 .item-details-control-root .ux-item-second-row-wrapper>.item-price-category {
     margin-left: 10px;
     margin-right: 10px;
