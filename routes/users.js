@@ -43,6 +43,7 @@ app.get("/settings", appUtils.csrfProtection(), function(req,res) {
     }
     var context = {};
     context.sessionuser = req.session.user;
+    context.display = setting.template;
     context.csrfToken = req.csrfToken();
     var username = req.session.user.login;
     users.get(username).then(function(user) {

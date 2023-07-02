@@ -7,6 +7,7 @@ var csrf = require('csurf');
 var uuid = require('uuid')
 
 var settings = require("../config");
+var setting = require("../default-settings");
 var appUtils = require("../lib/utils");
 var npmNodes = require("../lib/nodes");
 var npmModules = require("../lib/modules");
@@ -19,12 +20,13 @@ var app = express();
 
 
 var iconCache = {};
-if (settings.template.nodes) {
+if (setting.template.nodes) {
 
 
     app.get("/nodes", function (req, res) {
         var context = {};
         context.sessionuser = req.session.user;
+        context.display = setting.template;
         npmNodes.getPopularByDownloads().then(function (nodes) {
             context.nodes = nodes;
             res.send(mustache.render(templates.nodes, context, templates.partials));
@@ -50,6 +52,7 @@ if (settings.template.nodes) {
         }
         npmNodes.get(id).then(function (node) {
             node.sessionuser = req.session.user;
+            node.display = setting.template;
             node.csrfToken = req.csrfToken();
             node.pageTitle = req.params.id + " (node)";
 
@@ -286,6 +289,7 @@ if (settings.template.nodes) {
     app.get("/add/node", appUtils.csrfProtection(), function (req, res) {
         var context = {};
         context.sessionuser = req.session.user;
+        context.display = setting.template;
         context.csrfToken = req.csrfToken();
         res.send(mustache.render(templates.addNode, context, templates.partials));
     });
@@ -293,6 +297,7 @@ if (settings.template.nodes) {
     app.post("/add/node", appUtils.csrfProtection(), function (req, res) {
         var context = {};
         context.sessionuser = req.session.user;
+        context.display = setting.template;
         var name = req.body.module;
         if (name) {
             name = name.trim();

@@ -4,6 +4,7 @@ var { marked } = require('marked');
 var fs = require("fs");
 
 var settings = require("../config");
+var setting = require("../default-settings");
 var gister = require("../lib/gists");
 var appUtils = require("../lib/utils");
 var npmNodes = require("../lib/nodes");
@@ -13,7 +14,7 @@ var ratings = require("../lib/ratings");
 var uuid = require('uuid');
 
 var app = express();
-if (settings.template.flows) {
+if (setting.template.flows) {
 
     app.post("/flow", function (req, res) {
         if (req.session.accessToken) {
@@ -45,6 +46,7 @@ if (settings.template.flows) {
     function getFlow(id, collection, req, res) {
         gister.get(id).then(function (gist) {
             gist.sessionuser = req.session.user;
+            gist.display = setting.template;
             gist.csrfToken = req.csrfToken();
             gist.collection = collection;
             gist.created_at_since = appUtils.formatDate(gist.created_at);
@@ -264,6 +266,7 @@ if (settings.template.flows) {
         }
         var context = {};
         context.sessionuser = req.session.user;
+        context.display = setting.template;
         res.send(mustache.render(templates.addFlow, context, templates.partials));
     });
 

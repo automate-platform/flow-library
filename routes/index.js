@@ -38,6 +38,7 @@ app.get("/", function (req, res) {
     var context = {};
 
     context.sessionuser = req.session.user;
+    context.display = setting.template;
     context.nodes = {
         type: 'node',
         per_page: context.sessionuser?6:6,

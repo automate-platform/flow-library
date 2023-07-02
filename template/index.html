@@ -7,7 +7,7 @@
     <form id="search-form" method="get" action="/search">
         <div class="homepage-searchbox-container gist-filter">
             <input class="search-input gist-filter-input" maxlength="200" autocomplete="off"
-            placeholder="Search Application" value="{{query.term}}" id="filter-term" name="term">
+                placeholder="Search Application" value="{{query.term}}" id="filter-term" name="term">
             <!-- <span role="button"
                 class="searchbutton gallery-element-focus-style-moderate bowtie-icon bowtie-search"></span> -->
             {{^fullsearch}}
@@ -52,7 +52,13 @@
                                         desc.text(d.summary)
                                         type.addClass("filter-result-flow");
                                         type.text("flow")
-                                    } else if (d.isCollection) {
+                                    } else if (d.isApp) {
+                                        link.attr("href", "/app/" + d._id)
+                                        label.text(d.description);
+                                        desc.text(d.summary)
+                                        type.addClass("filter-result-collection");
+                                        type.text("app")
+                                    }else if (d.isCollection) {
                                         link.attr("href", "/collection/" + d._id)
                                         label.text(d.name);
                                         desc.text(d.summary)
@@ -73,8 +79,10 @@
                     }
                 }, 500));
             </script>
+
             {{/fullsearch}}
         </div>
+
     </form>
 </div>
 

@@ -4,6 +4,7 @@ var { marked } = require('marked');
 var fs = require("fs");
 
 var settings = require("../config");
+var setting = require("../default-settings");
 var apper = require("../lib/apps");
 var appUtils = require("../lib/utils");
 var npmNodes = require("../lib/nodes");
@@ -16,11 +17,11 @@ var { storage, uploadzip } = require("../lib/apps");
 
 
 var app = express();
-if (settings.template.apps) {
+if (setting.template.apps) {
 
     app.post("/app", function (req, res) {
         if (req.session.accessToken) {
-     
+
             var app_post = {
                 description: req.body.title,
                 public: false,
@@ -33,11 +34,11 @@ if (settings.template.apps) {
                     },
                     'icon.ico': {
                         content: req.body.icondata
-                   }
+                    }
                 }
             };
             apper.create(req.session.accessToken, app_post, req.body.tags || []).then(function (id) {
-                let url = '/add/app/source?id=' + id + '&name='+encodeURIComponent(req.body.title);
+                let url = '/add/app/source?id=' + id + '&name=' + encodeURIComponent(req.body.title);
 
                 res.send(url);
             }).catch(function (err) {
@@ -77,6 +78,7 @@ if (settings.template.apps) {
     function getFlow(id, collection, req, res) {
         apper.get(id).then(function (app) {
             app.sessionuser = req.session.user;
+            app.display = setting.template;
             app.csrfToken = req.csrfToken();
             app.collection = collection;
             app.created_at_since = appUtils.formatDate(app.created_at);
@@ -291,11 +293,12 @@ if (settings.template.apps) {
     });
 
     app.get("/add/app", function (req, res) {
-        if (!req.session.user) { 
+        if (!req.session.user) {
             return res.redirect("/add")
         }
         var context = {};
         context.sessionuser = req.session.user;
+        context.display = setting.template;
         res.send(mustache.render(templates.addApp, context, templates.partials));
     });
     app.get("/add/app/source", function (req, res) {
@@ -304,6 +307,7 @@ if (settings.template.apps) {
         }
         var context = {};
         context.sessionuser = req.session.user;
+        context.display = setting.template;
         res.send(mustache.render(templates.addSourceApp, context, templates.partials));
     });
 
