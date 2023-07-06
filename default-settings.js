@@ -8,6 +8,12 @@ var settings = {
         authCallback: "http://localhost:8080/login/callback",
         accessToken: "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"
     },
+    gitlab  : {
+        clientId: "f1498dfd80942c546df27fa9d79ce44d5068630d1c9cb3b6fb996877115e9ea2",
+        secret: "2e94649cb2ef8f345feb0559d1e7b4f086e8812c0629842477419a5179bb63ba",
+        authCallback: "http://localhost:8080/login/callback",
+        accessToken: "glpat-34RksJugejJUiJPxyFGQ"
+    },
     mongo: {
         url: 'mongodb://103.154.100.21:27017/flows'
     },
@@ -41,7 +47,8 @@ var settings = {
     template: {
         nodes: false,
         flows: true,
-        collection: false
+        collection: false,
+        apps: true,
     },
     app: {
         zipUrl: 'Documents/marketApp/app/'

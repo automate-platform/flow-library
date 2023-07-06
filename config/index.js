@@ -35,4 +35,10 @@ try {
     module.exports.aws.region = process.env.NR_AWS_REGION || module.exports.aws.region
 
     module.exports.app.zipUrl = process.env.APP_FLOW_URL ||  module.exports.app.zipUrl
+
+  
+    module.exports.gitlab.clientId = process.env.NR_GITLAB_CLIENTID || module.exports.gitlab.clientId;
+    module.exports.gitlab.secret = process.env.NR_GITLAB_SECRET || module.exports.gitlab.secret;
+    module.exports.gitlab.authCallback = process.env.NR_GITLAB_CALLBACK || module.exports.gitlab.authCallback;
+    module.exports.gitlab.accessToken = process.env.NR_GITLAB_ACCESS_TOKEN || module.exports.gitlab.accessToken;
 }

@@ -4,7 +4,7 @@ var { marked } = require('marked');
 var fs = require("fs");
 
 var settings = require("../config");
-var gister = require("../lib/gists");
+var snippet = require("../lib/snippet");
 var appUtils = require("../lib/utils");
 var npmNodes = require("../lib/nodes");
 var templates = require("../lib/templates");
@@ -17,19 +17,27 @@ if (settings.template.flows) {
 
     app.post("/flow", function (req, res) {
         if (req.session.accessToken) {
-            var gist_post = {
-                description: req.body.title,
-                public: false,
-                files: {
-                    'flow.json': {
-                        content: req.body.flow
-                    },
-                    'README.md': {
-                        content: req.body.description
-                    }
+            const files = [
+
+                {
+                    file_path: 'flow.json',
+                    content: req.body.flow
+                },
+                {
+                    file_path: 'README.md',
+                    content: req.body.description
                 }
+
+            ];
+            var gist_post = {
+                title: req.body.title,
+                files: files,
+                visibility: 'private',
+                description: req.body.description,
             };
-            gister.create(req.session.accessToken, gist_post, req.body.tags || []).then(function (id) {
+
+
+            snippet.createSnippet(req.session.accessToken, gist_post, req.body.tags || []).then(function (id) {
                 res.send("/flow/" + id);
             }).catch(function (err) {
                 console.log("Error creating flow:", err);
@@ -40,10 +48,10 @@ if (settings.template.flows) {
         }
     });
 
-    app.get("/flow/:id", appUtils.csrfProtection(), function (req, res) { getFlow(req.params.id, null, req, res); });
+    app.get("/flow/:id", appUtils.csrfProtection(), function (req, res) { getFlow(req.params.id,null, req, res); }); //req.params.id, null, req, res
     app.get("/flow/:id/in/:collection", appUtils.csrfProtection(), function (req, res) { getFlow(req.params.id, req.params.collection, req, res); });
     function getFlow(id, collection, req, res) {
-        gister.get(id).then(function (gist) {
+        snippet.get(id).then(function (gist) {
             gist.sessionuser = req.session.user;
             gist.csrfToken = req.csrfToken();
             gist.collection = collection;
@@ -181,7 +189,7 @@ if (settings.template.flows) {
         } else if (settings.admins.indexOf(req.session.user.login) != -1) {
             next();
         } else {
-            gister.get(req.params.id).then(function (gist) {
+            snippet.get(req.params.id).then(function (gist) {
                 if (gist.owner.login == req.session.user.login) {
                     next();
                 } else {
@@ -195,7 +203,7 @@ if (settings.template.flows) {
 
     app.post("/flow/:id/tags", verifyOwner, function (req, res) {
         // TODO: verify req.session.user == gist owner
-        gister.updateTags(req.params.id, req.body.tags).then(function () {
+        snippet.updateTags(req.params.id, req.body.tags).then(function () {
             res.status(200).end();
         }).catch(function (err) {
             console.log("Error updating tags:", err);
@@ -205,7 +213,7 @@ if (settings.template.flows) {
     });
 
     app.post("/flow/:id/refresh", verifyOwner, function (req, res) {
-        gister.refresh(req.params.id).then(function () {
+        snippet.refresh(req.params.id).then(function () {
             res.send("/flow/" + req.params.id);
         }).catch(function (exists) {
             if (exists) {

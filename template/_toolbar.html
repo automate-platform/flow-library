@@ -14,7 +14,7 @@
               <div class="tab-collection-right" style="position: relative;">
                   <span class="buttons">
                       <a href="/add"><i class="icon-plus"></i></a>
-                      {{^sessionuser}} <a class="signin" href="/login"><span>Sign in with <b>GitHub</b></span><i class="icon-github"></i></a>
+                      {{^sessionuser}} <a class="signin" href="/login"><span>Sign in with <b>GitLab</b></span><i class="icon-github"></i></a>
                       <script>$(function() { $(".signin").attr('href','/login?return='+window.location.pathname);});</script>
                       {{/sessionuser}}
                       {{#sessionuser}}<a class="user" href="/user/{{sessionuser.login}}"><img src="{{avatar_url}}"/></a>
