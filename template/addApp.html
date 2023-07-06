@@ -13,9 +13,21 @@
             </div>
 
             <h4 class="add-flow-label"><label for="add-flow-desc">Icon</label></h4>
-            <input type="file" name="icon" id="icon" accept=".jpg, .png, .ico">
             <p>Icon for your app </p>
-            <!-- <div class="add-collection-icon-warning dialog-warning">Icon file must be .png , .jpeg or .ico</div> -->
+            <div style="display: flex; align-items: center;">
+                <label for="icon" class="icon-label"><img id="image-preview" src="#" alt="Preview"
+                        style="width: 128px; height: 128px; display: none;"><span class="choose-btn"
+                        style="display: flex; align-items: center;"><i class='bx bx-upload'
+                            style="font-size:25px; color: goldenrod;"></i>Choose
+                        Image</span></label>
+                <input type="file" name="icon" id="icon" accept=".jpg,.png,.ico,.icons" style="display: none;">
+
+            </div>
+            <div style="position:relative">
+                <div class="add-collection-icon-limit-warning dialog-warning">Icon file limit is 60kb </div>
+                <div class="add-collection-icon-warning dialog-warning">Icon file must be .png , .jpeg or .ico</div>
+                <div class="add-collection-icon-size-warning dialog-warning">Please choose image 128x128</div>
+            </div>
 
             <h4 class="add-flow-label"><label for="add-flow-desc">Description</label></h4>
             <p>Describe what the App does and how it is used.</p>
@@ -47,7 +59,8 @@
             <ul class="flow-tags" id="add-flow-tags"></ul>
 
             <h4>&nbsp;</h4>
-            <a id="add-flow-create" href="#" class="btn-create"><span id="add-flow-label">create flow</span><img
+            <a id="add-flow-create" href="#" class="btn-create"><span id="add-flow-label" style="display: flex; align-items: center;">Create flow<i
+                        class='bx bx-right-arrow-alt' style="font-size:25px; color: goldenrod;"></i></span><img
                     id="add-flow-loader" class="loader" src="/images/loader.gif" /></a>
             <p class="create-toc">This will create a private gist, owned by you, on GitHub and add it to the Node-RED
                 flow library on your behalf.</p>
@@ -58,13 +71,28 @@
 <script src="/js/marked.js"></script>
 <script src="/js/tags.js"></script>
 <script>
+    let labelInputHover = document.querySelector('.icon-label');
+    labelInputHover.addEventListener('mouseover', () => {
+        document.querySelector('.bx.bx-upload').classList.add('bx-fade-up')
+    })
+    labelInputHover.addEventListener('mouseout', () => {
+        document.querySelector('.bx.bx-upload').classList.remove('bx-fade-up')
+    })
+    let createBtnHover = document.querySelector('.btn-create');
+    createBtnHover.addEventListener('mouseover', () => {
+        document.querySelector('.bx.bx-right-arrow-alt').classList.add('bx-fade-right')
+    })
+    createBtnHover.addEventListener('mouseout', () => {
+        document.querySelector('.bx.bx-right-arrow-alt').classList.remove('bx-fade-right')
+    })
 
     $(function () {
-
+        var iconValid = false;
         var titleValid = false;
         var descValid = false;
         var flowValid = false;
 
+        let iconBase = "";
         $("#add-flow-title").keyup(function (e) {
             var val = $(this).val().trim();
             if (val.length < 10) {
@@ -89,7 +117,23 @@
                 $(this).removeClass("input-error");
             }
         });
-
+        $("#icon").keyup(function (e) {
+            var val = $(this).val().trim();
+            if (val.length == 0) {
+                iconValid = false;
+                $(".add-collection-icon-warning").show();
+                $(this).addClass("input-error");
+            } else if (iconBase == "") {
+                iconValid = false;
+                $(".add-collection-icon-warning").show();
+                $(this).addClass("input-error");
+            }
+            else {
+                iconValid = true;
+                $(".add-collection-icon-warning").hide();
+                $(this).removeClass("input-error");
+            }
+        });
         function validateFlow(e) {
             var flow = $(this).val().trim();
             if (flow == "") {
@@ -117,47 +161,81 @@
         }
 
         const inputElement = document.getElementById("icon");
-        let iconBase = "";
-        // if (inputElement.files.length === 0) {
-        //     $(".add-collection-icon-warning").show();
-        // } else {
-        //     $(".add-collection-icon-warning").hide();
-        //     for (let i = 0; i < inputElement.files.length; i++) {
-        //         const file = inputElement.files[i];
-        //         if (checkIcon(file)) {
-        //             inputElement.addEventListener("change", handleIcon, false);
-        //         } else {
-        //             // handle invalid file type error
-        //         }
-        //     }
-        // }
+        const imagePreview = document.getElementById('image-preview');
+        const labelBtn = document.querySelector('.icon-label .choose-btn');
+
         inputElement.addEventListener("change", handleIcon, false);
         function handleIcon() {
             const fileList = this.files;
             if (fileList.length === 0) {
-                console.log("No file selected");
-                return;
-            }
-            const file = fileList[0];
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-
-            reader.onload = function () {
-
-                iconBase = reader.result;
-                
-            };
-            reader.onerror = function (error) {
-                console.log("Error: ", error);
-            };
-        }
-        function checkIcon(file) {
-            const validImageTypes = ['image/jpeg', 'image/png', 'image/x-icon'];
-            if (!validImageTypes.includes(file.type)) {
-               
                 $(".add-collection-icon-warning").show();
+                $(".add-collection-icon-limit-warning").hide();
+                $(".add-collection-icon-size-warning").hide();
+                iconValid = false;
+                return false;
+            } else {
+                const file = fileList[0];
+                const fileSizeKB = file.size / 1024;
+                console.log(fileSizeKB)
+                if (!checkIcon(file)) {
+                    $(".add-collection-icon-warning").show();
+                    $(".add-collection-icon-limit-warning").hide();
+                    $(".add-collection-icon-size-warning").hide();
+                    iconValid = false;
+                    return false;
+                } else if (fileSizeKB > 60) {
+                    $(".add-collection-icon-warning").hide();
+                    $(".add-collection-icon-limit-warning").show();
+                    $(".add-collection-icon-size-warning").hide();
+                    iconValid = false;
+                    return false;
+                } else {
+                    const reader = new FileReader();
+                    reader.readAsDataURL(file);
+
+                    reader.onload = function () {
+                        const image = new Image();
+                        image.src = reader.result
+                        image.onload = function () {
+                            const width = image.naturalWidth;
+                            const height = image.naturalHeight;
+
+                            if (width === 128 && height === 128) {
+                                iconBase = reader.result;
+                                labelBtn.innerHTML = '';
+                                imagePreview.src = iconBase;
+                                imagePreview.style.display = 'block';
+                                $(".add-collection-icon-warning").hide();
+                                $(".add-collection-icon-limit-warning").hide();
+                                $(".add-collection-icon-size-warning").hide();
+                            } else {
+                                $(".add-collection-icon-warning").hide();
+                                $(".add-collection-icon-limit-warning").hide();
+                                $(".add-collection-icon-size-warning").show();
+                                iconValid = false;
+                                return false;
+                            }
+                        };
+
+                    };
+
+                    reader.onerror = function (error) {
+                        console.log("Error: ", error);
+                    };
+                }
+                iconValid = true;
+                $(".add-collection-icon-warning").hide();
+                $(".add-collection-icon-limit-warning").hide();
+                $(".add-collection-icon-size-warning").hide();
+                return true;
+            }
+        };
+        function checkIcon(file) {
+            const validImageTypes = ['image/jpeg', 'image/png', 'image/x-icon', 'image/icons'];
+            if (!validImageTypes.includes(file.type)) {
                 return false;
             }
+
             $(".add-collection-icon-warning").hide();
             return true;
         }
@@ -194,10 +272,11 @@
             if (createSubmitted) {
                 return;
             }
-            if (!titleValid || !descValid || !flowValid) {
+            if (!titleValid || !descValid || !flowValid || !iconValid) {
                 $("#add-flow-title").trigger("keyup");
                 $("#add-flow-desc").trigger("keyup");
                 $("#add-flow-flow").trigger("keyup");
+                $("#icon").trigger("keyup");
                 window.scrollTo(0, 0);
                 return;
             }

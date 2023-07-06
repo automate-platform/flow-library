@@ -49,6 +49,7 @@ var settings = {
         flows: true,
         collection: false,
         apps: true,
+        footer:false
     },
     app: {
         zipUrl: 'Documents/marketApp/app/'

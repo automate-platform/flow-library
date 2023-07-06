@@ -74,8 +74,8 @@
             </form>
           </div>
         </div>
-        <div class="split-view-app">
-          <div class="pane vertical expanded">
+        <div class="split-view-app app-not-installed" id="resizableDiv" style="position: relative;">
+          <div class="pane vertical expanded ">
             <div class="pane-header extension-view-header expanded" tabindex="0" role="button"
               style="display: flex; align-items: center; line-height: 10px;">
               <div class="codicon codicon-view-pane-container-expanded"><i class='bx bx-chevron-right bx-rotate-90'
@@ -148,6 +148,80 @@
             </div>
           </div>
         </div>
+        <div class="split-view-app app-installed" id="resizableDiv" style="position: relative;">
+          <div class="pane vertical expanded ">
+            <div class="pane-header extension-view-header expanded" tabindex="0" role="button"
+              style="display: flex; align-items: center; line-height: 10px;">
+              <div class="codicon codicon-view-pane-container-expanded"><i class='bx bx-chevron-right bx-rotate-90'
+                  style="font-size: large;"></i></div>
+              <h3 class="title" title="Application">Installed</h3>
+            </div>
+          </div>
+          <div class="pane-body">
+            <div class="extensions-list">
+              <div class="monaco-list">
+                <div class="monaco-list-rows">
+                  <div class="monaco-list-row" onclick="openDetail('{{_id}}')">
+                    <div class="extension-list-item">
+                      <div class="icon-container">
+                        <img class="icon" src="{{{icon_flow}}}" style="visibility: inherit;">
+                      </div>
+                      <div class="details">
+                        <div class="header-container">
+                          <div class="header">
+                            <span class="name">{{description}}</span><span
+                              class="install-count extension-install-count"><span
+                                class="codicon codicon-extensions-install-count"><i class='bx bx-cloud-download'
+                                  style='color:#f7f2f2'></i></span><span class="count">87.8M</span></span><span
+                              class="ratings extension-ratings small" title="Average rating: 4 out of 5"><span
+                                class="codicon codicon-extensions-star-full"><i class='bx bxs-star'></i></span><span
+                                class="count">4</span></span><span class="sync-ignored"></span><span
+                              class="activation-status"></span>
+                            <div class="extension-remote-badge-container">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="description ellipsis">
+                          {{summary}}
+                        </div>
+                        <div class="footer">
+                          <div class="author ellipsis">
+                            <div class="verified-publisher">
+                              <span class="extension-verified-publisher clickable"><span
+                                  class="codicon codicon-extensions-verified-publisher"></span></span>
+                            </div>
+                            <div class="publisher-name ellipsis" style="text-transform: uppercase;">
+                              {{type}}
+                            </div>
+                          </div>
+                          <div class="monaco-action-bar">
+                            <ul class="actions-container" role="toolbar">
+                              <li class="action-item action-dropdown-item" role="presentation" title="">
+                                <a class="action-label codicon extension-action label prominent install action-dropdown"
+                                  role="button" aria-label="" onclick="deleteExtension('{{_id}}')">Uninstall</a>
+                                <div class="action-dropdown-item-separator prominent">
+                                  <div>
+                                  </div>
+                                </div>
+                                <div class="monaco-dropdown">
+                                  <div class="dropdown-label">
+                                    <a
+                                      class="action-label dropdown codicon codicon-drop-down-button extension-action label prominent install action-dropdown"><i
+                                        class='bx bx-unlink' style='color:#f7f2f2; font-size: 10px;'></i></a>
+                                  </div>
+                                </div>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </nav>
       <div class="col-md-9 col-lg-10 d-md-block bg-body-tertiary collapse split-view-view"
         style="display: none!important;">
@@ -156,20 +230,20 @@
             <div class="tabs-and-actions-container tabs-border-bottom"
               style="--tabs-border-bottom-color: rgba(255, 255, 255, 0.08);">
               <div class="monaco-scrollable-element">
-                <div class="tabs-container" >
+                <div class="tabs-container">
                   <div class="tab tab-actions-right sizing-fit has-icon tab-border-bottom tab-border-top" id="{{_id}}">
                     <div class="tab-border-top-container">
                     </div>
-                    <div class="monaco-icon-label file-icon tab-label tab-label-has-badge italic"   >
+                    <div class="monaco-icon-label file-icon tab-label tab-label-has-badge italic">
                       <div class="monaco-icon-label-container">
-                        <span class="monaco-icon-name-container"><a class="label-name"
-                            style="color: white;" onclick="openDetailTab('{{_id}}')">{{description}}</a></span>
+                        <span class="monaco-icon-name-container"><a class="label-name" style="color: white;"
+                            onclick="openDetailTab('{{_id}}')">{{description}}</a></span>
                       </div>
                     </div>
                     <div class="tab-actions" onclick="closeTab(this.parentNode)">
                       <div class="monaco-action-bar animated">
                         <ul class="actions-container" role="presentation" aria-label="Tab actions">
-                          <li class="action-item" role="presentation" title="Close (Ctrl+F4)" >
+                          <li class="action-item" role="presentation" title="Close (Ctrl+F4)">
                             <a class="action-label codicon codicon-close" role="button" aria-label="Close (Ctrl+F4)"
                               tabindex="0"><i class='bx bx-x'></i></a>
                           </li>
@@ -234,8 +308,14 @@
                       <div class="monaco-action-bar">
                         <ul class="actions-container" role="toolbar">
                           <li class="action-item action-dropdown-item" role="presentation" title="">
+                            {{^isInstall}}
                             <a class="action-label codicon extension-action label prominent install action-dropdown"
                               role="button" aria-label="" tabindex="0" onclick="installExtension('{{_id}}')">Install</a>
+                            {{/isInstall}}
+                            {{#isInstall}}
+                            <a class="action-label codicon extension-action label prominent install action-dropdown"
+                              role="button" aria-label="" tabindex="0" onclick="deleteExtension('{{_id}}')">Uninstall</a>
+                            {{/isInstall}}
                             <div class="action-dropdown-item-separator prominent">
                               <div>
                               </div>
@@ -258,10 +338,12 @@
                     <div class="monaco-action-bar">
                       <ul class="actions-container" role="toolbar">
                         <li class="action-item " role="presentation">
-                          <a class="action-label tab-header" onclick="ClickFunc($(this),$('.readme-container.tab-content'))">Details</a>
+                          <a class="action-label tab-header"
+                            onclick="ClickFunc($(this),$('.readme-container.tab-content'))">Details</a>
                         </li>
                         <li class="action-item " role="presentation">
-                          <a class="action-label tab-header" onclick="ClickFunc($(this), $('.version-container.tab-content'))">Version</a>
+                          <a class="action-label tab-header"
+                            onclick="ClickFunc($(this), $('.version-container.tab-content'))">Version</a>
                         </li>
                       </ul>
                     </div>
@@ -381,7 +463,7 @@
                               <div class="categories" style="white-space: normal">
                                 {{#tags}}
                                 <span class="category" tabindex="0">{{.}}</span>
-                                  {{/tags}}
+                                {{/tags}}
                               </div>
                             </div>
                             <!-- <div class="resources-container additional-details-element">

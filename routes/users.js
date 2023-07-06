@@ -5,6 +5,7 @@ const db = require("../lib/db");
 const templates = require("../lib/templates");
 const viewster = require("../lib/view");
 const users = require("../lib/users");
+const setting = require("../default-settings")
 const app = express();
 const https = require("https");
 
@@ -13,6 +14,7 @@ app.get("/user/:username", function (req, res) {
     var context = {};
     context.sessionuser = req.session.user;
     context.username = req.params.username;
+    context.display = setting.template;
     context.query =  {
         id: Math.floor(Math.random()*16777215).toString(16),
         username: req.params.username,
@@ -41,6 +43,7 @@ app.get("/settings", appUtils.csrfProtection(), function(req,res) {
     }
     var context = {};
     context.sessionuser = req.session.user;
+    context.display = setting.template;
     context.csrfToken = req.csrfToken();
     var username = req.session.user.login;
     users.get(username).then(function(user) {

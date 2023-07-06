@@ -12,10 +12,18 @@
             <input type="hidden" name="page" value="">
             <input type="hidden" name="per_page" value="{{per_page}}">
             <ul class="filter-options-filter">
+                {{#display.nodes}}
                 <li><input name="type" value="node" type="checkbox" id="thing-list-{{id}}-type-node"/><label class="gistbox-filter-label" for="thing-list-{{id}}-type-node">nodes</label></li>
+                {{/display.nodes}}
+                {{#display.flows}}
                 <li><input name="type" value="flow" type="checkbox" id="thing-list-{{id}}-type-flow"/><label class="gistbox-filter-label" for="thing-list-{{id}}-type-flow">flows</label></li>
+                {{/display.flows}}
+                {{#display.apps}}
                 <li><input name="type" value="app" type="checkbox" id="thing-list-{{id}}-type-app"/><label class="gistbox-filter-label" for="thing-list-{{id}}-type-app">apps</label></li>
+                {{/display.apps}}
+                {{#display.collection}}
                 <li><input name="type" value="collection" type="checkbox" id="thing-list-{{id}}-type-collection"/><label class="gistbox-filter-label" for="thing-list-{{id}}-type-collection">collections</label></li>
+                {{/display.collection}}
             </ul>
             <span class="filter-sort">
                 <ul class="filter-options-filter">

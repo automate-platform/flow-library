@@ -1,22 +1,5 @@
 {{>_header}}
 <script>
-    // function copyFlow() {
-    //     var ta = document.createElement('textarea');
-    //     let copyText = document.querySelector("#FlowCode").innerText;
-    //     ta.style.position = 'absolute';
-    //     ta.style.left = '-3000px';
-    //     document.body.appendChild(ta);
-    //     ta.value = copyText;
-    //     ta.select();
-    //     document.execCommand("copy");
-    //     document.body.removeChild(ta);
-    //     document.querySelector('#copy-button').innerText = "Copied!";
-    //     setTimeout(function () {
-    //         document.querySelector('#copy-button').innerText = "Copy";
-    //     }, 3000)
-    // }
-
-    // document.querySelector("#copy").addEventListener("click", copy);
     $(window).scroll(function () {
         if ($(window).scrollTop() > 80) {
             $('#section-banner').addClass('static');
@@ -114,9 +97,9 @@
                                                 </div>
                                                 <div class="ux-item-shortdesc">{{summary}}</div>
                                                 <div class="ux-item-action">
-                                                    <a class="download-button-container">
+                                                    <a class="download-button-container" href="foobar://open">
                                                         <button class="ux-button install"
-                                                            onclick="copyFlow()">Install</button>
+                                                            onclick="">Install</button>
                                                     </a>
                                                     <span style="display: none;"></span>
                                                 </div>

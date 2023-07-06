@@ -88,7 +88,7 @@
         "type": "function",
         "z": "c5e3d2bbac78be49",
         "name": "Create array store db",
-        "func": "const options = {\n    projection: { _id: 1, description: 1, icon_flow: 1, summary: 1, type: 1, gitOwners: 1, readme: 1, flow: 1, tags: 1, updated_at: 1, created_at: 1}\n};\nconst query = {\n    // type: 'app',\n    _id: msg.req.params.id\n};\nmsg.payload = [query, options];\nreturn msg;\n\n",
+        "func": "let options = {\n    projection: { _id: 1, description: 1, icon_flow: 1, summary: 1, type: 1, gitOwners: 1, readme: 1, flow: 1, tags: 1, updated_at: 1, created_at: 1}\n};\nlet query = {\n    // type: 'app',\n    _id: msg.req.params.id\n};\nmsg.payload = [query, options];\nreturn msg;\n\n",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -156,7 +156,8 @@
         "y": 120,
         "wires": [
             [
-                "2f8ff1bbd3e25c9c"
+                "2f8ff1bbd3e25c9c",
+                "71d40826b3e73848"
             ]
         ]
     },
@@ -211,7 +212,7 @@
         "type": "function",
         "z": "c5e3d2bbac78be49",
         "name": "Create array store db",
-        "func": "const options = {\n    projection: { _id: 1, description: 1, icon_flow: 1, summary: 1, type: 1, tags: 1, updated_at: 1, created_at:1}\n};\nconst query = {\n    type : 'app'\n};\nmsg.payload = [query, options];\nreturn msg;",
+        "func": "let options = {\n    projection: { _id: 1, description: 1, icon_flow: 1, summary: 1, type: 1, tags: 1, updated_at: 1, created_at:1}\n};\nlet query = {\n    type : 'app'\n};\nmsg.payload = [query, options];\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -333,7 +334,7 @@
         "type": "function",
         "z": "c5e3d2bbac78be49",
         "name": "Create array store db",
-        "func": "let query = {};\nlet options = {\n    projection: { _id: 1, description: 1, icon_flow: 1, summary: 1, type: 1, gitOwners: 1, readme: 1, flow: 1, tags: 1, updated_at: 1, created_at: 1}\n};\n\nquery = {\n    type: 'app',\n    description: { $regex: msg.req.params.desc, $options: \"i\" }\n};\n\nmsg.payload = [query, options];\nreturn msg;\n\n",
+        "func": "let options = {\n    projection: { _id: 1, description: 1, icon_flow: 1, summary: 1, type: 1, gitOwners: 1, readme: 1, flow: 1, tags: 1, updated_at: 1, created_at: 1}\n};\n\nlet query = {\n    type: 'app',\n    description: { $regex: msg.req.params.desc, $options: \"i\" }\n};\n\nmsg.payload = [query, options];\nreturn msg;\n\n",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -380,7 +381,7 @@
         "type": "function",
         "z": "c5e3d2bbac78be49",
         "name": "function 27",
-        "func": "function formatDate(dateBefore) {\n    const dateObj = new Date(dateBefore);\n    const time = dateObj.toLocaleTimeString('en-US', { hour12: false });\n    const date = dateObj.toLocaleDateString('en-US', { day: 'numeric', month: 'numeric', year: 'numeric' });\n\n    const formattedCreateDate = `${time} ${date}`;\n    return formattedCreateDate;\n}\n\nlet appObjs = msg.payload\n\nappObjs.forEach(function (element) {\n    let createDate = element.created_at\n    let updateDate = element.updated_at\n    element.created_at = formatDate(createDate);\n    element.updated_at = formatDate(updateDate);\n});\n\nmsg.payload = appObjs\nreturn msg;",
+        "func": "function formatDate(dateBefore) {\n    const dateObj = new Date(dateBefore);\n    const time = dateObj.toLocaleTimeString('en-US', { hour12: false });\n    const date = dateObj.toLocaleDateString('en-US', { day: 'numeric', month: 'numeric', year: 'numeric' });\n\n    const formattedCreateDate = `${time} ${date}`;\n    return formattedCreateDate;\n}\n\nif (msg.payload !== null) {\n    let appObjs = msg.payload\n    appObjs.forEach(function (element) {\n        let createDate = element.created_at\n        let updateDate = element.updated_at\n        element.created_at = formatDate(createDate);\n        element.updated_at = formatDate(updateDate);\n    });\n    msg.payload = appObjs\n    return msg;\n} else {\n    return msg;\n}\n",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -400,7 +401,7 @@
         "type": "function",
         "z": "c5e3d2bbac78be49",
         "name": "function 28",
-        "func": "function formatDate(dateBefore) {\n    const dateObj = new Date(dateBefore);\n    const time = dateObj.toLocaleTimeString('en-US', { hour12: false });\n    const date = dateObj.toLocaleDateString('en-US', { day: 'numeric', month: 'numeric', year: 'numeric' });\n\n    const formattedCreateDate = `${time} ${date}`;\n    return formattedCreateDate;\n}\n\nlet appObj = msg.payload\n\nlet createDate = appObj.created_at\nlet updateDate = appObj.updated_at\nappObj.created_at = formatDate(createDate);\nappObj.updated_at = formatDate(updateDate);\n\nmsg.payload = appObj\nreturn msg;",
+        "func": "function formatDate(dateBefore) {\n    const dateObj = new Date(dateBefore);\n    const time = dateObj.toLocaleTimeString('en-US', { hour12: false });\n    const date = dateObj.toLocaleDateString('en-US', { day: 'numeric', month: 'numeric', year: 'numeric' });\n\n    const formattedCreateDate = `${time} ${date}`;\n    return formattedCreateDate;\n}\n\nif (msg.payload !== null) {\n    let appObjs = msg.payload\n    let createDate = appObjs.created_at\n    let updateDate = appObjs.updated_at\n    appObjs.created_at = formatDate(createDate);\n    appObjs.updated_at = formatDate(updateDate);\n    msg.payload = appObjs\n    return msg;\n} else {\n    return msg;\n}",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -420,7 +421,7 @@
         "type": "function",
         "z": "c5e3d2bbac78be49",
         "name": "function 29",
-        "func": "function formatDate(dateBefore) {\n    const dateObj = new Date(dateBefore);\n    const time = dateObj.toLocaleTimeString('en-US', { hour12: false });\n    const date = dateObj.toLocaleDateString('en-US', { day: 'numeric', month: 'numeric', year: 'numeric' });\n\n    const formattedCreateDate = `${time} ${date}`;\n    return formattedCreateDate;\n}\n\nlet appObjs = msg.payload\n\nappObjs.forEach(function (element) {\n    let createDate = element.created_at\n    let updateDate = element.updated_at\n    element.created_at = formatDate(createDate);\n    element.updated_at = formatDate(updateDate);\n});\n\nmsg.payload = appObjs\nreturn msg;",
+        "func": "function formatDate(dateBefore) {\n    const dateObj = new Date(dateBefore);\n    const time = dateObj.toLocaleTimeString('en-US', { hour12: false });\n    const date = dateObj.toLocaleDateString('en-US', { day: 'numeric', month: 'numeric', year: 'numeric' });\n\n    const formattedCreateDate = `${time} ${date}`;\n    return formattedCreateDate;\n}\n\nif (msg.payload !== null) {\n    let appObjs = msg.payload\n    appObjs.forEach(function (element) {\n        let createDate = element.created_at\n        let updateDate = element.updated_at\n        element.created_at = formatDate(createDate);\n        element.updated_at = formatDate(updateDate);\n    });\n    msg.payload = appObjs\n    return msg;\n} else {\n    return msg;\n}",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -434,6 +435,301 @@
                 "83153cae31cbd6d8"
             ]
         ]
+    },
+    {
+        "id": "098226f9f81644f0",
+        "type": "http in",
+        "z": "c5e3d2bbac78be49",
+        "name": "Get List Install Apps",
+        "url": "/installed",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 130,
+        "y": 520,
+        "wires": [
+            [
+                "09520583ebec5fd9"
+            ]
+        ]
+    },
+    {
+        "id": "5b2e47d48b836d61",
+        "type": "inject",
+        "z": "c5e3d2bbac78be49",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 160,
+        "y": 560,
+        "wires": [
+            [
+                "09520583ebec5fd9"
+            ]
+        ]
+    },
+    {
+        "id": "1b54e3c93e10251c",
+        "type": "comment",
+        "z": "c5e3d2bbac78be49",
+        "name": "Get All Apps Already Installed",
+        "info": "",
+        "x": 140,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "b4fd827f2fe1aef7",
+        "type": "debug",
+        "z": "c5e3d2bbac78be49",
+        "name": "debug 77",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 920,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "09520583ebec5fd9",
+        "type": "file in",
+        "z": "c5e3d2bbac78be49",
+        "name": "List Apps Installed",
+        "filename": "C:\\Users\\haiqd\\Test_Market\\menu.json",
+        "filenameType": "str",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 330,
+        "y": 540,
+        "wires": [
+            [
+                "3f70393fdfa398fe"
+            ]
+        ]
+    },
+    {
+        "id": "3f70393fdfa398fe",
+        "type": "json",
+        "z": "c5e3d2bbac78be49",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 490,
+        "y": 540,
+        "wires": [
+            [
+                "b046aec6910d3b18"
+            ]
+        ]
+    },
+    {
+        "id": "b046aec6910d3b18",
+        "type": "function",
+        "z": "c5e3d2bbac78be49",
+        "name": "function 30",
+        "func": "let listApps = msg.payload\nlet condition_query = [];\n\nlistApps.forEach(function(element) {\n    condition_query.push(element.app_id)\n});\nlet options = {\n    projection: { _id: 1, description: 1, icon_flow: 1, summary: 1, type: 1, tags: 1, updated_at: 1, created_at: 1, flow: 1 }\n};\nlet query = {\n    type: 'app',\n    _id: { $in: condition_query } \n};\nmsg.payload = [query, options];\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 630,
+        "y": 540,
+        "wires": [
+            [
+                "4116818e42083f41"
+            ]
+        ]
+    },
+    {
+        "id": "4116818e42083f41",
+        "type": "mongodb4",
+        "z": "c5e3d2bbac78be49",
+        "clientNode": "0a9f23fd1fc93a63",
+        "mode": "collection",
+        "collection": "flows",
+        "operation": "find",
+        "output": "toArray",
+        "maxTimeMS": "",
+        "handleDocId": false,
+        "name": "Mongodb",
+        "x": 780,
+        "y": 540,
+        "wires": [
+            [
+                "b4fd827f2fe1aef7",
+                "f0d20a2cffe2fd58"
+            ]
+        ]
+    },
+    {
+        "id": "f0d20a2cffe2fd58",
+        "type": "http response",
+        "z": "c5e3d2bbac78be49",
+        "name": "response",
+        "statusCode": "200",
+        "headers": {},
+        "x": 920,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "71d40826b3e73848",
+        "type": "debug",
+        "z": "c5e3d2bbac78be49",
+        "name": "debug 78",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 620,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "afafbabdbf6ab5b1",
+        "type": "http in",
+        "z": "c5e3d2bbac78be49",
+        "name": "Get List Id Install Apps",
+        "url": "/installed/flowid",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 100,
+        "y": 660,
+        "wires": [
+            [
+                "d8ac20ab83ef4c3b"
+            ]
+        ]
+    },
+    {
+        "id": "2333d5df97ea18e8",
+        "type": "inject",
+        "z": "c5e3d2bbac78be49",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 140,
+        "y": 700,
+        "wires": [
+            [
+                "d8ac20ab83ef4c3b"
+            ]
+        ]
+    },
+    {
+        "id": "24688a6520acb878",
+        "type": "comment",
+        "z": "c5e3d2bbac78be49",
+        "name": "Get Id Flow Installed",
+        "info": "",
+        "x": 90,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "151de74ce4c775c9",
+        "type": "debug",
+        "z": "c5e3d2bbac78be49",
+        "name": "debug 81",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 900,
+        "y": 660,
+        "wires": []
+    },
+    {
+        "id": "d8ac20ab83ef4c3b",
+        "type": "file in",
+        "z": "c5e3d2bbac78be49",
+        "name": "List Apps Installed",
+        "filename": "C:\\Users\\haiqd\\Test_Market\\menu.json",
+        "filenameType": "str",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 310,
+        "y": 680,
+        "wires": [
+            [
+                "14d2c0d01071b9ea"
+            ]
+        ]
+    },
+    {
+        "id": "14d2c0d01071b9ea",
+        "type": "json",
+        "z": "c5e3d2bbac78be49",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 470,
+        "y": 680,
+        "wires": [
+            [
+                "151de74ce4c775c9",
+                "3281e4d2d06b784b"
+            ]
+        ]
+    },
+    {
+        "id": "3281e4d2d06b784b",
+        "type": "http response",
+        "z": "c5e3d2bbac78be49",
+        "name": "response",
+        "statusCode": "200",
+        "headers": {},
+        "x": 900,
+        "y": 700,
+        "wires": []
     },
     {
         "id": "0a9f23fd1fc93a63",
