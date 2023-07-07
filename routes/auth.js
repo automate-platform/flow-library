@@ -65,15 +65,14 @@ function loginCallback(req, res) {
         console.log(req.session.accessToken)
         gitlab.getAuthedUserGitLab(req.session.accessToken).then(function (user) {
             return users.ensureExists(user.login, user).then(function () {
-
+            
                 req.session.user = {
-                    login: user.username,
+                    login: user.login,
                     avatar_url: user.avatar_url,
-                    url: user.web_url,
+                    url: user.url,
                     name: user.name
                 };
-
-                res.writeHead(303, {
+           res.writeHead(303, {
                     Location: req.session.returnPath || "/"
                 });
                 res.end();
