@@ -22,20 +22,27 @@ if (setting.template.apps) {
     app.post("/app", function (req, res) {
         if (req.session.accessToken) {
 
-            var app_post = {
-                description: req.body.title,
-                public: false,
-                files: {
-                    'app.json': {
-                        content: req.body.flow
-                    },
-                    'README.md': {
-                        content: req.body.description
-                    },
-                    'icon.ico': {
-                        content: req.body.icondata
-                    }
+            const files = [
+
+                {
+                    file_path: 'app.json',
+                    content: req.body.flow
+                },
+                {
+                    file_path: 'README.md',
+                    content: req.body.description
+                },
+                 {
+                    file_path: 'icon.ico',
+                    content: req.body.icondata
                 }
+
+            ];
+            var app_post = {
+                title: req.body.title,
+                files: files,
+                visibility: 'private',
+                description: req.body.description,
             };
             apper.create(req.session.accessToken, app_post, req.body.tags || []).then(function (id) {
                 let url = '/add/app/source?id=' + id + '&name=' + encodeURIComponent(req.body.title);
