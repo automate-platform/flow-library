@@ -17,18 +17,12 @@
           </div>
           <div class="w3-content w3-display-container preview-img">
             <div class="inner-preview-img">
-              <img class="mySlides" src="https://cdn.wallpapersafari.com/45/96/oLVjd5.jpg" style="width:100%">
-              <img class="mySlides" src="https://mcdn.wallpapersafari.com/medium/74/2/P18qJg.jpg" style="width:100%">
-              <img class="mySlides" src="https://mcdn.wallpapersafari.com/medium/36/22/0BfqTi.jpg" style="width:100%">
             </div>
             <div class="w3-move-button">
               <div class="w3-left " onclick="plusDivs(-1)"> &#10094;</div>
               <div class="w3-right" onclick="plusDivs(1)">&#10095;</div>
             </div>
             <div class="w3-center-button">
-              <span class="w3-badge demo" onclick="currentDiv(1)"></span>
-              <span class="w3-badge demo" onclick="currentDiv(2)"></span>
-              <span class="w3-badge demo" onclick="currentDiv(3)"></span>
             </div>
           </div>
           <div class="preview-img-edit">
@@ -38,33 +32,6 @@
               <span><i class='bx bx-info-circle'></i></span>
             </div>
             <div class="preview-img-edit-mid">
-              <!-- <div class="img_preview" onclick="currentDiv(1)"><img
-                  src="https://cdn.wallpapersafari.com/45/96/oLVjd5.jpg">
-              </div>
-              <div class="img_preview" onclick="currentDiv(2)"> <img
-                  src="https://mcdn.wallpapersafari.com/medium/74/2/P18qJg.jpg">
-              </div>
-              <div class="img_preview" onclick="currentDiv(3)"><img
-                  src="https://mcdn.wallpapersafari.com/medium/36/22/0BfqTi.jpg">
-              </div>
-              <div class="img_preview" onclick="currentDiv(1)"><img
-                  src="https://cdn.wallpapersafari.com/45/96/oLVjd5.jpg">
-              </div>
-              <div class="img_preview" onclick="currentDiv(2)"> <img
-                  src="https://mcdn.wallpapersafari.com/medium/74/2/P18qJg.jpg">
-              </div>
-              <div class="img_preview" onclick="currentDiv(3)"><img
-                  src="https://mcdn.wallpapersafari.com/medium/36/22/0BfqTi.jpg">
-              </div>
-              <div class="img_preview" onclick="currentDiv(1)"><img
-                  src="https://cdn.wallpapersafari.com/45/96/oLVjd5.jpg">
-              </div>
-              <div class="img_preview" onclick="currentDiv(2)"> <img
-                  src="https://mcdn.wallpapersafari.com/medium/74/2/P18qJg.jpg">
-              </div>
-              <div class="img_preview" onclick="currentDiv(3)"><img
-                  src="https://mcdn.wallpapersafari.com/medium/36/22/0BfqTi.jpg">
-              </div> -->
             </div>
             <div class="preview-img-edit-right">
               <label for="img_change"><span class="change-img"><i class='bx bx-refresh'></i></span></label>
@@ -207,14 +174,6 @@
     }
   </script>
   <script>
-    const scrollContainer = document.querySelector(".preview-img-edit-mid");
-
-    scrollContainer.addEventListener("wheel", (evt) => {
-      evt.preventDefault();
-      scrollContainer.scrollLeft += evt.deltaY;
-    });
-  </script>
-  <script>
     document.querySelector('.preview-img-edit').style.display = 'none';
     document.querySelector('.preview-img').style.display = 'none';
 
@@ -293,5 +252,12 @@
     }
 
   </script>
+  <script>
+    const scrollContainer = document.querySelector(".preview-img-edit-mid");
 
+    scrollContainer.addEventListener("wheel", (evt) => {
+      evt.preventDefault();
+      scrollContainer.scrollLeft += evt.deltaY;
+    });
+  </script>
   {{>_footer}}
