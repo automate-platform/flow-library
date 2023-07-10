@@ -327,11 +327,9 @@
                                                                 </p>
                                                             </div>
                                                             <div class="w3-content w3-display-container">
-                                                                {{#guideline_img}}
-                                                                <img class="mySlides"
-                                                                    src="http://ap.vtgo.vn:5005/{{_id}}/{{.}}"
-                                                                    style="width:100%">
-                                                                {{/guideline_img}}
+                                                                {{#imgGuidelineUrl}}
+                                                                <img class="mySlides" src="{{.}}" style="width:100%">
+                                                                {{/imgGuidelineUrl}}
                                                                 <div class="w3-move-button">
                                                                     <div class="w3-left " onclick="plusDivs(-1)">
                                                                         &#10094;
@@ -340,6 +338,10 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="w3-center-button">
+                                                                    {{#imgGuidelineIndex}}
+                                                                    <span class="w3-badge demo"
+                                                                        onclick="currentDiv({{.}})"></span>
+                                                                    {{/imgGuidelineIndex}}
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -477,16 +479,6 @@
 {{>_rateTools}}
 <script src="/js/tags.js"></script>
 <script>
-    const dot_btn = document.querySelector('.w3-center-button');
-    const indexImg = document.querySelectorAll('.mySlides');
-    let dot_img = "";
-    indexImg.forEach((img, index) => {
-        dot_img += `<span class="w3-badge demo" onclick="currentDiv(${index + 1})"></span>`
-    })
-
-    dot_btn.innerHTML = dot_img;
-</script>
-<script>
     $(function () {
         { { #owned } }
         $('#refresh-flow').click(function (event) {
@@ -578,7 +570,7 @@
         });
     });
 
-    tabs[1].click();
+    tabs[0].click();
 </script>
 <script>
     var slideIndex = 1;

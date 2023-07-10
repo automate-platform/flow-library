@@ -55,15 +55,15 @@ if (setting.template.apps) {
         console.log(req.body.id);
         console.log(req.files);
         const id = req.body.id;
-        let zipFileName = ""; 
+        let zipFileName = "";
         let files_img = [];
         if (req.files) {
             let files = req.files;
             files.forEach(file => {
-                if (file.mimetype === 'application/zip' || file.mimetype === 'application/x-zip-compressed'){
+                if (file.mimetype === 'application/zip' || file.mimetype === 'application/x-zip-compressed') {
                     zipFileName = file.originalname;
                 }
-                if(file.mimetype.startsWith('image/')){
+                if (file.mimetype.startsWith('image/')) {
                     files_img.push(file.originalname)
                 }
             });
@@ -98,6 +98,18 @@ if (setting.template.apps) {
             app.updated_at_since = appUtils.formatDate(app.updated_at);
             app.refreshed_at_since = appUtils.formatDate(app.refreshed_at);
             app.pageTitle = app.description + " (app)";
+
+            var imgUrl = [];
+            var imgIndex = [];
+            var imgCollection = app.guideline_img;
+            imgCollection.forEach((img, index) => {
+                let url = `${setting.server.url}/${app._id}/${img}`;
+                imgUrl.push(url)
+                imgIndex.push(index + 1);
+            })
+
+            app.imgGuidelineUrl = imgUrl;
+            app.imgGuidelineIndex = imgIndex;
 
             var collectionPromise;
             var ratingPromise;

@@ -9,7 +9,7 @@ var settings = {
         accessToken: "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"
     },
     mongo: {
-        url: 'mongodb://103.154.100.21:27017/flows'
+        url: 'mongodb://user09:xkfxWZ2U@103.154.100.20/flows?authMechanism=SCRAM-SHA-1&authSource=admin'
     },
     session: {
         key: 'nr.sid',
@@ -38,15 +38,18 @@ var settings = {
         secretAccessKey: "",
         region: ""
     },
+    server:{
+        url: 'https://filepap.vtgo.vn'
+    },
     template: {
         nodes: false,
-        flows: true,
+        flows: false,
         collection: false,
         apps: true,
         footer:false
     },
     app: {
-        zipUrl: 'Documents/marketApp/app/'
+        zipUrl: 'C:/Users/haiqd/Test_Market/app',
     }
 };
 
