@@ -12,7 +12,7 @@ var templates = require("../lib/templates");
 var collections = require("../lib/collections");
 var ratings = require("../lib/ratings");
 var uuid = require('uuid');
-var { storage, uploadzip } = require("../lib/apps");
+var { storage, multi_upload } = require("../lib/apps");
 
 
 
@@ -50,22 +50,34 @@ if (setting.template.apps) {
         }
     });
 
-    app.post('/source', uploadzip.single('source'), (req, res) => {
+    app.post('/source', multi_upload.any(), (req, res) => {
+
+        console.log(req.body.id);
+        console.log(req.files);
         const id = req.body.id;
         let zipFileName = "";
-        if (req.file && req.file.path) {
-
-            zipFileName = req.file.originalname;
+        let files_img = [];
+        if (req.files) {
+            let files = req.files;
+            files.forEach(file => {
+                if (file.mimetype === 'application/zip' || file.mimetype === 'application/x-zip-compressed') {
+                    zipFileName = file.originalname;
+                }
+                if (file.mimetype.startsWith('image/')) {
+                    files_img.push(file.originalname)
+                }
+            });
         } else {
 
             console.log("No file was uploaded with the request.");
             res.status(400).send({ error: "No file was uploaded with the request." });
             return;
         }
-
+        console.log(files_img);
 
         var app_post = {
-            zip_url: zipFileName
+            zip_url: zipFileName,
+            guideline_img: files_img
         };
         apper.update(id, app_post || [])
         res.writeHead(303, {
@@ -73,6 +85,7 @@ if (setting.template.apps) {
         });
         res.end();
     });
+
     app.get("/app/:id", appUtils.csrfProtection(), function (req, res) { getFlow(req.params.id, null, req, res); });
     app.get("/app/:id/in/:collection", appUtils.csrfProtection(), function (req, res) { getFlow(req.params.id, req.params.collection, req, res); });
     function getFlow(id, collection, req, res) {
@@ -85,6 +98,18 @@ if (setting.template.apps) {
             app.updated_at_since = appUtils.formatDate(app.updated_at);
             app.refreshed_at_since = appUtils.formatDate(app.refreshed_at);
             app.pageTitle = app.description + " (app)";
+
+            var imgUrl = [];
+            var imgIndex = [];
+            var imgCollection = app.guideline_img;
+            imgCollection.forEach((img, index) => {
+                let url = `${setting.server.url}/${app._id}/${img}`;
+                imgUrl.push(url)
+                imgIndex.push(index + 1);
+            })
+
+            app.imgGuidelineUrl = imgUrl;
+            app.imgGuidelineIndex = imgIndex;
 
             var collectionPromise;
             var ratingPromise;
