@@ -39,7 +39,7 @@ if (setting.template.flows) {
             };
 
 
-            snippet.createSnippet(req.session.accessToken, gist_post, req.body.tags || []).then(function (id) {
+            snippet.create(req.session.accessToken, gist_post, req.body.tags || []).then(function (id) {
                 res.send("/flow/" + id);
             }).catch(function (err) {
                 console.log("Error creating flow:", err);
@@ -53,32 +53,32 @@ if (setting.template.flows) {
     app.get("/flow/:id", appUtils.csrfProtection(), function (req, res) { getFlow(req.params.id,null, req, res); }); //req.params.id, null, req, res
     app.get("/flow/:id/in/:collection", appUtils.csrfProtection(), function (req, res) { getFlow(req.params.id, req.params.collection, req, res); });
     function getFlow(id, collection, req, res) {
-        snippet.get(id).then(function (gist) {
-            gist.sessionuser = req.session.user;
-            gist.display = setting.template;
-            gist.csrfToken = req.csrfToken();
-            gist.collection = collection;
-            gist.created_at_since = appUtils.formatDate(gist.created_at);
-            gist.updated_at_since = appUtils.formatDate(gist.updated_at);
-            gist.refreshed_at_since = appUtils.formatDate(gist.refreshed_at);
-            gist.pageTitle = gist.description + " (flow)";
+        snippet.get(id).then(function (snippet) {
+            snippet.sessionuser = req.session.user;
+            snippet.display = setting.template;
+            snippet.csrfToken = req.csrfToken();
+            snippet.collection = collection;
+            snippet.created_at_since = appUtils.formatDate(snippet.created_at);
+            snippet.updated_at_since = appUtils.formatDate(snippet.updated_at);
+            snippet.refreshed_at_since = appUtils.formatDate(snippet.refreshed_at);
+            snippet.pageTitle = snippet.description + " (flow)";
 
             var collectionPromise;
             var ratingPromise;
             if (req.cookies.rateID) {
-                if (gist.rating && !gist.rating.hasOwnProperty("count")) {
-                    delete gist.rating;
+                if (snippet.rating && !snippet.rating.hasOwnProperty("count")) {
+                    delete snippet.rating;
                     ratingPromise = Promise.resolve();
                 } else {
                     ratingPromise = ratings.getUserRating(id, req.cookies.rateID).then(function (userRating) {
                         if (userRating) {
-                            if (!gist.rating) {
-                                gist.rating = {};
+                            if (!snippet.rating) {
+                                snippet.rating = {};
                             }
-                            gist.rating.userRating = userRating.rating;
+                            snippet.rating.userRating = userRating.rating;
                         }
-                        if (gist.rating && gist.rating.hasOwnProperty('score')) {
-                            gist.rating.score = (gist.rating.score || 0).toFixed(1);
+                        if (snippet.rating && snippet.rating.hasOwnProperty('score')) {
+                            snippet.rating.score = (snippet.rating.score || 0).toFixed(1);
                         }
                     });
                 }
@@ -91,31 +91,31 @@ if (setting.template.flows) {
                 collectionPromise = Promise.resolve();
             }
 
-            if (gist.created_at_since == gist.updated_at_since) {
-                delete gist.updated_at_since;
+            if (snippet.created_at_since == snippet.updated_at_since) {
+                delete snippet.updated_at_since;
             }
-            gist.owned = (gist.sessionuser &&
+            snippet.owned = (snippet.sessionuser &&
                 (
-                    (gist.owner.login == gist.sessionuser.login) ||
+                    (snippet.owner.login == snippet.sessionuser.login) ||
                     (settings.admins.indexOf(req.session.user.login) != -1)
                 ));
 
-            gist.nodeTypes = [];
-            if (!gist.flow) {
-                gist.flow = [];
-            } else if (gist.flow) {
+                snippet.nodeTypes = [];
+            if (!snippet.flow) {
+                snippet.flow = [];
+            } else if (snippet.flow) {
                 try {
-                    var nodes = JSON.parse(gist.flow);
+                    var nodes = JSON.parse(snippet.flow);
                     var nodeTypes = {};
                     for (var n in nodes) {
                         var node = nodes[n];
                         nodeTypes[node.type] = (nodeTypes[node.type] || 0) + 1;
                     }
-                    gist.nodeTypes = [];
+                    snippet.nodeTypes = [];
                     for (var nt in nodeTypes) {
-                        gist.nodeTypes.push({ type: nt, count: nodeTypes[nt] });
+                        snippet.nodeTypes.push({ type: nt, count: nodeTypes[nt] });
                     }
-                    gist.nodeTypes.sort(function (a, b) {
+                    snippet.nodeTypes.sort(function (a, b) {
                         if (a.type in npmNodes.CORE_NODES && !(b.type in npmNodes.CORE_NODES)) {
                             return -1;
                         }
@@ -126,14 +126,14 @@ if (setting.template.flows) {
                         if (a.type < b.type) return -1;
                         return 0;
                     });
-                    gist.flow = JSON.stringify(nodes);
+                    snippet.flow = JSON.stringify(nodes);
                 } catch (err) {
-                    gist.flow = "Invalid JSON";
+                    snippet.flow = "Invalid JSON";
                 }
             }
-            npmNodes.findTypes(gist.nodeTypes.map(function (t) { return t.type; })).then(function (typeMap) {
-                var nodeTypes = gist.nodeTypes;
-                gist.nodeTypes = { core: [], other: [] };
+            npmNodes.findTypes(snippet.nodeTypes.map(function (t) { return t.type; })).then(function (typeMap) {
+                var nodeTypes = snippet.nodeTypes;
+                snippet.nodeTypes = { core: [], other: [] };
 
                 nodeTypes.forEach(function (t) {
                     var type = typeMap[t.type];
@@ -146,30 +146,30 @@ if (setting.template.flows) {
                     }
                     if (t.type in npmNodes.CORE_NODES) {
                         delete t.module;
-                        gist.nodeTypes.core.push(t);
+                        snippet.nodeTypes.core.push(t);
                     } else {
-                        gist.nodeTypes.other.push(t);
+                        snippet.nodeTypes.other.push(t);
                     }
 
                 });
                 function completeRender(data) {
                     marked(data, {}, function (err, content) {
-                        gist.readme = content;
+                        snippet.readme = content;
                         ratingPromise.then(() => collectionPromise).then(function (collectionSiblings) {
                             if (collection && collectionSiblings && collectionSiblings.length > 0) {
-                                gist.collectionName = collectionSiblings[0].name;
-                                gist.collectionPrev = collectionSiblings[0].prev;
-                                gist.collectionPrevType = collectionSiblings[0].prevType;
-                                gist.collectionNext = collectionSiblings[0].next;
-                                gist.collectionNextType = collectionSiblings[0].nextType;
+                                snippet.collectionName = collectionSiblings[0].name;
+                                snippet.collectionPrev = collectionSiblings[0].prev;
+                                snippet.collectionPrevType = collectionSiblings[0].prevType;
+                                snippet.collectionNext = collectionSiblings[0].next;
+                                snippet.collectionNextType = collectionSiblings[0].nextType;
                             }
-                            res.send(mustache.render(templates.gist, gist, templates.partials));
+                            res.send(mustache.render(templates.gist, snippet, templates.partials));
                         });
                     });
                 }
 
-                if (gist.readme) {
-                    completeRender(gist.readme);
+                if (snippet.readme) {
+                    completeRender(snippet.readme);
                 } else {
                     completeRender("Missing readme");
                 }
