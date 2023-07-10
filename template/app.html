@@ -10,6 +10,8 @@
             $('.itemDetails-right').removeClass('dynamic')
             $('.version-history-top-container').removeClass('dynamic')
             $('.version-history-top-container').addClass('static')
+            $('.guideline-tab').removeClass('dynamic')
+            $('.guideline-tab').addClass('static')
 
         } else {
             $('#section-banner').removeClass('static');
@@ -20,6 +22,8 @@
             $('.itemDetails-right').removeClass('static')
             $('.version-history-top-container').removeClass('static')
             $('.version-history-top-container').addClass('dynamic')
+            $('.guideline-tab').removeClass('static')
+            $('.guideline-tab').addClass('dynamic')
         }
     });
 
@@ -98,8 +102,7 @@
                                                 <div class="ux-item-shortdesc">{{summary}}</div>
                                                 <div class="ux-item-action">
                                                     <a class="download-button-container" href="foobar://open">
-                                                        <button class="ux-button install"
-                                                            onclick="">Install</button>
+                                                        <button class="ux-button install" onclick="">Install</button>
                                                     </a>
                                                     <span style="display: none;"></span>
                                                 </div>
@@ -119,7 +122,8 @@
                                     <div>
                                         <div class="ms-FocusZone">
                                             <ul class="ms-Pivot root_8766283c ms-Pivot--large rootIsLarge_8766283c"
-                                                role="tablist"><button type="button" id="Pivot0-Tab0"
+                                                role="tablist">
+                                                <button type="button" id="Pivot0-Tab0"
                                                     class="tab-header ms-Button ms-Pivot-link link_8766283c is-selected linkIsSelected_8766283c ms-Button--action ms-Button--command root-41"
                                                     role="tab" aria-selected="true" name="Overview"
                                                     aria-label="Overview" data-is-focusable="true" tabindex="0">
@@ -128,7 +132,17 @@
                                                                 class="ms-Pivot-text text_8766283c">
                                                                 Overview</span></span>
                                                     </div>
-                                                </button><button type="button" id="Pivot0-Tab1"
+                                                </button>
+                                                <button type="button" id="Pivot0-Tab1"
+                                                    class="tab-header ms-Button ms-Pivot-link link_8766283c ms-Button--action ms-Button--command root-41"
+                                                    role="tab" aria-selected="false" name="Q &amp; A"
+                                                    aria-label="Q &amp; A" data-is-focusable="true" tabindex="-1">
+                                                    <div class="ms-Button-flexContainer flexContainer-42"><span
+                                                            class="ms-Pivot-link-content"><span
+                                                                class="ms-Pivot-text text_8766283c">Guideline</span></span>
+                                                    </div>
+                                                </button>
+                                                <button type="button" id="Pivot0-Tab2"
                                                     class="tab-header ms-Button ms-Pivot-link link_8766283c ms-Button--action ms-Button--command root-41"
                                                     role="tab" aria-selected="false" name="Q &amp; A"
                                                     aria-label="Q &amp; A" data-is-focusable="true" tabindex="-1">
@@ -136,16 +150,7 @@
                                                             class="ms-Pivot-link-content"><span
                                                                 class="ms-Pivot-text text_8766283c">Version</span></span>
                                                     </div>
-                                                </button><!-- <button type="button" id="Pivot0-Tab2"
-                                                    class="ms-Button ms-Pivot-link link_8766283c ms-Button--action ms-Button--command root-41"
-                                                    role="tab" aria-selected="false" name="Rating &amp; Review"
-                                                    aria-label="Rating &amp; Review" data-is-focusable="true"
-                                                    tabindex="-1">
-                                                    <div class="ms-Button-flexContainer flexContainer-42"><span
-                                                            class="ms-Pivot-link-content"><span
-                                                                class="ms-Pivot-text text_8766283c"> Rating &amp;
-                                                                Review</span></span></div>
-                                                </button></ul> -->
+                                                </button>
                                         </div>
                                         <div class="container-content">
                                             <div role="tabpanel" class="tab-content" aria-labelledby="Pivot0-Tab0">
@@ -310,6 +315,50 @@
                                             <div role="tabpanel" class="tab-content" aria-labelledby="Pivot0-Tab1">
                                                 <div>
                                                     <div class="details-tab">
+                                                        <div class="guideline-tab">
+                                                            <div class="w3-container">
+                                                                <h2>Slideshow Indicators</h2>
+                                                                <p>An example of using buttons to indicate how many
+                                                                    slides
+                                                                    there are
+                                                                    in the slideshow, and which slide the user is
+                                                                    currently
+                                                                    viewing.
+                                                                </p>
+                                                            </div>
+                                                            <div class="w3-content w3-display-container">
+                                                                <img class="mySlides"
+                                                                    src="https://cdn.wallpapersafari.com/45/96/oLVjd5.jpg"
+                                                                    style="width:100%">
+                                                                <img class="mySlides"
+                                                                    src="https://mcdn.wallpapersafari.com/medium/74/2/P18qJg.jpg"
+                                                                    style="width:100%">
+                                                                <img class="mySlides"
+                                                                    src="https://mcdn.wallpapersafari.com/medium/36/22/0BfqTi.jpg"
+                                                                    style="width:100%">
+                                                                <div class="w3-move-button">
+                                                                    <div class="w3-left " onclick="plusDivs(-1)">
+                                                                        &#10094;
+                                                                    </div>
+                                                                    <div class="w3-right" onclick="plusDivs(1)">&#10095;
+                                                                    </div>
+                                                                </div>
+                                                                <div class="w3-center-button">
+                                                                    <span class="w3-badge demo"
+                                                                        onclick="currentDiv(1)"></span>
+                                                                    <span class="w3-badge demo"
+                                                                        onclick="currentDiv(2)"></span>
+                                                                    <span class="w3-badge demo"
+                                                                        onclick="currentDiv(3)"></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div role="tabpanel" class="tab-content" aria-labelledby="Pivot0-Tab2">
+                                                <div>
+                                                    <div class="details-tab">
                                                         <div class="version-history-top-container">
                                                             <div class="ms-grid vh-redirection-message-bar-container">
                                                                 <div class="vh-redirection-message-bar"><i
@@ -374,7 +423,8 @@
                                                                                 class="version-history-container-column">
                                                                                 1.3.2</td>
                                                                             <td class="version-history-container-column"
-                                                                                title="03:06:12 17/4/2021">16/04/2021
+                                                                                title="03:06:12 17/4/2021">
+                                                                                16/04/2021
                                                                             </td>
                                                                             <td
                                                                                 class="version-history-container-column">
@@ -389,7 +439,8 @@
                                                                                 class="version-history-container-column">
                                                                                 1.3.1</td>
                                                                             <td class="version-history-container-column"
-                                                                                title="23:24:18 16/4/2021">16/04/2021
+                                                                                title="23:24:18 16/4/2021">
+                                                                                16/04/2021
                                                                             </td>
                                                                             <td
                                                                                 class="version-history-container-column">
@@ -404,7 +455,8 @@
                                                                                 class="version-history-container-column">
                                                                                 1.3.0</td>
                                                                             <td class="version-history-container-column"
-                                                                                title="00:26:50 16/4/2021">15/04/2021
+                                                                                title="00:26:50 16/4/2021">
+                                                                                15/04/2021
                                                                             </td>
                                                                             <td
                                                                                 class="version-history-container-column">
@@ -436,23 +488,6 @@
 <script src="/js/tags.js"></script>
 <script>
     $(function () {
-        // $("#copy-button").on("click", function (evt) {
-        //     // evt.preventDefault();
-        //     // var ta = document.createElement('textarea');
-        //     // ta.value = $(this).next()[0].innerText;
-        //     // ta.style.position = 'absolute';
-        //     // ta.style.left = '-3000px';
-        //     // document.body.appendChild(ta);
-        //     // ta.select();
-        //     // document.execCommand('copy');
-        //     // document.body.removeChild(ta);
-        //     // $(this).text("Copied!");
-        //     // var self = $(this);
-        //     // setTimeout(function () {
-        //     //     self.text("Copy");
-        //     // }, 3000)
-        //     console.log("hellpp")
-        // });
         { { #owned } }
         $('#refresh-flow').click(function (event) {
             $("#refresh-flow-loader").show();
@@ -544,5 +579,33 @@
     });
 
     tabs[0].click();
+</script>
+<script>
+    var slideIndex = 1;
+    showDivs(slideIndex);
+
+    function plusDivs(n) {
+        showDivs(slideIndex += n);
+    }
+
+    function currentDiv(n) {
+        showDivs(slideIndex = n);
+    }
+
+    function showDivs(n) {
+        var i;
+        var x = document.getElementsByClassName("mySlides");
+        var dots = document.getElementsByClassName("demo");
+        if (n > x.length) { slideIndex = 1 }
+        if (n < 1) { slideIndex = x.length }
+        for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";
+        }
+        for (i = 0; i < dots.length; i++) {
+            dots[i].className = dots[i].className.replace(" w3-white", "");
+        }
+        x[slideIndex - 1].style.display = "block";
+        dots[slideIndex - 1].className += " w3-white";
+    }
 </script>
 {{>_footer}}

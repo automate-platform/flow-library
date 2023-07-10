@@ -13,7 +13,7 @@
             </div>
 
             <h4 class="add-flow-label"><label for="add-flow-desc">Icon</label></h4>
-            <p>Icon for your app </p>
+            <p>Icon for your app.</p>
             <div style="display: flex; align-items: center;">
                 <label for="icon" class="icon-label"><img id="image-preview" src="#" alt="Preview"
                         style="width: 128px; height: 128px; display: none;"><span class="choose-btn"
@@ -24,9 +24,10 @@
 
             </div>
             <div style="position:relative">
-                <div class="add-collection-icon-limit-warning dialog-warning">Icon file limit is 60kb </div>
-                <div class="add-collection-icon-warning dialog-warning">Icon file must be .png , .jpeg or .ico</div>
-                <div class="add-collection-icon-size-warning dialog-warning">Please choose image 128x128</div>
+                <div class="add-collection-icon-limit-warning dialog-warning">Icon file limit is 60kb. </div>
+                <div class="add-collection-icon-warning dialog-warning">Icon file must be .png , .jpeg or .ico.</div>
+                <div class="add-collection-icon-size-warning dialog-warning">Please choose image 128x128.</div>
+                <br>
             </div>
 
             <h4 class="add-flow-label"><label for="add-flow-desc">Description</label></h4>
@@ -45,7 +46,7 @@
             </div>
 
             <h4 class="add-flow-label"><label for="add-flow-flow">Flow</label></h4>
-            <p>In Node-RED, select the flow you want to export. Select <i>Export to
+            <p>In App-Market, select the flow you want to export. Select <i>Export to
                     &gt; Clipboard</i> from the menu (Ctrl-E), copy the JSON from
                 the dialog and paste here.
             </p>
@@ -59,9 +60,10 @@
             <ul class="flow-tags" id="add-flow-tags"></ul>
 
             <h4>&nbsp;</h4>
-            <a id="add-flow-create" href="#" class="btn-create"><span id="add-flow-label" style="display: flex; align-items: center;">Create flow<i
-                        class='bx bx-right-arrow-alt' style="font-size:25px; color: goldenrod;"></i></span><img
-                    id="add-flow-loader" class="loader" src="/images/loader.gif" /></a>
+            <a id="add-flow-create" href="#" class="btn-create"><span id="add-flow-label"
+                    style="display: flex; align-items: center;">Create flow<i class='bx bx-right-arrow-alt'
+                        style="font-size:25px; color: goldenrod;"></i></span><img id="add-flow-loader" class="loader"
+                    src="/images/loader.gif" /></a>
             <p class="create-toc">This will create a private gist, owned by you, on GitHub and add it to the Node-RED
                 flow library on your behalf.</p>
 
@@ -114,23 +116,6 @@
             } else {
                 descValid = true;
                 $(".add-collection-description-warning").hide();
-                $(this).removeClass("input-error");
-            }
-        });
-        $("#icon").keyup(function (e) {
-            var val = $(this).val().trim();
-            if (val.length == 0) {
-                iconValid = false;
-                $(".add-collection-icon-warning").show();
-                $(this).addClass("input-error");
-            } else if (iconBase == "") {
-                iconValid = false;
-                $(".add-collection-icon-warning").show();
-                $(this).addClass("input-error");
-            }
-            else {
-                iconValid = true;
-                $(".add-collection-icon-warning").hide();
                 $(this).removeClass("input-error");
             }
         });

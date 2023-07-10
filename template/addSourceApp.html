@@ -6,12 +6,90 @@
   <div class="add-form-row">
     <div class="col-1-12">&nbsp;</div>
     <div class="col-10-12 thing-list-section" style="background: white; padding: 10px 50px;">
-      <h2 class="pagetitle">Add detail</h2>
-      <h4><span id="title" style="color: black;"></span></h4>
-      <form action="/source" method="post" enctype="multipart/form-data">
-
+      <h2 class="pagetitle">Add detail app: <span id="title" style="color: rgb(65, 65, 65);"></span></h2>
+      <form id="form_el" action="/source" method="post" enctype="multipart/form-data">
         <input type="hidden" id="myId" name="id" value="" readonly>
-
+        <h4 class="add-guideline-label"><label>Guideline Image</label></h4>
+        <p>Upload your guideline image picture how to setup and use your app.</p>
+        <div class="img-guildeline">
+          <div class="preview_title">
+            <p>Preview image <i>Step by &gt; Step</i>.<br>This will your app <i>Guideline</i> tab.</p>
+          </div>
+          <div class="w3-content w3-display-container preview-img">
+            <div class="inner-preview-img">
+              <img class="mySlides" src="https://cdn.wallpapersafari.com/45/96/oLVjd5.jpg" style="width:100%">
+              <img class="mySlides" src="https://mcdn.wallpapersafari.com/medium/74/2/P18qJg.jpg" style="width:100%">
+              <img class="mySlides" src="https://mcdn.wallpapersafari.com/medium/36/22/0BfqTi.jpg" style="width:100%">
+            </div>
+            <div class="w3-move-button">
+              <div class="w3-left " onclick="plusDivs(-1)"> &#10094;</div>
+              <div class="w3-right" onclick="plusDivs(1)">&#10095;</div>
+            </div>
+            <div class="w3-center-button">
+              <span class="w3-badge demo" onclick="currentDiv(1)"></span>
+              <span class="w3-badge demo" onclick="currentDiv(2)"></span>
+              <span class="w3-badge demo" onclick="currentDiv(3)"></span>
+            </div>
+          </div>
+          <div class="preview-img-edit">
+            <div class="preview-img-edit-left">
+              <span class="move-img"> <i class='bx bx-left-arrow-alt'></i>
+                <span class="move_txt">Move</span></span>
+              <span><i class='bx bx-info-circle'></i></span>
+            </div>
+            <div class="preview-img-edit-mid">
+              <!-- <div class="img_preview" onclick="currentDiv(1)"><img
+                  src="https://cdn.wallpapersafari.com/45/96/oLVjd5.jpg">
+              </div>
+              <div class="img_preview" onclick="currentDiv(2)"> <img
+                  src="https://mcdn.wallpapersafari.com/medium/74/2/P18qJg.jpg">
+              </div>
+              <div class="img_preview" onclick="currentDiv(3)"><img
+                  src="https://mcdn.wallpapersafari.com/medium/36/22/0BfqTi.jpg">
+              </div>
+              <div class="img_preview" onclick="currentDiv(1)"><img
+                  src="https://cdn.wallpapersafari.com/45/96/oLVjd5.jpg">
+              </div>
+              <div class="img_preview" onclick="currentDiv(2)"> <img
+                  src="https://mcdn.wallpapersafari.com/medium/74/2/P18qJg.jpg">
+              </div>
+              <div class="img_preview" onclick="currentDiv(3)"><img
+                  src="https://mcdn.wallpapersafari.com/medium/36/22/0BfqTi.jpg">
+              </div>
+              <div class="img_preview" onclick="currentDiv(1)"><img
+                  src="https://cdn.wallpapersafari.com/45/96/oLVjd5.jpg">
+              </div>
+              <div class="img_preview" onclick="currentDiv(2)"> <img
+                  src="https://mcdn.wallpapersafari.com/medium/74/2/P18qJg.jpg">
+              </div>
+              <div class="img_preview" onclick="currentDiv(3)"><img
+                  src="https://mcdn.wallpapersafari.com/medium/36/22/0BfqTi.jpg">
+              </div> -->
+            </div>
+            <div class="preview-img-edit-right">
+              <label for="img_change"><span class="change-img"><i class='bx bx-refresh'></i></span></label>
+              <span class="del-img"><i class='bx bx-trash'></i></span>
+              <div class="input-img-change"><input type="file" id="img_change" name="img_change"
+                  accept="image/jpeg, image/png, image/jpg" style="display: none;"></div>
+            </div>
+          </div>
+        </div>
+        <label for="img_guilde" class="img_guilde_label"><svg fill="#000000" viewBox="0 0 24 24" id="curve-arrow-up-10"
+            data-name="Flat Color" xmlns="http://www.w3.org/2000/svg" class="icon flat-color">
+            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+            <g id="SVGRepo_iconCarrier">
+              <path id="secondary"
+                d="M18.71,5.29l-3-3a1,1,0,0,0-1.42,0l-3,3a1,1,0,0,0,1.42,1.42L14,5.41V7.29a9.82,9.82,0,0,1-5.45,8.82,1,1,0,0,0-.44,1.34A1,1,0,0,0,9,18a.93.93,0,0,0,.45-.11A11.78,11.78,0,0,0,16,7.29V5.41l1.29,1.3a1,1,0,0,0,1.42,0A1,1,0,0,0,18.71,5.29Z"
+                style="fill: #5dba2c;"></path>
+              <path id="primary"
+                d="M19,22H5a2,2,0,0,1-2-2V4A2,2,0,0,1,5,2H8A1,1,0,0,1,8,4H5V20H19V12a1,1,0,0,1,2,0v8A2,2,0,0,1,19,22Z"
+                style="fill: #000000;"></path>
+            </g>
+          </svg><span>Add Image</span></label>
+        <input type="file" name="img_guilde" id="img_guilde" accept="image/jpeg, image/png, image/jpg"
+          style="display: none;" multiple>
+        <h4 class="add-guideline-label"><label>Zip File</label></h4>
         <p>Uploading the source code of an application is a mandatory requirement.Uploading the source code of an
           application is a mandatory requirement
         </p>
@@ -92,6 +170,128 @@
         $(".add-collection-zip-warning").show();
       }
     });
+  </script>
+  <script>
+    var delete_btn = document.querySelector('.del-img')
+    var move_btn = document.querySelector('.move-img')
+    var change_btn = document.querySelector('.input-img-change')
+    var slideIndex = 1;
+    showDivs(slideIndex);
+
+    function plusDivs(n) {
+      showDivs(slideIndex += n);
+    }
+
+    function currentDiv(n) {
+      showDivs(slideIndex = n);
+    }
+
+    function showDivs(n) {
+      var i;
+      var x = document.getElementsByClassName("mySlides");
+      var dots = document.getElementsByClassName("demo");
+      if (n > x.length) { slideIndex = 1 }
+      if (n < 1) { slideIndex = x.length }
+      for (i = 0; i < x.length; i++) {
+        x[i].style.display = "none";
+      }
+      for (i = 0; i < dots.length; i++) {
+        dots[i].className = dots[i].className.replace(" w3-white", "");
+      }
+      x[slideIndex - 1].style.display = "block";
+      dots[slideIndex - 1].className += " w3-white";
+      delete_btn.innerHTML = `<i onclick="deleteImage(${n - 1})" class='bx bx-trash'></i>`
+      change_btn.innerHTML = `<input type="file" id="img_change" accept="image/jpeg, image/png, image/jpg" style="display: none;" onchange="changeImage(${n - 1})">`
+      move_btn.innerHTML = `<i class='bx bx-left-arrow-alt' onclick="moveImageToTop(${n - 1})"></i>
+                            <span class="move_txt" onclick="moveImageToTop(${n - 1})">Move</span>`
+    }
+  </script>
+  <script>
+    const scrollContainer = document.querySelector(".preview-img-edit-mid");
+
+    scrollContainer.addEventListener("wheel", (evt) => {
+      evt.preventDefault();
+      scrollContainer.scrollLeft += evt.deltaY;
+    });
+  </script>
+  <script>
+    document.querySelector('.preview-img-edit').style.display = 'none';
+    document.querySelector('.preview-img').style.display = 'none';
+
+    const output = document.querySelector(".preview-img-edit-mid");
+    const input = document.querySelector("#img_guilde");
+    const preview_img = document.querySelector('.inner-preview-img');
+    const dot_btn = document.querySelector('.w3-center-button');
+    var dots = document.getElementsByClassName("demo");
+
+    let imagesArray = [];
+
+    input.addEventListener("change", () => {
+      imagesArray = [];
+      document.querySelector('.preview-img-edit').style.display = 'block';
+      document.querySelector('.preview-img').style.display = 'block';
+      const files = input.files
+      for (let i = 0; i < files.length; i++) {
+        imagesArray.push(files[i])
+      }
+      displayImages()
+    })
+
+    function changeImage(index) {
+      let img = document.querySelector('#img_change');
+      console.log(imagesArray);
+      imagesArray = imagesArray.filter(item => imagesArray.indexOf(item) !== index)
+      const files = img.files[0];
+      imagesArray.splice(index, 0, files)
+      const dataTransfer = new DataTransfer();
+      imagesArray.forEach((file) => {
+        dataTransfer.items.add(file);
+      });
+      input.files = dataTransfer.files;
+      displayImages()
+    }
+
+    function moveImageToTop(index) {
+      let img_move = imagesArray[index]
+      imagesArray = imagesArray.filter(item => imagesArray.indexOf(item) !== index)
+      imagesArray.splice(0, 0, img_move)
+      const dataTransfer = new DataTransfer();
+      imagesArray.forEach((file) => {
+        dataTransfer.items.add(file);
+      });
+      input.files = dataTransfer.files;
+      displayImages()
+    }
+
+    function displayImages() {
+      let images = "";
+      let pre_img = "";
+      let dot_img = "";
+      imagesArray.forEach((image, index) => {
+        images += `<div class="img_preview" onclick="currentDiv(${index + 1})">
+                <img src="${URL.createObjectURL(image)}">
+              </div>`;
+        pre_img += `<img class="mySlides" src="${URL.createObjectURL(image)}" style="width:100%">`;
+        dot_img += `<span class="w3-badge demo" onclick="currentDiv(${index + 1})"></span>`
+      });
+      output.innerHTML = images;
+      preview_img.innerHTML = pre_img;
+      dot_btn.innerHTML = dot_img;
+      dots[0].click();
+    }
+
+    function deleteImage(index) {
+      imagesArray.splice(index, 1)
+
+      const dataTransfer = new DataTransfer();
+      imagesArray.forEach((file) => {
+        dataTransfer.items.add(file);
+      });
+      input.files = dataTransfer.files;
+      console.log(input.files);
+      displayImages()
+    }
+
   </script>
 
   {{>_footer}}
