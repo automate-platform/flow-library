@@ -1,11 +1,11 @@
 var path = require('path');
 
 var settings = {
-    port: 8080,
+    port: 9999,
     github: {
         clientId: "5cf8323b641b1fcbbaa2",
         secret: "b5eda517f321b1cacbd0fc37d412fe04228188ca",
-        authCallback: "http://localhost:8080/login/callback",
+        authCallback: "http://localhost:9999/login/callback",
         accessToken: "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"
     },
     gitlab  : {
