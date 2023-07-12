@@ -1403,19 +1403,22 @@ ul#add-flow-tags li i.icon {
     margin-top: 10px;
 }
 
-.item-details-control-root .light .ux-button.install {
+.item-details-control-root .light .ux-button.install,
+.item-details-control-root .light .ux-button.update {
     background-color: #107c10;
     color: #fff;
     min-width: 120px;
     border: 1px solid #666;
 }
 
-.item-details-control-root .ux-button.install {
+.item-details-control-root .ux-button.install,
+.item-details-control-root .ux-button.update {
     overflow: visible;
     margin: 0px;
 }
 
 .item-details-control-root .ux-button.install,
+.item-details-control-root .ux-button.update,
 button.ui-state-default,
 button.ui-button {
     font-family: "Segoe UI VSS (Regular)", "Segoe UI", "-apple-system", BlinkMacSystemFont, Roboto, "Helvetica Neue", Helvetica, Ubuntu, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
@@ -3231,6 +3234,7 @@ a:hover .gistbox-footer {
     bottom: 0;
     background: rgba(50, 38, 88, 0.368);
     text-align: center;
+    z-index: 2;
 }
 
 .dialog-shade:before {
@@ -3410,7 +3414,7 @@ select option {
     -webkit-box-shadow: 2px 2px 5px rgba(0, 0, 0, .1);
     box-shadow: 2px 2px 5px rgba(55, 55, 55, 0.1);
     border: 1px solid #d4d4d5;
-    z-index: 10;
+    z-index: 1;
 }
 
 .homepage-searchbox-wrapper .homepage-searchbox-container:hover {

@@ -174,8 +174,53 @@
                                                                         role="complementary">
                                                                         <div class="itemDetails-right">
                                                                             <div class="meta-data-list-container">
+                                                                                {{#owned}}
+                                                                                <div class="ux-section-project-details">
+                                                                                    <h3
+                                                                                        class="itemdetails-section-header right">
+                                                                                        App Action</h3>
+                                                                                    <div class="github-details">
+                                                                                        <ul>
+                                                                                            <li><a class="githubLinks"
+                                                                                                    href="/app/update/{{_id}}"><span
+                                                                                                        class="bowtie-icon"></span><span
+                                                                                                        class="api-github-response">Update
+                                                                                                        app</span></a>
+                                                                                            </li>
+                                                                                            <li><img id="refresh-flow-loader"
+                                                                                                    style="height: 20px;"
+                                                                                                    class="loader"
+                                                                                                    src="/images/loader.gif"><a
+                                                                                                    class="githubLinks"
+                                                                                                    href="#"
+                                                                                                    id="refresh-flow"><span
+                                                                                                        class="bowtie-icon"></span><span
+                                                                                                        class="api-github-response">Refesh
+                                                                                                        from
+                                                                                                        github</span></a>
+                                                                                            </li>
+                                                                                            <!-- <li><a class="githubLinks"
+                                                                                                    href=""><span
+                                                                                                        class="bowtie-icon"></span><span
+                                                                                                        class="api-github-response">12
+                                                                                                        Open
+                                                                                                        Issues</span></a>
+                                                                                            </li> -->
+                                                                                            <li><a class="githubLinks"
+                                                                                                    href="#"
+                                                                                                    id="remove-flow"><span
+                                                                                                        class="bowtie-icon"></span><span
+                                                                                                        class="api-github-response">Remove
+                                                                                                        this
+                                                                                                        app</span></a>
+                                                                                            </li>
+                                                                                        </ul>
+                                                                                    </div>
+                                                                                </div>
+                                                                                {{/owned}}
                                                                                 <div class="ux-section-meta-data-list">
-                                                                                    <h3 class="ux-section-header right">
+                                                                                    <h3
+                                                                                        class="itemdetails-section-header right">
                                                                                         Node Types
                                                                                     </h3>
                                                                                     <div class="meta-data-list"
@@ -211,7 +256,8 @@
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="ux-section-meta-data-list">
-                                                                                    <h3 class="ux-section-header right">
+                                                                                    <h3
+                                                                                        class="itemdetails-section-header right">
                                                                                         Tags
                                                                                     </h3>
                                                                                     <div class="meta-data-list"
@@ -249,48 +295,7 @@
                                                                                 </li>
                                                                             </ul>
                                                                         </div> -->
-                                                                            <!-- <div class="ux-section-project-details">
-                                                                            <h3
-                                                                                class="itemdetails-section-header right">
-                                                                                Project
-                                                                                Details</h3>
-                                                                            <div class="github-details">
-                                                                                <ul>
-                                                                                    <li><a class="githubLinks"
-                                                                                            href="https://github.com/madskristensen/ImageOptimizer"
-                                                                                            target="blank"
-                                                                                            rel="noreferrer noopener nofollow"><span
-                                                                                                class="api-github-response bowtie-icon bowtie-brand-github"></span><span
-                                                                                                class="api-github-response github-string">madskristensen/ImageOptimizer</span></a>
-                                                                                    </li>
-                                                                                    <li><a class="githubLinks"
-                                                                                            href="https://github.com/madskristensen/ImageOptimizer/pulls"
-                                                                                            target="blank"
-                                                                                            rel="noreferrer noopener nofollow"><span
-                                                                                                class="api-github-response bowtie-icon bowtie-tfvc-pull-request"></span><span
-                                                                                                class="api-github-response pull-request-string">No
-                                                                                                Pull Requests</span></a>
-                                                                                    </li>
-                                                                                    <li><a class="githubLinks"
-                                                                                            href="https://github.com/madskristensen/ImageOptimizer/issues"
-                                                                                            target="blank"
-                                                                                            rel="noreferrer noopener nofollow"><span
-                                                                                                class="api-github-response bowtie-icon bowtie-status-error"></span><span
-                                                                                                class="api-github-response open-issues-string">12
-                                                                                                Open Issues</span></a>
-                                                                                    </li>
-                                                                                    <li><a class="githubLinks"
-                                                                                            href="https://github.com/madskristensen/ImageOptimizer/commits"
-                                                                                            target="blank"
-                                                                                            rel="noreferrer noopener nofollow"><span
-                                                                                                class="api-github-response bowtie-icon bowtie-status-waiting-fill"></span><span
-                                                                                                class="api-github-response last-commit-string">Last
-                                                                                                commit: a year
-                                                                                                ago</span></a>
-                                                                                    </li>
-                                                                                </ul>
-                                                                            </div>
-                                                                        </div> -->
+
                                                                             <div class="ux-section-capabilities">
                                                                                 <h3
                                                                                     class="itemdetails-section-header right">
@@ -328,7 +333,7 @@
                                                             </div>
                                                             <div class="w3-content w3-display-container">
                                                                 {{#imgGuidelineUrl}}
-                                                                <img class="mySlides" src="{{.}}" style="width:100%">
+                                                                <img class="mySlides" src="{{url}}" style="width:100%">
                                                                 {{/imgGuidelineUrl}}
                                                                 <div class="w3-move-button">
                                                                     <div class="w3-left " onclick="plusDivs(-1)">
@@ -338,10 +343,10 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="w3-center-button">
-                                                                    {{#imgGuidelineIndex}}
+                                                                    {{#imgGuidelineUrl}}
                                                                     <span class="w3-badge demo"
-                                                                        onclick="currentDiv({{.}})"></span>
-                                                                    {{/imgGuidelineIndex}}
+                                                                        onclick="currentDiv({{idx}} + 1)"></span>
+                                                                    {{/imgGuidelineUrl}}
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -480,7 +485,6 @@
 <script src="/js/tags.js"></script>
 <script>
     $(function () {
-        { { #owned } }
         $('#refresh-flow').click(function (event) {
             $("#refresh-flow-loader").show();
             $.post("/app/{{ id }}/refresh", function (data, textStatus, jqXHR) {
@@ -548,12 +552,7 @@
             }
             event.preventDefault();
         });
-        {
-            {
-                /owned}}
-
-
-            });
+    });
 
 </script>
 <script>

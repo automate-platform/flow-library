@@ -4,9 +4,10 @@
         <div class="col-1-12">&nbsp;</div>
         <div class="col-10-12 thing-list-section" style="background: white; padding: 10px 50px;">
             <h2 class="pagetitle">Add a App</h2>
+            <input id="add-flow-id" type="hidden" value="{{_id}}">
             <h4 class="add-flow-label"><label for="add-flow-title">Title</label></h4>
             <p>Give your flow a short, descriptive title. </p>
-            <input id="add-flow-title" type="text"></input>
+            <input id="add-flow-title" type="text" value="{{description}}">
             <div style="position:relative">
                 <div class="add-collection-title-warning dialog-warning">The title must be at least 10 characters long
                 </div>
@@ -15,11 +16,9 @@
             <h4 class="add-flow-label"><label for="add-flow-desc">Icon</label></h4>
             <p>Icon for your app.</p>
             <div style="display: flex; align-items: center;">
-                <label for="icon" class="icon-label"><img id="image-preview" src="#" alt="Preview"
-                        style="width: 128px; height: 128px; display: none;"><span class="choose-btn"
-                        style="display: flex; align-items: center;"><i class='bx bx-upload'
-                            style="font-size:25px; color: goldenrod;"></i>Choose
-                        Image</span></label>
+                <label for="icon" class="icon-label"><img id="image-preview" src="{{{icon_flow}}}" alt="Preview"
+                        style="width: 128px; height: 128px;"><span class="choose-btn"
+                        style="display: flex; align-items: center;"></span></label>
                 <input type="file" name="icon" id="icon" accept=".jpg,.png,.ico,.icons" style="display: none;">
 
             </div>
@@ -39,7 +38,7 @@
             <div class="add-collection-description-warning dialog-warning">The description must be at least 30
                 characters long</div>
             <div style="padding-top: 10px;border: 1px solid #fff; position: relative;">
-                <textarea id="add-flow-desc"></textarea>
+                <textarea id="add-flow-desc">{{{ readme }}}</textarea>
                 <div id="add-flow-desc-md"></div>
                 <div class="add-flow-desc-buttons"><a href="#" class="active" id="add-flow-desc-edit">edit</a><a
                         href="#" class="inactive" id="add-flow-desc-preview">preview</a></div>
@@ -50,18 +49,19 @@
                     &gt; Clipboard</i> from the menu (Ctrl-E), copy the JSON from
                 the dialog and paste here.
             </p>
-            <textarea id="add-flow-flow"></textarea>
+            <textarea id="add-flow-flow">{{flow}}</textarea>
             <div style="position:relative">
                 <div class="add-collection-flow-warning dialog-warning">The flow must contain at least one node</div>
             </div>
 
             <h4 class="add-flow-label"><label for="add-flow-tags">Tags</label></h4>
             <p>Add some tags to your flow that will help others find it. Comma- or space-separate the tags.</p>
-            <ul class="flow-tags" id="add-flow-tags"></ul>
+            <ul class="flow-tags" id="add-flow-tags">{{#tags}}<li tag="{{.}}">{{.}}<a href="#"><i
+                            class="icon icon-remove"></i></a></li>{{/tags}}</ul>
 
             <h4>&nbsp;</h4>
-            <a id="add-flow-create" href="#" class="btn-create"><span id="add-flow-label"
-                    style="display: flex; align-items: center;">Create App<i class='bx bx-right-arrow-alt'
+            <a id="add-flow-update" href="#" class="btn-create"><span id="add-flow-label"
+                    style="display: flex; align-items: center;">Update App<i class='bx bx-right-arrow-alt'
                         style="font-size:25px; color: goldenrod;"></i></span><img id="add-flow-loader" class="loader"
                     src="/images/loader.gif" /></a>
             <p class="create-toc">This will create a private gist, owned by you, on GitHub and add it to the Node-RED
@@ -73,13 +73,6 @@
 <script src="/js/marked.js"></script>
 <script src="/js/tags.js"></script>
 <script>
-    let labelInputHover = document.querySelector('.icon-label');
-    labelInputHover.addEventListener('mouseover', () => {
-        document.querySelector('.bx.bx-upload').classList.add('bx-fade-up')
-    })
-    labelInputHover.addEventListener('mouseout', () => {
-        document.querySelector('.bx.bx-upload').classList.remove('bx-fade-up')
-    })
     let createBtnHover = document.querySelector('.btn-create');
     createBtnHover.addEventListener('mouseover', () => {
         document.querySelector('.bx.bx-right-arrow-alt').classList.add('bx-fade-right')
@@ -89,12 +82,12 @@
     })
 
     $(function () {
-        var iconValid = false;
-        var titleValid = false;
-        var descValid = false;
-        var flowValid = false;
+        var iconValid = true;
+        var titleValid = true;
+        var descValid = true;
+        var flowValid = true;
 
-        let iconBase = "";
+        var iconBase = document.getElementById('image-preview').src;
         $("#add-flow-title").keyup(function (e) {
             var val = $(this).val().trim();
             if (val.length < 10) {
@@ -151,8 +144,15 @@
 
         inputElement.addEventListener("change", handleIcon, false);
         function handleIcon() {
+            iconBase = '';
             const fileList = this.files;
             if (fileList.length === 0) {
+                imagePreview.src = ''
+                labelBtn.innerHTML = `<i class='bx bx-upload'
+                            style="font-size:25px; color: goldenrod;"></i>Choose
+                        Image`;
+                imagePreview.style.display = 'none';
+
                 $(".add-collection-icon-warning").show();
                 $(".add-collection-icon-limit-warning").hide();
                 $(".add-collection-icon-size-warning").hide();
@@ -163,12 +163,22 @@
                 const fileSizeKB = file.size / 1024;
                 console.log(fileSizeKB)
                 if (!checkIcon(file)) {
+                    imagePreview.src = ''
+                    labelBtn.innerHTML = `<i class='bx bx-upload'
+                            style="font-size:25px; color: goldenrod;"></i>Choose
+                        Image`;
+                    imagePreview.style.display = 'none';
                     $(".add-collection-icon-warning").show();
                     $(".add-collection-icon-limit-warning").hide();
                     $(".add-collection-icon-size-warning").hide();
                     iconValid = false;
                     return false;
                 } else if (fileSizeKB > 60) {
+                    imagePreview.src = ''
+                    labelBtn.innerHTML = `<i class='bx bx-upload'
+                            style="font-size:25px; color: goldenrod;"></i>Choose
+                        Image`;
+                    imagePreview.style.display = 'none';
                     $(".add-collection-icon-warning").hide();
                     $(".add-collection-icon-limit-warning").show();
                     $(".add-collection-icon-size-warning").hide();
@@ -194,6 +204,11 @@
                                 $(".add-collection-icon-limit-warning").hide();
                                 $(".add-collection-icon-size-warning").hide();
                             } else {
+                                imagePreview.src = ''
+                                labelBtn.innerHTML = `<i class='bx bx-upload'
+                            style="font-size:25px; color: goldenrod;"></i>Choose
+                        Image`;
+                                imagePreview.style.display = 'none';
                                 $(".add-collection-icon-warning").hide();
                                 $(".add-collection-icon-limit-warning").hide();
                                 $(".add-collection-icon-size-warning").show();
@@ -252,11 +267,15 @@
 
         var createSubmitted = false;
 
-        $('#add-flow-create').click(function (e) {
+        $('#add-flow-update').click(function (e) {
             e.preventDefault();
             if (createSubmitted) {
                 return;
             }
+            console.log(titleValid);
+            console.log(descValid);
+            console.log(flowValid);
+            console.log(iconValid);
             if (!titleValid || !descValid || !flowValid || !iconValid) {
                 $("#add-flow-title").trigger("keyup");
                 $("#add-flow-desc").trigger("keyup");
@@ -267,16 +286,20 @@
             }
             createSubmitted = true;
             $("#add-flow-label").hide();
-            $("#add-flow-create").addClass("submitted");
+            $("#add-flow-update").addClass("submitted");
             $("#add-flow-loader").show();
             var app = {
+                id: $('#add-flow-id').val(),
                 title: $.trim($("#add-flow-title").val()),
                 description: $("#add-flow-desc").val(),
                 flow: $("#add-flow-flow").val(),
                 tags: tags.get(),
                 icondata: iconBase
             };
-            $.post("/app", app, function (data) {
+            console.log(app);
+
+            $.post("/update-app", app, function (data) {
+                console.log(data);
                 window.location = data;
             }).fail(function (err) {
                 if (err.status == 403) {
@@ -284,7 +307,7 @@
                 }
                 createSubmitted = false;
                 console.log("ERROR", err);
-                $("#add-flow-create").removeClass("submitted");
+                $("#add-flow-update").removeClass("submitted");
                 $("#add-flow-loader").hide();
                 $("#add-flow-label").show();
             });

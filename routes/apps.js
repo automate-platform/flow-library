@@ -51,9 +51,6 @@ if (setting.template.apps) {
     });
 
     app.post('/source', multi_upload.any(), (req, res) => {
-
-        console.log(req.body.id);
-        console.log(req.files);
         const id = req.body.id;
         let zipFileName = "";
         let files_img = [];
@@ -73,13 +70,11 @@ if (setting.template.apps) {
             res.status(400).send({ error: "No file was uploaded with the request." });
             return;
         }
-        console.log(files_img);
-
         var app_post = {
             zip_url: zipFileName,
             guideline_img: files_img
         };
-        apper.update(id, app_post || [])
+        apper.putSource(id, app_post || [])
         res.writeHead(303, {
             Location: "/app/" + id
         });
@@ -100,16 +95,13 @@ if (setting.template.apps) {
             app.pageTitle = app.description + " (app)";
 
             var imgUrl = [];
-            var imgIndex = [];
-            var imgCollection = app.guideline_img;
+            var imgCollection = app.guideline_img || [];
             imgCollection.forEach((img, index) => {
                 let url = `${setting.server.url}/${app._id}/${img}`;
-                imgUrl.push(url)
-                imgIndex.push(index + 1);
+                imgUrl.push({idx : index,url: url})
             })
 
             app.imgGuidelineUrl = imgUrl;
-            app.imgGuidelineIndex = imgIndex;
 
             var collectionPromise;
             var ratingPromise;
@@ -252,6 +244,79 @@ if (setting.template.apps) {
         }
     }
 
+    app.get("/app/update/:id", verifyOwner, function (req, res) {
+        apper.get(req.params.id).then(app => {
+            app.sessionuser = req.session.user;
+            app.display = setting.template;
+            res.send(mustache.render(templates.updateApp, app, templates.partials));
+        }).catch(function (err) {
+            // TODO: better error logging without the full stack trace
+            console.log(err);
+            try {
+                res.status(404).send(mustache.render(templates['404'], { sessionuser: req.session.user }, templates.partials));
+            } catch (err2) {
+                console.log(err2);
+            }
+        });
+    })
+
+    app.post("/update-app", function (req, res) {
+        var app_post = {
+            description: req.body.title,
+            public: false,
+            files: {
+                'app.json': {
+                    content: req.body.flow
+                },
+                'README.md': {
+                    content: req.body.description
+                },
+                'icon.ico': {
+                    content: req.body.icondata
+                }
+            }
+        };
+        apper.update(req.body.id, app_post, req.body.tags || [])
+            .then(function (data) {
+                console.log(data);
+                let url = `/update/app/source/${req.body.id}`;
+
+                res.send(url);
+            }).catch(function (err) {
+                console.log("Error creating app:", err);
+                res.send(err);
+            });
+
+    });
+
+    app.get('/update/app/source/:id', verifyOwner, function (req, res) {
+        apper.get(req.params.id).then(app => {
+
+            app.sessionuser = req.session.user;
+            app.display = setting.template;
+
+            var imgUrl = [];
+            var imgCollection = app.guideline_img || [];
+            imgCollection.forEach((img, index) => {
+                let url = `${setting.server.url}/${app._id}/${img}`;
+                imgUrl.push({idx : index,url: url})
+            })
+
+            app.imgGuidelineUrl = imgUrl;
+            console.log(app);
+
+            res.send(mustache.render(templates.updateSourceApp, app, templates.partials));
+        }).catch(function (err) {
+            // TODO: better error logging without the full stack trace
+            console.log(err);
+            try {
+                res.status(404).send(mustache.render(templates['404'], { sessionuser: req.session.user }, templates.partials));
+            } catch (err2) {
+                console.log(err2);
+            }
+        });
+    });
+
     app.post("/app/:id/tags", verifyOwner, function (req, res) {
         // TODO: verify req.session.user == app owner
         apper.updateTags(req.params.id, req.body.tags).then(function () {
@@ -262,6 +327,8 @@ if (setting.template.apps) {
         });
 
     });
+
+
 
     app.post("/app/:id/refresh", verifyOwner, function (req, res) {
         apper.refresh(req.params.id).then(function () {
@@ -326,6 +393,7 @@ if (setting.template.apps) {
         context.display = setting.template;
         res.send(mustache.render(templates.addApp, context, templates.partials));
     });
+
     app.get("/add/app/source", function (req, res) {
         if (!req.session.user) {
             return res.redirect("/add")
@@ -335,7 +403,6 @@ if (setting.template.apps) {
         context.display = setting.template;
         res.send(mustache.render(templates.addSourceApp, context, templates.partials));
     });
-
 
     module.exports = app;
 }
