@@ -1,11 +1,11 @@
 var path = require('path');
 
 var settings = {
-    port: 9999,
+    port: 8081,
     github: {
         clientId: "5cf8323b641b1fcbbaa2",
         secret: "b5eda517f321b1cacbd0fc37d412fe04228188ca",
-        authCallback: "http://localhost:9999/login/callback",
+        authCallback: "http://localhost:8081/login/callback",
         accessToken: "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"
     },
     mongo: {
@@ -50,6 +50,7 @@ var settings = {
     },
     app: {
         zipUrl: 'C:/Users/haiqd/Test_Market/app',
+        readme: 'C:/Users/haiqd/Test_Market/output'
     }
 };
 
