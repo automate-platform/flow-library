@@ -14,7 +14,7 @@ const app = express();
 
 app.post("/readme-img/upload", multi_upload.any(), (req, res) => {
     const files = req.files;
-    res.status(200).send(files[0].path);
+    res.status(200).send(setting.server.url + '/readme/'+ files[0].filename);
     res.end();
 });
 
