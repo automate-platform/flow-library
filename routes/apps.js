@@ -317,6 +317,37 @@ if (setting.template.apps) {
         });
     });
 
+    app.post('/source-update', multi_upload.any(), (req, res) => {
+        const id = req.body.id;
+        let zipFileName = "";
+        let files_img = [];
+        if (req.files) {
+            let files = req.files;
+            files.forEach(file => {
+                if (file.mimetype === 'application/zip' || file.mimetype === 'application/x-zip-compressed') {
+                    zipFileName = file.originalname;
+                }
+                if (file.mimetype.startsWith('image/')) {
+                    files_img.push(file.originalname)
+                }
+            });
+        } else {
+
+            console.log("No file was uploaded with the request.");
+            res.status(400).send({ error: "No file was uploaded with the request." });
+            return;
+        }
+        var app_post = {
+            zip_url: zipFileName,
+            guideline_img: files_img
+        };
+        apper.updateSource(id, app_post || [])
+        res.writeHead(303, {
+            Location: "/app/" + id
+        });
+        res.end();
+    });
+
     app.post("/app/:id/tags", verifyOwner, function (req, res) {
         // TODO: verify req.session.user == app owner
         apper.updateTags(req.params.id, req.body.tags).then(function () {
