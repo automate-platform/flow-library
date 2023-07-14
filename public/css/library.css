@@ -1687,11 +1687,8 @@ button.ui-button {
 }
 
 .markdown h2 {
-    font-size: 1.375em;
     line-height: 1.2em;
-    border-bottom: 1px solid #eee;
     margin-top: 2em;
-    padding-bottom: 10px;
 }
 
 .markdown h1,
@@ -1701,10 +1698,6 @@ button.ui-button {
     line-height: 1.4;
     margin-top: 1em;
     margin-bottom: 16px;
-}
-
-.markdown h3 {
-    font-size: 1.25em;
 }
 
 .item-details-control-root .ux-itemdetails-right {

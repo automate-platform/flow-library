@@ -11,10 +11,9 @@ var npmNodes = require("../lib/nodes");
 var templates = require("../lib/templates");
 var collections = require("../lib/collections");
 var ratings = require("../lib/ratings");
+var mark = require('../public/js/marked')
 var uuid = require('uuid');
 var { storage, multi_upload } = require("../lib/apps");
-
-
 
 var app = express();
 if (setting.template.apps) {
@@ -193,7 +192,7 @@ if (setting.template.apps) {
 
                 });
                 function completeRender(data) {
-                    marked(data, {}, function (err, content) {
+                    mark(data, {}, function (err, content) {
                         app.readme = content;
                         ratingPromise.then(() => collectionPromise).then(function (collectionSiblings) {
                             if (collection && collectionSiblings && collectionSiblings.length > 0) {
