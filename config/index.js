@@ -6,10 +6,7 @@ try {
         module.exports.maintenance = (process.env.NR_MAINTENANCE === 'true')
     }
     module.exports.port = process.env.PORT || module.exports.port;
-    module.exports.github.clientId = process.env.NR_GITHUB_CLIENTID || module.exports.github.clientId;
-    module.exports.github.secret = process.env.NR_GITHUB_SECRET || module.exports.github.secret;
-    module.exports.github.authCallback = process.env.NR_GITHUB_CALLBACK || module.exports.github.authCallback;
-    module.exports.github.accessToken = process.env.NR_GITHUB_ACCESS_TOKEN || module.exports.github.accessToken;
+ 
     module.exports.mongo.url = process.env.NR_MONGO_URL || module.exports.mongo.url;
     module.exports.session.key = process.env.NR_SESSION_KEY || module.exports.session.key;
     module.exports.session.secret = process.env.NR_SESSION_SECRET || module.exports.session.secret;
@@ -36,9 +33,11 @@ try {
 
     module.exports.app.zipUrl = process.env.APP_FLOW_URL ||  module.exports.app.zipUrl
 
-  
-    module.exports.gitlab.clientId = process.env.NR_GITLAB_CLIENTID || module.exports.gitlab.clientId;
-    module.exports.gitlab.secret = process.env.NR_GITLAB_SECRET || module.exports.gitlab.secret;
-    module.exports.gitlab.authCallback = process.env.NR_GITLAB_CALLBACK || module.exports.gitlab.authCallback;
-    module.exports.gitlab.accessToken = process.env.NR_GITLAB_ACCESS_TOKEN || module.exports.gitlab.accessToken;
+    
+    module.exports.git.domain = process.env.NR_GIT_DOMAIN || module.exports.git.domain;
+    module.exports.git.clientId = process.env.NR_GIT_CLIENTID || module.exports.git.clientId;
+    module.exports.git.secret = process.env.NR_GIT_SECRET || module.exports.git.secret;
+    module.exports.git.domain = process.env.NR_GIT_DOMAIN || module.exports.git.domain;
+    module.exports.git.host = process.env.NR_GIT_HOST || module.exports.git.host;
+    module.exports.git.accessToken = process.env.NR_GIT_ACCESSTOKEN || module.exports.git.accessToken;
 }

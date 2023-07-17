@@ -3,7 +3,7 @@ const users = require("../lib/users");
 var gitlab = require("../lib/gitlab");
 var settings = require('../config');
 var OAuth2 = require("oauth").OAuth2;
-var oauth = new OAuth2(settings.gitlab.clientId, settings.gitlab.secret, "https://gitlab.com/", "oauth/authorize", "oauth/token");
+var oauth = new OAuth2(settings.git.clientId, settings.git.secret, "https://pap-gitlab-test.fsoft.com.vn/", "oauth/authorize", "oauth/token");
 //login/oauth/access_token
 var app = express();
 
@@ -17,7 +17,7 @@ function login(req, res) {
 
         res.writeHead(303, {
             Location: oauth.getAuthorizeUrl({
-                redirect_uri: settings.gitlab.authCallback,
+                redirect_uri: settings.git.authCallback,
                 response_type: 'code',
                 scope: 'openid profile email api'
             })
@@ -46,7 +46,7 @@ function loginCallback(req, res) {
     }
     oauth.getOAuthAccessToken(req.query.code, {
         grant_type: 'authorization_code',
-        redirect_uri: settings.gitlab.authCallback,
+        redirect_uri: settings.git.authCallback,
     }, function (err, access_token, refresh_token) {
         if (err) {
             console.log(err);
