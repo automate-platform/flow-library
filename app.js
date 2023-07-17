@@ -54,6 +54,7 @@ if (!settings.maintenance) {
     }
     app.use(require("./routes/admin"));
     app.use(require("./routes/users"));
+    app.use(require("./routes/readme"));
     app.use(require("./routes/api"));
     if (settings.template.collection) {
         app.use(require("./routes/collections"));

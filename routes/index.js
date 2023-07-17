@@ -22,14 +22,14 @@ function queryFromRequest(req) {
 function getNextPageQueryString(count, query) {
     var currentPage = parseInt(query.page) || 1;
     if (viewster.DEFAULT_PER_PAGE * currentPage < count) {
-        return querystring.stringify(Object.assign({}, query,{page:currentPage+1}))
+        return querystring.stringify(Object.assign({}, query, { page: currentPage + 1 }))
     }
     return null
 }
 function getPrevPageQueryString(count, query) {
     var currentPage = parseInt(query.page) || 1;
     if (currentPage > 1) {
-        return querystring.stringify(Object.assign({}, query,{page:currentPage-1}))
+        return querystring.stringify(Object.assign({}, query, { page: currentPage - 1 }))
     }
     return null
 }
@@ -41,47 +41,47 @@ app.get("/", function (req, res) {
     context.display = setting.template;
     context.nodes = {
         type: 'node',
-        per_page: context.sessionuser?6:6,
+        per_page: context.sessionuser ? 6 : 6,
         hideOptions: true,
         hideNav: true,
         ignoreQueryParams: true,
-        showIndex : setting.template.nodes
+        showIndex: setting.template.nodes
     }
-    
+
     context.flows = {
         type: 'flow',
-        per_page: context.sessionuser?6:6,
+        per_page: context.sessionuser ? 6 : 6,
         hideOptions: true,
         hideNav: true,
         ignoreQueryParams: true,
-        showIndex : setting.template.flows
+        showIndex: setting.template.flows
     }
-    
+
     context.collections = {
         type: 'collection',
-        per_page: context.sessionuser?6:6,
+        per_page: context.sessionuser ? 6 : 6,
         hideOptions: true,
         hideNav: true,
         ignoreQueryParams: true,
-        showIndex : setting.template.collection
+        showIndex: setting.template.collection
     }
 
     context.apps = {
         type: 'app',
-        per_page: context.sessionuser?6:6,
+        per_page: context.sessionuser ? 6 : 6,
         hideOptions: true,
         hideNav: true,
         ignoreQueryParams: true,
-        showIndex : setting.template.apps
+        showIndex: setting.template.apps
     }
-    
-    viewster.getTypeCounts().then(function(counts) {
+
+    viewster.getTypeCounts().then(function (counts) {
         context.nodes.count = counts.node;
         context.flows.count = counts.flow;
         context.collections.count = counts.collection;
         context.apps.count = counts.app;
 
-        res.send( mustache.render(templates.index, context, templates.partials));
+        res.send(mustache.render(templates.index, context, templates.partials));
     });
 });
 
@@ -89,7 +89,7 @@ app.get("/things", function (req, res) {
 
     var response = {
         links: {
-            self: "/things?"+querystring.stringify(req.query),
+            self: "/things?" + querystring.stringify(req.query),
             prev: null,
             next: null
         },
@@ -105,8 +105,8 @@ app.get("/things", function (req, res) {
     var query = queryFromRequest(req);
 
     viewster.getForQuery(query).then(function (result) {
-        result.things = result.things||[];
-        result.things.forEach(function(thing) {
+        result.things = result.things || [];
+        result.things.forEach(function (thing) {
             thing.isApp = thing.type === 'app';
             thing.isNode = thing.type === 'node';
             thing.isFlow = thing.type === 'flow';
@@ -118,20 +118,20 @@ app.get("/things", function (req, res) {
         })
         response.meta.results.count = result.count;
         response.meta.results.total = result.total;
-        response.meta.pages.total =  Math.ceil(result.count/viewster.DEFAULT_PER_PAGE);
-        var nextQS = getNextPageQueryString(result.count,req.query);
-        var prevQS = getPrevPageQueryString(result.count,req.query);
+        response.meta.pages.total = Math.ceil(result.count / viewster.DEFAULT_PER_PAGE);
+        var nextQS = getNextPageQueryString(result.count, req.query);
+        var prevQS = getPrevPageQueryString(result.count, req.query);
 
         if (nextQS) {
-            response.links.next = "/things?"+nextQS;
+            response.links.next = "/things?" + nextQS;
         }
         if (prevQS) {
-            response.links.prev = "/things?"+prevQS;
+            response.links.prev = "/things?" + prevQS;
         }
         var context = {
             things: result.things,
-            toFixed: function() {
-                return function(num, render) {
+            toFixed: function () {
+                return function (num, render) {
                     return parseFloat(render(num)).toFixed(1);
                 }
             }
@@ -139,7 +139,7 @@ app.get("/things", function (req, res) {
         if (req.session.user) {
             context.showTools = {};
             if (result.collectionOwners) {
-                for (var i=0;i<result.collectionOwners.length;i++) {
+                for (var i = 0; i < result.collectionOwners.length; i++) {
                     if (result.collectionOwners[i] === req.session.user.login) {
                         context.showTools.ownedCollection = true;
                         break;
@@ -155,9 +155,9 @@ app.get("/things", function (req, res) {
         } else {
             response.data = result.things;
         }
-        setTimeout(function() {
+        setTimeout(function () {
             res.json(response);
-        },0);//2000);
+        }, 0);//2000);
     }).catch(function (err) {
         response.err = err;
         res.json(response);
@@ -165,7 +165,7 @@ app.get("/things", function (req, res) {
 });
 
 
-app.get("/search", function(req,res) {
+app.get("/search", function (req, res) {
     var context = {};
     context.sessionuser = req.session.user;
     context.fullsearch = true;
@@ -175,15 +175,23 @@ app.get("/search", function(req,res) {
     res.send(mustache.render(templates.search, context, templates.partials));
 });
 
-app.get("/add",function(req,res) {
+app.get("/add", function (req, res) {
     var context = {};
     context.sessionuser = req.session.user;
     context.display = setting.template;
-    res.send(mustache.render(templates.add,context,templates.partials));
+    res.send(mustache.render(templates.add, context, templates.partials));
 });
 
-app.get("/inspect", function(req,res) {
+app.get("/inspect", function (req, res) {
     var context = {};
-    res.send(mustache.render(templates.flowInspector,context,templates.partials));
+    res.send(mustache.render(templates.flowInspector, context, templates.partials));
 })
+
+app.get("/readme-img", function (req, res) {
+    var context = {};
+    context.sessionuser = req.session.user;
+    context.display = setting.template;
+    res.send(mustache.render(templates.uploadReadmeImg, context, templates.partials));
+});
+
 module.exports = app;

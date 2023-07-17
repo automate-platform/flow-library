@@ -1,0 +1,337 @@
+{{>_header}}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+    ul {
+        list-style: none;
+    }
+
+    .container {
+        max-width: 500px;
+        width: 100%;
+        margin: 10em auto;
+        padding: 0 20px;
+        font-family: 'Montserrat', sans-serif;
+    }
+
+    .file-upload {
+        position: relative;
+        width: 100%;
+        margin: 0 auto;
+        padding: 7em 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5em;
+        background-color: hsl(235deg 100% 99%);
+        box-shadow: hsl(235deg 100% 78% / 30%) 0 25px 50px -12px;
+    }
+
+    .file-upload input {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+        opacity: 0;
+        z-index: 10;
+    }
+
+    .file-upload .icon {
+        position: relative;
+    }
+
+    .file-upload .icon ion-icon {
+        font-size: 3.5em;
+        color: hsla(235, 100%, 95%, 1);
+        z-index: 1;
+        position: relative;
+    }
+
+    .file-upload .icon::before,
+    .file-upload .icon::after {
+        content: '';
+        height: 56px;
+        width: 56px;
+        position: absolute;
+        left: 0;
+        top: 0;
+        border-radius: 50%;
+        border: 3px solid hsla(235, 100%, 78%, 1);
+        background-color: hsla(235, 100%, 99%, 1);
+        transform: scale(1.5);
+        z-index: 1;
+    }
+
+    .file-upload .icon::after {
+        border: 0;
+        transform: scale(2.5);
+        z-index: 0;
+        background-color: hsla(235, 100%, 95%, 1);
+    }
+
+    .file-upload h3 {
+        font-weight: 400;
+        font-size: 1.5em;
+        color: hsla(235, 100%, 78%, 1);
+        font-family: 'Montserrat', sans-serif;
+
+    }
+
+    .file-upload button {
+        border: 0;
+        outline: 0;
+        border-radius: 50%;
+        color: white;
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, hsla(235, 100%, 78%, 1) 0%, hsla(222, 100%, 67%, 1) 100%);
+        -webkit-background: linear-gradient(135deg, hsla(235, 100%, 78%, 1) 0%, hsla(222, 100%, 67%, 1) 100%);
+        box-shadow: hsla(222, 100%, 67%, 1) 0 4px 18px;
+        -webkit-transition: all .3s ease-out;
+        transition: all .3s ease-out;
+    }
+
+    .file-upload button ion-icon {
+        font-size: 1.5em;
+        -webkit-transform: rotate(45deg);
+        transform: rotate(45deg);
+    }
+
+    .file-upload:hover button {
+        transform: translateY(-10px);
+        -webkit-transform: translateY(-10px);
+    }
+
+    .list-upload {
+        padding: 0 2em;
+    }
+
+    .list-upload ul li {
+        position: relative;
+        display: flex;
+        margin: 3em 0;
+        padding-right: 2em;
+    }
+
+    .list-upload .thumbnail {
+        position: relative;
+        width: 50px;
+        height: 50px;
+        margin-right: 20px;
+        border-radius: 7px;
+        background-color: hsla(235, 100%, 78%, 1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .list-upload .thumbnail>ion-icon {
+        font-size: 2em;
+        color: hsla(235, 100%, 99%, 1);
+        display: none;
+    }
+
+    .file-list.image .thumbnail>[name="image-outline"] {
+        display: block;
+    }
+
+    .list-upload .thumbnail .completed {
+        position: absolute;
+        top: 50%;
+        right: -10px;
+        margin-top: -10px;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background-color: #2ecc71;
+        color: white;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .list-upload .properties {
+        display: flex;
+        flex-direction: column;
+        flex-basis: 100%;
+        gap: 5px;
+    }
+
+    .list-upload .properties .titless {
+        word-break: break-word;
+    }
+
+    .list-upload .properties .size {
+        color: #8f98ff;
+        font-size: 12px;
+    }
+
+    .list-upload .properties :where(.progress, .buffer) {
+        position: relative;
+        display: block;
+        width: 100%;
+        height: 2px;
+        background-color: hsla(235, 100%, 95%, 1);
+    }
+
+    .list-upload .properties .buffer {
+        background: linear-gradient(90deg, #82f4b1 0%, #2ecc71 100%);
+        -webkit-background: linear-gradient(90deg, #82f4b1 0%, #2ecc71 100%);
+    }
+
+    .list-upload .properties .percentage {
+        position: absolute;
+        left: 0;
+        top: 5px;
+        font-size: 10px;
+    }
+
+    .list-upload .remove {
+        position: absolute;
+        right: 0;
+        top: 50%;
+        border: 0;
+        outline: 0;
+        width: 20px;
+        height: 20px;
+        margin-top: -10px;
+        border-radius: 50%;
+        background-color: #ff6b81;
+        color: white;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all .3s ease-out;
+        -webkit-transition: all .3s ease-out;
+    }
+
+    .list-upload .remove:hover {
+        background-color: #60a0f9;
+    }
+
+    .list-upload :where(.completed, .remove) {
+        display: none;
+    }
+</style>
+<div id="id" class="site">
+    <div class="container">
+        <div class="file-upload">
+            <input type="file" name="files" class="file-input" accept="image/png, image/gif, image/jpeg">
+            <div class="icon">
+                <ion-icon name="arrow-up-outline">
+                </ion-icon>
+            </div>
+            <h3>Drag & drop files here</h3>
+            <span>- OR -</span><strong>Browse</strong>
+            <button>
+                <ion-icon name="close"></ion-icon>
+            </button>
+        </div>
+        <div class="list-upload">
+            <ul>
+            </ul>
+        </div>
+    </div>
+</div>
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script>
+    var input_img = document.querySelector('.file-input');
+
+    input_img.addEventListener('change', function () {
+
+        let allowed_mine_type = [];
+        let allowed_mine_mb = 3;
+
+        var file_input = input_img.files;
+
+        if (file_input.length === 0) {
+            alert('Error : No file selected');
+            return;
+        }
+        for (i = 0; i < file_input.length; i++) {
+            let file = file_input[i];
+            console.log(file);
+
+            if (file.size > allowed_mine_mb * 1024 * 1024) {
+                alert('Error: Exeed size => ' + file.name);
+                return;
+            }
+            // console.log('have you choosec ' + file.name);
+
+            let uiq = 'id-' + btoa(file.name).replace(/=/g, '').substring(0, 7);
+
+            let li = `<li class="file-list image" id ="${uiq}" data-filename="${file.name}">
+            <div class="thumbnail">
+                <ion-icon name="image-outline"></ion-icon>
+                <span class="completed">
+                    <ion-icon name="checkmark"></ion-icon>
+                </span>
+            </div>
+            <div class="properties">
+                <span class="titless"><strong></strong></span>
+                <span class="size"></span>
+                <span class="progress">
+                    <span class="buffer"></span>
+                    <span class="percentage"></span>
+                </span>
+            </div>
+            <button class="remove">
+                <ion-icon name="link-outline"></ion-icon>
+            </button>
+        </li>`;
+
+            document.querySelector('.list-upload ul').innerHTML = li ;
+            // + document.querySelector('.list-upload ul').innerHTML;
+            let li_el = document.querySelector('#' + uiq);
+            let name = li_el.querySelector('.titless strong');
+            let size = li_el.querySelector('.size');
+
+            name.innerHTML = file.name;
+            size.innerHTML = bytesToSize(file.size);
+
+            var data = new FormData();
+
+            data.append('file', file);
+
+            var request = new XMLHttpRequest();
+            request.open('POST', '/readme-img/upload');
+
+            request.upload.addEventListener('progress', function (e) {
+                let percent = Math.ceil(e.loaded / e.total) * 100;
+                li_el.querySelector('.buffer').style.width = percent + '%';
+                li_el.querySelector('.percentage').innerHTML = percent + '%';
+                li_el.querySelector('.percentage').style.left = percent + '%';
+
+                if (e.loaded === e.total) {
+                    li_el.querySelector(`.completed`).style.display = li_el.querySelector(`.remove`).style.display = 'flex';
+                    console.log(request.response);
+                    li_el.querySelector('.remove').addEventListener('click', function () {
+                        navigator.clipboard.writeText(request.response)
+                    });
+                }
+
+            });
+            request.addEventListener('load', function (e) {
+                console.log(request.response);
+            });
+
+            request.send(data);
+        }
+
+    });
+
+    function bytesToSize(bytes) {
+        const units = ["byte", "kilobyte", "megabyte", "terabyte", "petabyte"];
+        const unit = Math.floor(Math.log(bytes) / Math.log(2014));
+
+        return new Intl.NumberFormat("en", { style: "unit", unit: units[unit] }).format(bytes / 1024 ** unit);
+    }
+</script>
+
+{{>_footer}}

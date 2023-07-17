@@ -518,6 +518,20 @@ h1 {
     max-width: 100%;
 }
 
+#add-img-desc-md {
+    min-height: 350px;
+    margin-top: 19px;
+    border: 1px solid #999;
+    border-radius: 3px;
+    display: none;
+    padding: 10px;
+    background: #fff;
+}
+
+#add-img-desc-md img {
+    max-width: 100%;
+}
+
 .add-form p {
     color: #888;
     font-size: 0.9em;
@@ -718,7 +732,7 @@ h1 {
     overflow-y: hidden;
     overflow-x: scroll;
     transition-duration: 0.15s;
-    transition-timing-function: cubic-bezier(0.05,0,0,1);
+    transition-timing-function: cubic-bezier(0.05, 0, 0, 1);
     will-change: transform;
 }
 
@@ -730,7 +744,7 @@ h1 {
     cursor: pointer;
 }
 
-.img-guildeline .preview-img-edit .preview-img-edit-mid .img_preview:last-child{
+.img-guildeline .preview-img-edit .preview-img-edit-mid .img_preview:last-child {
     margin-right: 15px;
 }
 
@@ -817,7 +831,7 @@ h1 {
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
     padding: 4px;
-    width: 90px;
+    width: 110px;
     display: inline-block;
     height: 30px;
     text-align: center;
@@ -1403,19 +1417,22 @@ ul#add-flow-tags li i.icon {
     margin-top: 10px;
 }
 
-.item-details-control-root .light .ux-button.install {
+.item-details-control-root .light .ux-button.install,
+.item-details-control-root .light .ux-button.update {
     background-color: #107c10;
     color: #fff;
     min-width: 120px;
     border: 1px solid #666;
 }
 
-.item-details-control-root .ux-button.install {
+.item-details-control-root .ux-button.install,
+.item-details-control-root .ux-button.update {
     overflow: visible;
     margin: 0px;
 }
 
 .item-details-control-root .ux-button.install,
+.item-details-control-root .ux-button.update,
 button.ui-state-default,
 button.ui-button {
     font-family: "Segoe UI VSS (Regular)", "Segoe UI", "-apple-system", BlinkMacSystemFont, Roboto, "Helvetica Neue", Helvetica, Ubuntu, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
@@ -1670,11 +1687,8 @@ button.ui-button {
 }
 
 .markdown h2 {
-    font-size: 1.375em;
     line-height: 1.2em;
-    border-bottom: 1px solid #eee;
     margin-top: 2em;
-    padding-bottom: 10px;
 }
 
 .markdown h1,
@@ -1684,10 +1698,6 @@ button.ui-button {
     line-height: 1.4;
     margin-top: 1em;
     margin-bottom: 16px;
-}
-
-.markdown h3 {
-    font-size: 1.25em;
 }
 
 .item-details-control-root .ux-itemdetails-right {
@@ -3231,6 +3241,7 @@ a:hover .gistbox-footer {
     bottom: 0;
     background: rgba(50, 38, 88, 0.368);
     text-align: center;
+    z-index: 2;
 }
 
 .dialog-shade:before {
@@ -3410,7 +3421,7 @@ select option {
     -webkit-box-shadow: 2px 2px 5px rgba(0, 0, 0, .1);
     box-shadow: 2px 2px 5px rgba(55, 55, 55, 0.1);
     border: 1px solid #d4d4d5;
-    z-index: 10;
+    z-index: 1;
 }
 
 .homepage-searchbox-wrapper .homepage-searchbox-container:hover {
