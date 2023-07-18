@@ -3,7 +3,7 @@ const users = require("../lib/users");
 var gitlab = require("../lib/gitlab");
 var settings = require('../config');
 var OAuth2 = require("oauth").OAuth2;
-var oauth = new OAuth2(settings.git.clientId, settings.git.secret, "https://pap-gitlab-test.fsoft.com.vn/", "oauth/authorize", "oauth/token");
+var oauth = new OAuth2(settings.git.clientId, settings.git.secret, settings.git.domain, "oauth/authorize", "oauth/token");
 //login/oauth/access_token
 var app = express();
 
@@ -59,7 +59,8 @@ function loginCallback(req, res) {
             res.end();
             return;
         }
-
+        console.log(access_token);
+        console.log(refresh_token);
         req.session.accessToken = access_token;
       
         console.log(req.session.accessToken)
