@@ -41,6 +41,7 @@
             </div>
           </div>
         </div>
+        
         <label for="img_guilde" class="img_guilde_label"><svg fill="#000000" viewBox="0 0 24 24" id="curve-arrow-up-10"
             data-name="Flat Color" xmlns="http://www.w3.org/2000/svg" class="icon flat-color">
             <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -104,7 +105,9 @@
     const urlParams = new URLSearchParams(window.location.search);
     const ids = urlParams.get('id');
     const name = urlParams.get('name');
-    const zipPreview = document.querySelector('.icon-label .zip-name');
+    const zipPreview = document.querySelector('.icon-label .zip-name'); 
+    const uploadButton = document.getElementById('upload-flow-label');
+
     document.getElementById('myId').value = ids;
     document.getElementById('title').textContent = decodeURIComponent(name);
 
@@ -187,12 +190,12 @@
 
     input.addEventListener("change", () => {
       imagesArray = [];
-      document.querySelector('.preview-img-edit').style.display = 'block';
-      document.querySelector('.preview-img').style.display = 'block';
       const files = input.files
       for (let i = 0; i < files.length; i++) {
         imagesArray.push(files[i])
       }
+      document.querySelector('.preview-img-edit').style.display = 'block';
+      document.querySelector('.preview-img').style.display = 'block';
       displayImages()
     })
 
@@ -212,7 +215,7 @@
 
     function moveImageToTop(index) {
       let img_move = imagesArray[index]
-      imagesArray = imagesArray.filter(item => imagesArray.indexOf(item) !== index)
+      imagesArray = imagesArray.filter(item => item !== img_move)
       imagesArray.splice(0, 0, img_move)
       const dataTransfer = new DataTransfer();
       imagesArray.forEach((file) => {

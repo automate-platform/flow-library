@@ -118,21 +118,6 @@
     <!-- -->
     <script src="/js/marked.js"></script>
     <script src="/js/tags.js"></script>
-    <!-- <script>
-        const imageTest = document.querySelectorAll('.mySlides')
-        imageTest.forEach(img => {
-            const imgSrc = img.src.split('/');
-            fetch(img.src, {mode: 'no-cors'})
-                .then(async response => {
-                    const contentType = response.headers.get('content-type')
-                    const blob = await response.blob()
-                    const file = new File([blob], imgSrc[imgSrc.length - 1], { contentType })
-                    // access file here
-                    console.log(file);
-                })
-        })
-
-    </script> -->
     <script>
         const zipPreview = document.querySelector('.icon-label .zip-name');
         const zipValid = false;

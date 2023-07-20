@@ -391,7 +391,7 @@ if (setting.template.apps) {
             res.cookie('rateID', rateID, { maxAge: 31556952000 })
             ratings.rateThing(id, rateID, Number(req.body.rating)).then(function () {
                 res.writeHead(303, {
-                    Location: "/flow/" + id
+                    Location: "/app/" + id
                 });
                 res.end();
             })

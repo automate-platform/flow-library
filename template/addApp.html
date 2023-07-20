@@ -5,7 +5,7 @@
         <div class="col-10-12 thing-list-section" style="background: white; padding: 10px 50px;">
             <h2 class="pagetitle">Add a App</h2>
             <h4 class="add-flow-label"><label for="add-flow-title">Title</label></h4>
-            <p>Give your flow a short, descriptive title. </p>
+            <p>Give your app a short, descriptive title. </p>
             <input id="add-flow-title" type="text"></input>
             <div style="position:relative">
                 <div class="add-collection-title-warning dialog-warning">The title must be at least 10 characters long
@@ -56,7 +56,7 @@
             </div>
 
             <h4 class="add-flow-label"><label for="add-flow-tags">Tags</label></h4>
-            <p>Add some tags to your flow that will help others find it. Comma- or space-separate the tags.</p>
+            <p>Add some tags to your app that will help others find it. Comma- or space-separate the tags.</p>
             <ul class="flow-tags" id="add-flow-tags"></ul>
 
             <h4>&nbsp;</h4>
@@ -64,7 +64,7 @@
                     style="display: flex; align-items: center;">Create App<i class='bx bx-right-arrow-alt'
                         style="font-size:25px; color: goldenrod;"></i></span><img id="add-flow-loader" class="loader"
                     src="/images/loader.gif" /></a>
-            <p class="create-toc">This will create a private gist, owned by you, on GitHub and add it to the Node-RED
+            <p class="create-toc">This will create a private gist, owned by you, on GitHub and add it to the Market
                 flow library on your behalf.</p>
 
         </div>
@@ -257,12 +257,20 @@
             if (createSubmitted) {
                 return;
             }
-            if (!titleValid || !descValid || !flowValid || !iconValid) {
-                $("#add-flow-title").trigger("keyup");
-                $("#add-flow-desc").trigger("keyup");
-                $("#add-flow-flow").trigger("keyup");
-                $("#icon").trigger("keyup");
-                window.scrollTo(0, 0);
+            if (!titleValid) {
+                $("#add-flow-title").trigger("focus");
+                return;
+            }
+            if (!descValid) {
+                $("#add-flow-desc").trigger("focus");
+                return;
+            }
+            if (!flowValid) {
+                $("#add-flow-flow").trigger("focus");
+                return;
+            }
+            if (!iconValid) {
+                $(window).scrollTop($(".add-flow-label").offset().top);
                 return;
             }
             createSubmitted = true;

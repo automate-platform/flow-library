@@ -192,7 +192,7 @@
         font-size: 10px;
     }
 
-    .list-upload .remove {
+    .list-upload .link-img-readme {
         position: absolute;
         right: 0;
         top: 50%;
@@ -211,18 +211,19 @@
         -webkit-transition: all .3s ease-out;
     }
 
-    .list-upload .remove:hover {
+    .list-upload .link-img-readme:hover {
         background-color: #60a0f9;
     }
 
-    .list-upload :where(.completed, .remove) {
+    .list-upload :where(.completed, .link-img-readme) {
         display: none;
     }
 </style>
 <div id="id" class="site">
     <div class="container">
         <div class="file-upload">
-            <input type="file" name="files" class="file-input" accept="image/png, image/gif, image/jpeg">
+            <input type="file" name="files_readme_img" class="file-input" accept="image/png, image/gif, image/jpeg"
+                multiple>
             <div class="icon">
                 <ion-icon name="arrow-up-outline">
                 </ion-icon>
@@ -241,6 +242,7 @@
 </div>
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <script>
+    var id_app = 0;
     var input_img = document.querySelector('.file-input');
 
     input_img.addEventListener('change', function () {
@@ -264,7 +266,7 @@
             }
             // console.log('have you choosec ' + file.name);
 
-            let uiq = 'id-' + btoa(file.name).replace(/=/g, '').substring(0, 7);
+            let uiq = 'id-' + ++id_app;
 
             let li = `<li class="file-list image" id ="${uiq}" data-filename="${file.name}">
             <div class="thumbnail">
@@ -281,13 +283,12 @@
                     <span class="percentage"></span>
                 </span>
             </div>
-            <button class="remove">
+            <button class="link-img-readme">
                 <ion-icon name="link-outline"></ion-icon>
             </button>
         </li>`;
 
-            document.querySelector('.list-upload ul').innerHTML = li ;
-            // + document.querySelector('.list-upload ul').innerHTML;
+            document.querySelector('.list-upload ul').innerHTML = li + document.querySelector('.list-upload ul').innerHTML;
             let li_el = document.querySelector('#' + uiq);
             let name = li_el.querySelector('.titless strong');
             let size = li_el.querySelector('.size');
@@ -296,8 +297,6 @@
             size.innerHTML = bytesToSize(file.size);
 
             var data = new FormData();
-
-            data.append('file', file);
 
             var request = new XMLHttpRequest();
             request.open('POST', '/readme-img/upload');
@@ -309,19 +308,14 @@
                 li_el.querySelector('.percentage').style.left = percent + '%';
 
                 if (e.loaded === e.total) {
-                    li_el.querySelector(`.completed`).style.display = li_el.querySelector(`.remove`).style.display = 'flex';
+                    li_el.querySelector(`.completed`).style.display = li_el.querySelector(`.link-img-readme`).style.display = 'flex';
                     console.log(request.response);
-                    li_el.querySelector('.remove').addEventListener('click', function () {
+                    li_el.querySelector('.link-img-readme').addEventListener('click', function () {
                         navigator.clipboard.writeText(request.response)
                     });
                 }
 
             });
-            request.addEventListener('load', function (e) {
-                console.log(request.response);
-            });
-
-            request.send(data);
         }
 
     });

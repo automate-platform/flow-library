@@ -3,7 +3,7 @@
     <div class="add-form-row">
         <div class="col-1-12">&nbsp;</div>
         <div class="col-10-12 thing-list-section" style="background: white; padding: 10px 50px;">
-            <h2 class="pagetitle">Add a App</h2>
+            <h2 class="pagetitle">Update a App</h2>
             <input id="add-flow-id" type="hidden" value="{{_id}}">
             <h4 class="add-flow-label"><label for="add-flow-title">Title</label></h4>
             <p>Give your flow a short, descriptive title. </p>
@@ -161,7 +161,6 @@
             } else {
                 const file = fileList[0];
                 const fileSizeKB = file.size / 1024;
-                console.log(fileSizeKB)
                 if (!checkIcon(file)) {
                     imagePreview.src = ''
                     labelBtn.innerHTML = `<i class='bx bx-upload'
@@ -272,16 +271,20 @@
             if (createSubmitted) {
                 return;
             }
-            console.log(titleValid);
-            console.log(descValid);
-            console.log(flowValid);
-            console.log(iconValid);
-            if (!titleValid || !descValid || !flowValid || !iconValid) {
-                $("#add-flow-title").trigger("keyup");
-                $("#add-flow-desc").trigger("keyup");
-                $("#add-flow-flow").trigger("keyup");
-                $("#icon").trigger("keyup");
-                window.scrollTo(0, 0);
+            if (!titleValid) {
+                $("#add-flow-title").trigger("focus");
+                return;
+            }
+            if (!descValid) {
+                $("#add-flow-desc").trigger("focus");
+                return;
+            }
+            if (!flowValid) {
+                $("#add-flow-flow").trigger("focus");
+                return;
+            }
+            if (!iconValid) {
+                $(window).scrollTop($(".add-flow-label").offset().top);
                 return;
             }
             createSubmitted = true;
