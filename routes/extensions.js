@@ -324,7 +324,7 @@ if (setting.template.extensions) {
         });
     });
 
-    app.get("/add/extention", function (req, res) {
+    app.get("/add/extension", function (req, res) {
         if (!req.session.user) {
             return res.redirect("/add")
         }

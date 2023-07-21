@@ -35,18 +35,18 @@
     </div>
     {{/display.apps}}
 
-    {{#display.extentions}}
+    {{#display.extensions}}
     <div class="col-1-3 ">
-        {{#sessionuser}}<a class="thing-list-section" href="/add/extention">{{/sessionuser}}
-            {{^sessionuser}}<a class="thing-list-section" href="/login?return=/add/extention">{{/sessionuser}}
-                <h3>Extentions</h3>
-                <p>Add a new example extention to the library for others to learn from.</p>
+        {{#sessionuser}}<a class="thing-list-section" href="/add/extension">{{/sessionuser}}
+            {{^sessionuser}}<a class="thing-list-section" href="/login?return=/add/extension">{{/sessionuser}}
+                <h3>Extensions</h3>
+                <p>Add a new example extension to the library for others to learn from.</p>
                 {{^sessionuser}}
-                <p><i>You need to be logged in to add a extention.</i></p>
+                <p><i>You need to be logged in to add a extension.</i></p>
                 {{/sessionuser}}
             </a>
     </div>
-    {{/display.extentions}}
+    {{/display.extensions}}
 
     {{#display.collection}}
     <div class="col-1-3 ">
