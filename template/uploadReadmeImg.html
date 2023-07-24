@@ -1,331 +1,735 @@
 {{>_header}}
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
 <style>
-    ul {
-        list-style: none;
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400&display=swap');
+
+    :root {
+        --hue: 223;
+        --bg: hsl(var(--hue), 10%, 85%);
+        --fg: hsl(var(--hue), 10%, 5%);
+        --trans-dur: 0.3s;
+        font-size: calc(16px + (20 - 16) * (100vw - 320px) / (2560 - 320));
     }
 
-    .container {
-        max-width: 500px;
-        width: 100%;
-        margin: 10em auto;
-        padding: 0 20px;
-        font-family: 'Montserrat', sans-serif;
+    button {
+        font: 2em/1.5 'Poppins', sans-serif;
     }
 
-    .file-upload {
+    .modal {
+        background-color: hsl(var(--hue), 10%, 95%);
+        border-radius: 1em;
+        box-shadow: 0 0.75em 1em hsla(var(--hue), 10%, 5%, 0.3);
+        font: 1em/1.5 'Poppins', sans-serif;
+        color: hsl(var(--hue), 10%, 5%);
+        width: calc(100% - 3em);
+        max-width: 34.5em;
+        overflow: hidden;
         position: relative;
-        width: 100%;
-        margin: 0 auto;
-        padding: 7em 0;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 1.5em;
-        background-color: hsl(235deg 100% 99%);
-        box-shadow: hsl(235deg 100% 78% / 30%) 0 25px 50px -12px;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, 50%);
+        transition:
+            background-color var(--trans-dur),
+            color var(--trans-dur);
+        user-select: none;
     }
 
-    .file-upload input {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        cursor: pointer;
-        opacity: 0;
-        z-index: 10;
-    }
-
-    .file-upload .icon {
-        position: relative;
-    }
-
-    .file-upload .icon ion-icon {
-        font-size: 3.5em;
-        color: hsla(235, 100%, 95%, 1);
-        z-index: 1;
-        position: relative;
-    }
-
-    .file-upload .icon::before,
-    .file-upload .icon::after {
-        content: '';
-        height: 56px;
-        width: 56px;
-        position: absolute;
-        left: 0;
-        top: 0;
+    .modal:before {
+        background-color: hsl(223, 90%, 60%);
         border-radius: 50%;
-        border: 3px solid hsla(235, 100%, 78%, 1);
-        background-color: hsla(235, 100%, 99%, 1);
-        transform: scale(1.5);
-        z-index: 1;
-    }
-
-    .file-upload .icon::after {
-        border: 0;
-        transform: scale(2.5);
+        content: "";
+        filter: blur(60px);
+        opacity: 0.15;
+        position: absolute;
+        top: -8em;
+        right: -15em;
+        width: 25em;
+        height: 25em;
         z-index: 0;
-        background-color: hsla(235, 100%, 95%, 1);
+        transition: background-color var(--trans-dur);
     }
 
-    .file-upload h3 {
-        font-weight: 400;
-        font-size: 1.5em;
-        color: hsla(235, 100%, 78%, 1);
-        font-family: 'Montserrat', sans-serif;
-
-    }
-
-    .file-upload button {
-        border: 0;
-        outline: 0;
-        border-radius: 50%;
-        color: white;
-        width: 48px;
-        height: 48px;
+    .modal__actions {
+        animation-delay: 0.2s;
         display: flex;
         align-items: center;
-        justify-content: center;
-        background: linear-gradient(135deg, hsla(235, 100%, 78%, 1) 0%, hsla(222, 100%, 67%, 1) 100%);
-        -webkit-background: linear-gradient(135deg, hsla(235, 100%, 78%, 1) 0%, hsla(222, 100%, 67%, 1) 100%);
-        box-shadow: hsla(222, 100%, 67%, 1) 0 4px 18px;
-        -webkit-transition: all .3s ease-out;
-        transition: all .3s ease-out;
+        flex-wrap: wrap;
     }
 
-    .file-upload button ion-icon {
-        font-size: 1.5em;
-        -webkit-transform: rotate(45deg);
-        transform: rotate(45deg);
-    }
-
-    .file-upload:hover button {
-        transform: translateY(-10px);
-        -webkit-transform: translateY(-10px);
-    }
-
-    .list-upload {
-        padding: 0 2em;
-    }
-
-    .list-upload ul li {
+    .modal__body,
+    .modal__header {
         position: relative;
-        display: flex;
-        margin: 3em 0;
-        padding-right: 2em;
+        z-index: 1;
     }
 
-    .list-upload .thumbnail {
-        position: relative;
-        width: 50px;
-        height: 50px;
-        margin-right: 20px;
-        border-radius: 7px;
-        background-color: hsla(235, 100%, 78%, 1);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-shrink: 0;
-    }
-
-    .list-upload .thumbnail>ion-icon {
-        font-size: 2em;
-        color: hsla(235, 100%, 99%, 1);
-        display: none;
-    }
-
-    .file-list.image .thumbnail>[name="image-outline"] {
-        display: block;
-    }
-
-    .list-upload .thumbnail .completed {
-        position: absolute;
-        top: 50%;
-        right: -10px;
-        margin-top: -10px;
-        width: 20px;
-        height: 20px;
-        border-radius: 50%;
-        background-color: #2ecc71;
-        color: white;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .list-upload .properties {
+    .modal__body {
         display: flex;
         flex-direction: column;
-        flex-basis: 100%;
-        gap: 5px;
+        padding: 0 2em 1.875em 1.875em;
     }
 
-    .list-upload .properties .titless {
-        word-break: break-word;
-    }
-
-    .list-upload .properties .size {
-        color: #8f98ff;
-        font-size: 12px;
-    }
-
-    .list-upload .properties :where(.progress, .buffer) {
-        position: relative;
-        display: block;
-        width: 100%;
-        height: 2px;
-        background-color: hsla(235, 100%, 95%, 1);
-    }
-
-    .list-upload .properties .buffer {
-        background: linear-gradient(90deg, #82f4b1 0%, #2ecc71 100%);
-        -webkit-background: linear-gradient(90deg, #82f4b1 0%, #2ecc71 100%);
-    }
-
-    .list-upload .properties .percentage {
-        position: absolute;
-        left: 0;
-        top: 5px;
-        font-size: 10px;
-    }
-
-    .list-upload .link-img-readme {
-        position: absolute;
-        right: 0;
-        top: 50%;
-        border: 0;
-        outline: 0;
-        width: 20px;
-        height: 20px;
-        margin-top: -10px;
-        border-radius: 50%;
-        background-color: #ff6b81;
-        color: white;
-        align-items: center;
-        justify-content: center;
+    .modal__button,
+    .modal__close-button {
+        color: currentColor;
         cursor: pointer;
-        transition: all .3s ease-out;
-        -webkit-transition: all .3s ease-out;
+        -webkit-tap-highlight-color: transparent;
     }
 
-    .list-upload .link-img-readme:hover {
-        background-color: #60a0f9;
+    .modal__button {
+        background-color: hsla(var(--hue), 10%, 50%, 0.2);
+        border-radius: 0.25rem;
+        font-size: 0.75em;
+        padding: 0.5rem 2rem;
+        transition:
+            background-color var(--trans-dur),
+            border-color var(--trans-dur),
+            opacity var(--trans-dur);
+        width: 100%;
     }
 
-    .list-upload :where(.completed, .link-img-readme) {
+    .modal__button+.modal__button {
+        margin-top: 0.75em;
+    }
+
+    .modal__button:disabled {
+        opacity: 0.5;
+    }
+
+    .modal__button:focus,
+    .modal__close-button:focus {
+        outline: transparent;
+    }
+
+    .modal__button:hover,
+    .modal__button:focus-visible {
+        background-color: hsla(var(--hue), 10%, 60%, 0.2);
+    }
+
+    .modal__button--upload {
+        background-color: transparent;
+        border: 0.125rem dashed hsla(var(--hue), 10%, 50%, 0.4);
+        flex: 1;
+        padding: 0.375rem 2rem;
+    }
+
+    .modal__col+.modal__col {
+        flex: 1;
+        margin-top: 1.875em;
+    }
+
+    .modal__close-button,
+    .modal__message,
+    .modal__progress-value {
+        color: hsl(var(--hue), 10%, 30%);
+        transition: color var(--trans-dur);
+    }
+
+    .modal__close-button {
+        background-color: transparent;
+        display: flex;
+        width: 1.5em;
+        height: 1.5em;
+        transition: color var(--trans-dur);
+    }
+
+    .modal__close-button:hover,
+    .modal__close-button:focus-visible {
+        color: hsl(var(--hue), 10%, 40%);
+    }
+
+    .modal__close-icon {
+        display: block;
+        margin: auto;
+        pointer-events: none;
+        width: 50%;
+        height: auto;
+    }
+
+    .modal__content>* {
+        /* don’t use shorthand syntax, or actions delay will be overridden */
+        animation-name: fadeSlideIn;
+        animation-duration: 0.5s;
+        animation-timing-function: ease-in-out;
+        animation-fill-mode: forwards;
+        opacity: 0;
+    }
+
+    .modal__file {
+        flex: 1;
+        font-size: 0.75em;
+        font-weight: 700;
+        margin-right: 0.25rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .modal__file~.modal__button {
+        margin-top: 1.5em;
+    }
+
+    .modal__file-icon {
+        color: hsl(var(--hue), 10%, 50%);
+        display: block;
+        margin-right: 0.75em;
+        width: 1.5em;
+        height: 1.5em;
+        transition: color var(--trans-dur);
+    }
+
+    .modal__header {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        height: 2.5em;
+        padding: 0.5em;
+    }
+
+    .modal__icon {
+        display: block;
+        margin: auto;
+        width: 2.25em;
+        height: 2.25em;
+    }
+
+    .modal__icon--blue g {
+        stroke: hsl(116, 99%, 37%);
+    }
+
+    .modal__icon--red g {
+        stroke: hsl(3, 90%, 50%);
+    }
+
+    .modal__icon--green g {
+        stroke: hsl(138, 90%, 40%);
+    }
+
+    .modal__icon circle,
+    .modal__icon line,
+    .modal__icon polyline {
+        animation: sdo 0.25s ease-in-out forwards;
+        transition: stroke var(--trans-dur);
+    }
+
+    .modal__icon :nth-child(2) {
+        animation-delay: 0.25s;
+    }
+
+    .modal__icon :nth-child(3) {
+        animation-delay: 0.5s;
+    }
+
+    .modal__icon-sdo10 {
+        stroke-dashoffset: 10;
+    }
+
+    .modal__icon-sdo14 {
+        stroke-dashoffset: 14.2;
+    }
+
+    .modal__icon-sdo69 {
+        stroke-dashoffset: 69.12;
+        transform: rotate(-90deg);
+        transform-origin: 12px 12px;
+    }
+
+    .modal__message {
+        animation-delay: 0.1s;
+        font-size: 1em;
+        margin-bottom: 1.5em;
+        min-height: 3em;
+    }
+
+    .modal__progress {
+        flex: 1;
+    }
+
+    .modal__progress+.modal__button {
+        margin-top: 1.75em;
+    }
+
+    .modal__progress-bar {
+        background-image: linear-gradient(90deg, hsl(116, 99%, 37%), hsl(116, 90%, 70%));
+        border-radius: 0.2em;
+        overflow: hidden;
+        width: 100%;
+        height: 0.4em;
+        transform: translate3d(0, 0, 0);
+    }
+
+    .modal__progress-fill {
+        background-color: hsl(var(--hue), 10%, 90%);
+        width: inherit;
+        height: inherit;
+        transition: transform 0.1s ease-in-out;
+    }
+
+    .modal__progress-value {
+        font-size: 0.75em;
+        font-weight: 700;
+        line-height: 1.333;
+        text-align: right;
+    }
+
+    .modal__sr {
+        overflow: hidden;
+        position: absolute;
+        width: 1px;
+        height: 1px;
+    }
+
+    .modal__title {
+        font-size: 1.25em;
+        font-weight: 500;
+        line-height: 1.2;
+        margin-bottom: 1.5rem;
+        text-align: center;
+    }
+
+    /* state change */
+    [data-state="2"]:before {
+        background-color: hsl(3, 90%, 60%);
+    }
+
+    [data-state="3"]:before {
+        background-color: hsl(138, 90%, 60%);
+    }
+
+    .modal__icon+.modal__icon,
+    [data-state="1"] .modal__icon:first-child,
+    [data-state="2"] .modal__icon:first-child,
+    [data-state="3"] .modal__icon:first-child,
+    .modal__content+.modal__content,
+    [data-state="1"] .modal__content:first-child,
+    [data-state="2"] .modal__content:first-child,
+    [data-state="3"] .modal__content:first-child {
         display: none;
+    }
+
+    [data-state="1"] .modal__icon:first-child,
+    [data-state="2"] .modal__icon:nth-child(2),
+    [data-state="3"] .modal__icon:nth-child(3),
+    [data-state="1"] .modal__content:nth-child(2),
+    [data-state="2"] .modal__content:nth-child(3),
+    [data-state="3"] .modal__content:nth-child(4) {
+        display: block;
+    }
+
+    [data-ready="false"] .modal__content:first-child .modal__actions:nth-of-type(2),
+    [data-ready="true"] .modal__content:first-child .modal__actions:first-of-type {
+        display: none;
+    }
+
+    [data-ready="true"] .modal__content:first-child .modal__actions:nth-of-type(2) {
+        display: flex;
+    }
+
+    /* Dark theme */
+    @media (prefers-color-scheme: dark) {
+        :root {
+            --bg: hsl(var(--hue), 10%, 35%);
+            --fg: hsl(var(--hue), 10%, 95%);
+        }
+
+        .modal {
+            background-color: hsl(var(--hue), 0%, 90%);
+            color: hsl(var(--hue), 0%, 0%);
+        }
+
+        .modal__close-button,
+        .modal__message,
+        .modal__progress-value {
+            color: hsl(var(--hue), 10%, 20%);
+        }
+
+        .modal__close-button:hover,
+        .modal__close-button:focus-visible {
+            color: hsl(var(--hue), 10%, 80%);
+        }
+
+        .modal__file-icon {
+            color: hsl(var(--hue), 10%, 60%);
+        }
+
+        .modal__icon--blue g {
+            stroke: hsl(116, 99%, 37%);
+        }
+
+        .modal__icon--red g {
+            stroke: hsl(3, 90%, 60%);
+        }
+
+        .modal__icon--green g {
+            stroke: hsl(138, 90%, 60%);
+        }
+
+        .modal__progress-fill {
+            background-color: hsl(var(--hue), 10%, 20%);
+        }
+    }
+
+    /* Animations */
+    @keyframes fadeSlideIn {
+        from {
+            opacity: 0;
+            transform: translateY(33%);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes sdo {
+        to {
+            stroke-dashoffset: 0;
+        }
+    }
+
+    /* Beyond mobile */
+    @media (min-width: 768px) {
+        .modal__actions--center {
+            justify-content: center;
+            margin-left: -4.125em;
+        }
+
+        .modal__body {
+            flex-direction: row;
+            align-items: center;
+        }
+
+        .modal__button {
+            width: auto;
+        }
+
+        .modal__button+.modal__button {
+            margin-top: 0;
+            margin-left: 1.5rem;
+        }
+
+        .modal__file~.modal__button {
+            margin-top: 0;
+        }
+
+        .modal__file~.modal__close-button {
+            margin-right: 1.5rem;
+        }
+
+        .modal__progress {
+            margin-right: 2em;
+        }
+
+        .modal__progress+.modal__button {
+            margin-top: 0;
+        }
+
+        .modal__col+.modal__col {
+            margin-top: 0;
+            margin-left: 1.875em;
+        }
+
+        .modal__title {
+            text-align: left;
+        }
     }
 </style>
-<div id="id" class="site">
-    <div class="container">
-        <div class="file-upload">
-            <input type="file" name="files_readme_img" class="file-input" accept="image/png, image/gif, image/jpeg">
-            <div class="icon">
-                <ion-icon name="arrow-up-outline">
-                </ion-icon>
-            </div>
-            <h3>Drag & drop files here</h3>
-            <span>- OR -</span><strong>Browse</strong>
-            <button>
-                <ion-icon name="close"></ion-icon>
-            </button>
+<div id="upload" class="modal" data-state="0" data-ready="false">
+    <div class="modal__header">
+        <!-- <button class="modal__close-button" type="button">
+            <svg class="modal__close-icon" viewBox="0 0 16 16" width="16px" height="16px" aria-hidden="true">
+                <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <polyline points="1,1 15,15" />
+                    <polyline points="15,1 1,15" />
+                </g>
+            </svg>
+            <span class="modal__sr">Close</span>
+        </button> -->
+    </div>
+    <div class="modal__body">
+        <div class="modal__col">
+            <!-- up -->
+            <svg class="modal__icon modal__icon--blue" viewBox="0 0 24 24" width="24px" height="24px"
+                aria-hidden="true">
+                <g fill="none" stroke="hsl(223,90%,50%)" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <circle class="modal__icon-sdo69" cx="12" cy="12" r="11" stroke-dasharray="69.12 69.12" />
+                    <polyline class="modal__icon-sdo14" points="7 12 12 7 17 12" stroke-dasharray="14.2 14.2" />
+                    <line class="modal__icon-sdo10" x1="12" y1="7" x2="12" y2="17" stroke-dasharray="10 10" />
+                </g>
+            </svg>
+            <!-- error -->
+            <svg class="modal__icon modal__icon--red" viewBox="0 0 24 24" width="24px" height="24px" aria-hidden="true"
+                display="none">
+                <g fill="none" stroke="hsl(3,90%,50%)" stroke-width="2" stroke-linecap="round">
+                    <circle class="modal__icon-sdo69" cx="12" cy="12" r="11" stroke-dasharray="69.12 69.12" />
+                    <line class="modal__icon-sdo14" x1="7" y1="7" x2="17" y2="17" stroke-dasharray="14.2 14.2" />
+                    <line class="modal__icon-sdo14" x1="17" y1="7" x2="7" y2="17" stroke-dasharray="14.2 14.2" />
+                </g>
+            </svg>
+            <!-- check -->
+            <svg class="modal__icon modal__icon--green" viewBox="0 0 24 24" width="24px" height="24px"
+                aria-hidden="true" display="none">
+                <g fill="none" stroke="hsl(138,90%,50%)" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <circle class="modal__icon-sdo69" cx="12" cy="12" r="11" stroke-dasharray="69.12 69.12" />
+                    <polyline class="modal__icon-sdo14" points="7 12.5 10 15.5 17 8.5" stroke-dasharray="14.2 14.2" />
+                </g>
+            </svg>
         </div>
-        <div class="list-upload">
-            <ul>
-            </ul>
+        <div class="modal__col">
+            <div class="modal__content">
+                <h2 class="modal__title">Upload a Image</h2>
+                <p class="modal__message">Select a image to upload from your computer or device.</p>
+                <div class="modal__actions">
+                    <button class="modal__button modal__button--upload" type="button" data-action="file">Choose
+                        File</button>
+                    <input id="file" type="file" hidden>
+                </div>
+                <div class="modal__actions" hidden>
+                    <svg class="modal__file-icon" viewBox="0 0 24 24" width="24px" height="24px" aria-hidden="true">
+                        <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <polygon points="4 1 12 1 20 8 20 23 4 23" />
+                            <polyline points="12 1 12 8 20 8" />
+                        </g>
+                    </svg>
+                    <div class="modal__file" data-file></div>
+                    <button class="modal__close-button" type="button" data-action="fileReset" style="border: none;">
+                        <svg class="modal__close-icon" viewBox="0 0 16 16" width="16px" height="16px"
+                            aria-hidden="true">
+                            <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                                <polyline points="4,4 12,12" />
+                                <polyline points="12,4 4,12" />
+                            </g>
+                        </svg>
+                        <span class="modal__sr">Remove</span>
+                    </button>
+                    <button class="modal__button" type="button" data-action="upload">Upload</button>
+                </div>
+            </div>
+            <div class="modal__content" hidden>
+                <h2 class="modal__title">Uploading…</h2>
+                <p class="modal__message">Just give us a moment to process your image.</p>
+                <div class="modal__actions">
+                    <div class="modal__progress">
+                        <div class="modal__progress-value" data-progress-value>0%</div>
+                        <div class="modal__progress-bar">
+                            <div class="modal__progress-fill" data-progress-fill></div>
+                        </div>
+                    </div>
+                    <button class="modal__button" type="button" data-action="cancel">Cancel</button>
+                </div>
+            </div>
+            <div class="modal__content" hidden>
+                <h2 class="modal__title">Oops!</h2>
+                <p class="modal__message">Your image could not be uploaded due to an error. Try uploading it again?
+                </p>
+                <div class="modal__actions modal__actions--center">
+                    <button class="modal__button" type="button" data-action="upload">Retry</button>
+                    <button class="modal__button" type="button" data-action="cancel">Cancel</button>
+                </div>
+            </div>
+            <div class="modal__content" hidden>
+                <h2 class="modal__title">Upload Successful!</h2>
+                <p class="modal__message">Your image has been uploaded. You can copy the link to your clipboard.</p>
+                <div class="modal__actions modal__actions--center">
+                    <button class="modal__button" type="button" data-action="copy">Copy Link</button>
+                    <button class="modal__button" type="button" data-action="cancel">Done</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
-<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <script>
-    var id_app = 0;
-    var input_img = document.querySelector('.file-input');
-
-    input_img.addEventListener('change', function () {
-
-        let allowed_mine_type = [];
-        let allowed_mine_mb = 3;
-
-        var file_input = input_img.files;
-
-        if (file_input.length === 0) {
-            alert('Error : No file selected');
-            return;
-        }
-        for (i = 0; i < file_input.length; i++) {
-            let file = file_input[i];
-            console.log(file);
-
-            if (file.size > allowed_mine_mb * 1024 * 1024) {
-                alert('Error: Exeed size => ' + file.name);
-                return;
-            }
-            // console.log('have you choosec ' + file.name);
-
-            let uiq = 'id-' + ++id_app;
-
-            let li = `<li class="file-list image" id ="${uiq}" data-filename="${file.name}">
-            <div class="thumbnail">
-                <ion-icon name="image-outline"></ion-icon>
-                <span class="completed">
-                    <ion-icon name="checkmark"></ion-icon>
-                </span>
-            </div>
-            <div class="properties">
-                <span class="titless"><strong></strong></span>
-                <span class="size"></span>
-                <span class="progress">
-                    <span class="buffer"></span>
-                    <span class="percentage"></span>
-                </span>
-            </div>
-            <button class="link-img-readme">
-                <ion-icon name="link-outline"></ion-icon>
-            </button>
-        </li>`;
-
-            document.querySelector('.list-upload ul').innerHTML = li + document.querySelector('.list-upload ul').innerHTML;
-            let li_el = document.querySelector('#' + uiq);
-            let name = li_el.querySelector('.titless strong');
-            let size = li_el.querySelector('.size');
-
-            name.innerHTML = file.name;
-            size.innerHTML = bytesToSize(file.size);
-
-            var data = new FormData();
-            data.append('file', file);
-
-            var request = new XMLHttpRequest();
-            request.open('POST', '/readme-img/upload', true);
-
-            request.upload.addEventListener('progress', function (e) {
-                let percent = Math.ceil(e.loaded / e.total) * 100;
-                li_el.querySelector('.buffer').style.width = percent + '%';
-                li_el.querySelector('.percentage').innerHTML = percent + '%';
-                li_el.querySelector('.percentage').style.left = percent + '%';
-
-                if (e.loaded === e.total) {
-                    li_el.querySelector(`.completed`).style.display = li_el.querySelector(`.link-img-readme`).style.display = 'flex';
-                    console.log(request.response);
-                    li_el.querySelector('.link-img-readme').addEventListener('click', function () {
-                        navigator.clipboard.writeText(request.response)
-                    });
-                }
-
-            });
-            request.send(data)
-        }
-
+    window.addEventListener("DOMContentLoaded", () => {
+        const upload = new UploadModal("#upload");
     });
 
-    function bytesToSize(bytes) {
-        const units = ["byte", "kilobyte", "megabyte", "terabyte", "petabyte"];
-        const unit = Math.floor(Math.log(bytes) / Math.log(2014));
+    class UploadModal {
+        filename = "";
+        serverUrl = "";
+        isCopying = false;
+        isUploading = false;
+        progress = 0;
+        progressTimeout = null;
+        state = 0;
 
-        return new Intl.NumberFormat("en", { style: "unit", unit: units[unit] }).format(bytes / 1024 ** unit);
+        constructor(el) {
+            this.el = document.querySelector(el);
+            this.el?.addEventListener("click", this.action.bind(this));
+            this.el?.querySelector("#file")?.addEventListener("change", this.fileHandle.bind(this));
+        }
+        action(e) {
+            this[e.target?.getAttribute("data-action")]?.();
+            this.stateDisplay();
+        }
+        cancel() {
+            this.isUploading = false;
+            this.progress = 0;
+            this.progressTimeout = null;
+            this.state = 0;
+            this.stateDisplay();
+            this.progressDisplay();
+            this.fileReset();
+        }
+        async copy() {
+            const copyButton = this.el?.querySelector("[data-action='copy']");
+
+            if (!this.isCopying && copyButton) {
+                // disable
+                this.isCopying = true;
+                copyButton.style.width = `${copyButton.offsetWidth}px`;
+                copyButton.disabled = true;
+                copyButton.textContent = "Copied!";
+                navigator.clipboard.writeText(this.serverUrl);
+                await new Promise(res => setTimeout(res, 1000));
+                // reenable
+                this.isCopying = false;
+                copyButton.removeAttribute("style");
+                copyButton.disabled = false;
+                copyButton.textContent = "Copy Link";
+            }
+        }
+        fail() {
+            this.serverUrl = "";
+            this.isUploading = false;
+            this.progress = 0;
+            this.progressTimeout = null;
+            this.state = 2;
+            this.stateDisplay();
+        }
+        file() {
+            this.el?.querySelector("#file").click();
+        }
+        fileDisplay(name = "") {
+            // update the name
+            this.filename = name;
+
+            const fileValue = this.el?.querySelector("[data-file]");
+            if (fileValue) fileValue.textContent = this.filename;
+
+            // show the file
+            this.el?.setAttribute("data-ready", this.filename ? "true" : "false");
+        }
+        fileHandle(e) {
+            return new Promise(() => {
+                const { target } = e;
+                if (target?.files.length) {
+                    let reader = new FileReader();
+                    reader.onload = e2 => {
+                        this.fileDisplay(target.files[0].name);
+                    };
+                    reader.readAsDataURL(target.files[0]);
+                }
+            });
+        }
+        fileReset() {
+            const fileField = this.el?.querySelector("#file");
+            if (fileField) fileField.value = null;
+
+            this.fileDisplay();
+        }
+        progressDisplay() {
+            const progressValue = this.el?.querySelector("[data-progress-value]");
+            const progressFill = this.el?.querySelector("[data-progress-fill]");
+            const progressTimes100 = Math.floor(this.progress * 100);
+
+            if (progressValue) progressValue.textContent = `${progressTimes100}%`;
+            if (progressFill) progressFill.style.transform = `translateX(${progressTimes100}%)`;
+        }
+        async progressLoop() {
+            this.progressDisplay();
+
+            if (this.isUploading) {
+                if (this.progress === 0) {
+                    await new Promise(res => setTimeout(res, 1000));
+                    // fail randomly
+                    if (!this.isUploading) {
+                        return;
+                    } else if (!Utils.validSize(this.el?.querySelector("#file")) || !Utils.checkType(this.el?.querySelector("#file"))) {
+                        this.fail();
+                        return;
+                    }
+                }
+                // …or continue with progress
+                if (this.progress < 1) {
+                    this.progress += 0.01;
+                    this.progressTimeout = setTimeout(this.progressLoop.bind(this), 50);
+                } else if (this.progress >= 1) {
+                    this.progressTimeout = setTimeout(() => {
+                        if (this.isUploading) {
+                            this.server(this.el?.querySelector("#file")).then((result) => {
+                                this.serverUrl = result;
+                                this.success();
+                                this.progressTimeout = null;
+                            }).catch((err) => {
+                                this.fail();
+                                console.error(err);
+                                return;
+                            });
+                        }
+                    }, 250);
+                }
+            }
+        }
+        stateDisplay() {
+            this.el?.setAttribute("data-state", `${this.state}`);
+        }
+        success() {
+            this.isUploading = false;
+            this.state = 3;
+            this.stateDisplay();
+        }
+        upload() {
+            if (!this.isUploading) {
+                this.isUploading = true;
+                this.progress = 0;
+                this.state = 1;
+                this.progressLoop();
+            }
+        }
+        async server(file) {
+            return new Promise((resolve, reject) => {
+                const data = new FormData();
+
+                data.append('img', file.files[0]);
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', '/readme-img/upload', true);
+                xhr.onerror = () => {
+                    reject('XHR request failed.');
+                };
+                xhr.onload = function () {
+                    if (xhr.status === 200) {
+                        // Request was successful, process the response
+                        resolve(xhr.responseText);
+                    } else {
+                        // Request failed, handle the error
+                        reject('XHR request failed. Status code: ' + xhr.status);
+                    }
+                };
+                xhr.send(data);
+            })
+
+        }
+    }
+
+    class Utils {
+        static validSize(file) {
+            const size = (file.files[0].size / 1024 / 1024).toFixed(2)
+            if (size < 4) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        static checkType(file) {
+            const imageTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif', 'image/svg+xml', 'image/webp'];
+            if (!imageTypes.includes(file.files[0].type)) {
+                return false;
+            } else {
+                return true;
+            }
+        }
     }
 </script>
 
