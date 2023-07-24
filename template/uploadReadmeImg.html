@@ -222,8 +222,7 @@
 <div id="id" class="site">
     <div class="container">
         <div class="file-upload">
-            <input type="file" name="files_readme_img" class="file-input" accept="image/png, image/gif, image/jpeg"
-                multiple>
+            <input type="file" name="files_readme_img" class="file-input" accept="image/png, image/gif, image/jpeg">
             <div class="icon">
                 <ion-icon name="arrow-up-outline">
                 </ion-icon>
@@ -297,9 +296,10 @@
             size.innerHTML = bytesToSize(file.size);
 
             var data = new FormData();
+            data.append('file', file);
 
             var request = new XMLHttpRequest();
-            request.open('POST', '/readme-img/upload');
+            request.open('POST', '/readme-img/upload', true);
 
             request.upload.addEventListener('progress', function (e) {
                 let percent = Math.ceil(e.loaded / e.total) * 100;
@@ -316,6 +316,7 @@
                 }
 
             });
+            request.send(data)
         }
 
     });
