@@ -111,7 +111,7 @@
     document.getElementById('myId').value = ids;
     document.getElementById('title').textContent = decodeURIComponent(name);
 
-    const zipValid = false;
+    var zipValid = false;
     function checkFileZip() {
       const fileInput = document.getElementById('source');
       const filePath = fileInput.value;
@@ -125,13 +125,16 @@
       }
       const file = fileInput.files[0];
       if (file) {
+        $(".add-collection-zip-warning").hide();
         zipPreview.textContent = file.name;
+        zipValid = true;
+        return true
       } else {
+        $(".add-collection-zip-warning").show();
         zipPreview.textContent = '';
+        zipValid = false
+        return false;
       }
-      $(".add-collection-zip-warning").hide();
-      zipValid = true;
-      return true
     }
 
     uploadButton.addEventListener('click', (event) => {
