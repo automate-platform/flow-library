@@ -1,6 +1,7 @@
 var express = require("express");
 var mustache = require('mustache');
 var fs = require("fs");
+var multer = require("multer")
 
 var settings = require("../config");
 var setting = require("../default-settings");
@@ -11,7 +12,7 @@ var collections = require("../lib/collections");
 var ratings = require("../lib/ratings");
 var mark = require('../public/js/marked')
 var uuid = require('uuid');
-var { storage, multi_upload } = require("../lib/extensions");
+var upload_file = require("../lib/extensions").multi_upload.any();
 
 var app = express();
 if (setting.template.extensions) {
@@ -41,32 +42,46 @@ if (setting.template.extensions) {
         }
     });
 
-    app.post('/extension/source', multi_upload.any(), function (req, res) {
-        const id = req.body.id;
-        let zipFileName = "";
-        let files_img = [];
-        if (req.files) {
-            let files = req.files;
-            files.forEach(file => {
-                if (file.mimetype === 'application/zip' || file.mimetype === 'application/x-zip-compressed') {
-                    zipFileName = file.originalname;
+    app.post('/extension/source', function (req, res) {
+        upload_file(req, res, function (err) {
+            if (err instanceof multer.MulterError) {
+                // A Multer error occurred when uploading.
+                res.status(500).send({ error: { message: `Multer uploading error: ${err.message}` } }).end();
+                return;
+            } else if (err) {
+                if (err.name == 'ExtensionError') {
+                    res.status(413).send({ error: { message: err.message } }).end();
+                } else {
+                    res.status(500).send({ error: { message: `unknown uploading error: ${err.message}` } }).end();
                 }
-                if (file.mimetype.startsWith('image/')) {
-                    files_img.push(file.originalname)
-                }
-            });
-        } else {
-            console.log("No file was uploaded with the request.");
-            res.status(400).send({ error: "No file was uploaded with the request." });
-            return;
-        }
-        var app_post = {
-            zip_url: zipFileName,
-            guideline_img: files_img
-        };
-        extensioner.putSource(id, app_post || [])
-        res.send("/extension/" + id);
-        res.end();
+                return;
+            }
+            const id = req.body.id;
+            let zipFileName = "";
+            let files_img = [];
+            if (req.files) {
+                let files = req.files;
+                files.forEach(file => {
+                    if (file.mimetype === 'application/zip' || file.mimetype === 'application/x-zip-compressed') {
+                        zipFileName = file.originalname;
+                    }
+                    if (file.mimetype.startsWith('image/')) {
+                        files_img.push(file.originalname)
+                    }
+                });
+            } else {
+                console.log("No file was uploaded with the request.");
+                res.status(400).send({ error: "No file was uploaded with the request." });
+                return;
+            }
+            var app_post = {
+                zip_url: zipFileName,
+                guideline_img: files_img
+            };
+            extensioner.putSource(id, app_post || [])
+            res.send("/extension/" + id);
+            res.end();
+        });
     })
 
     app.get("/extension/:id", appUtils.csrfProtection(), function (req, res) { getFlow(req.params.id, null, req, res); });
@@ -226,34 +241,47 @@ if (setting.template.extensions) {
 
     });
 
-    app.post('/extension/source-update', multi_upload.any(), (req, res) => {
-        const id = req.body.id;
-        let zipFileName = "";
-        let files_img = [];
-        if (req.files) {
-            let files = req.files;
-            files.forEach(file => {
-                if (file.mimetype === 'application/zip' || file.mimetype === 'application/x-zip-compressed') {
-                    zipFileName = file.originalname;
+    app.post('/extension/source-update', (req, res) => {
+        upload_file(req, res, function (err) {
+            if (err instanceof multer.MulterError) {
+                // A Multer error occurred when uploading.
+                res.status(500).send({ error: { message: `Multer uploading error: ${err.message}` } }).end();
+                return;
+            } else if (err) {
+                if (err.name == 'ExtensionError') {
+                    res.status(413).send({ error: { message: err.message } }).end();
+                } else {
+                    res.status(500).send({ error: { message: `unknown uploading error: ${err.message}` } }).end();
                 }
-                if (file.mimetype.startsWith('image/')) {
-                    files_img.push(file.originalname)
-                }
-            });
-        } else {
+                return;
+            }
+            const id = req.body.id;
+            let zipFileName = "";
+            let files_img = [];
+            if (req.files) {
+                let files = req.files;
+                files.forEach(file => {
+                    if (file.mimetype === 'application/zip' || file.mimetype === 'application/x-zip-compressed') {
+                        zipFileName = file.originalname;
+                    }
+                    if (file.mimetype.startsWith('image/')) {
+                        files_img.push(file.originalname)
+                    }
+                });
+            } else {
+                console.log("No file was uploaded with the request.");
+                res.status(400).send({ error: "No file was uploaded with the request." });
+                return;
+            }
+            var extension_post = {
+                zip_url: zipFileName,
+                guideline_img: files_img
+            };
+            extensioner.updateSource(id, extension_post || [])
+            res.send("/extension/" + id);
 
-            console.log("No file was uploaded with the request.");
-            res.status(400).send({ error: "No file was uploaded with the request." });
-            return;
-        }
-        var extension_post = {
-            zip_url: zipFileName,
-            guideline_img: files_img
-        };
-        extensioner.updateSource(id, extension_post || [])
-        res.send("/extension/" + id);
-
-        res.end();
+            res.end();
+        });
     });
 
 

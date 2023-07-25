@@ -2,6 +2,7 @@ var express = require("express");
 var mustache = require('mustache');
 var { marked } = require('marked');
 var fs = require("fs");
+var multer = require("multer")
 
 var settings = require("../config");
 var setting = require("../default-settings");
@@ -13,7 +14,7 @@ var collections = require("../lib/collections");
 var ratings = require("../lib/ratings");
 var mark = require('../public/js/marked')
 var uuid = require('uuid');
-var { storage, multi_upload } = require("../lib/apps");
+var upload_file = require("../lib/apps").multi_upload.any();
 
 var app = express();
 if (setting.template.apps) {
@@ -49,35 +50,49 @@ if (setting.template.apps) {
         }
     });
 
-    app.post('/source', multi_upload.any(), (req, res) => {
-        const id = req.body.id;
-        let zipFileName = "";
-        let files_img = [];
-        if (req.files) {
-            let files = req.files;
-            files.forEach(file => {
-                if (file.mimetype === 'application/zip' || file.mimetype === 'application/x-zip-compressed') {
-                    zipFileName = file.originalname;
+    app.post('/source', (req, res) => {
+        upload_file(req, res, function (err) {
+            if (err instanceof multer.MulterError) {
+                // A Multer error occurred when uploading.
+                res.status(500).send({ error: { message: `Multer uploading error: ${err.message}` } }).end();
+                return;
+            } else if (err) {
+                if (err.name == 'ExtensionError') {
+                    res.status(413).send({ error: { message: err.message } }).end();
+                } else {
+                    res.status(500).send({ error: { message: `unknown uploading error: ${err.message}` } }).end();
                 }
-                if (file.mimetype.startsWith('image/')) {
-                    files_img.push(file.originalname)
-                }
-            });
-        } else {
+                return;
+            }
+            const id = req.body.id;
+            let zipFileName = "";
+            let files_img = [];
+            if (req.files) {
+                let files = req.files;
+                files.forEach(file => {
+                    if (file.mimetype === 'application/zip' || file.mimetype === 'application/x-zip-compressed') {
+                        zipFileName = file.originalname;
+                    }
+                    if (file.mimetype.startsWith('image/')) {
+                        files_img.push(file.originalname)
+                    }
+                });
+            } else {
 
-            console.log("No file was uploaded with the request.");
-            res.status(400).send({ error: "No file was uploaded with the request." });
-            return;
-        }
-        var app_post = {
-            zip_url: zipFileName,
-            guideline_img: files_img
-        };
-        apper.putSource(id, app_post || [])
-        res.writeHead(303, {
-            Location: "/app/" + id
+                console.log("No file was uploaded with the request.");
+                res.status(400).send({ error: "No file was uploaded with the request." });
+                return;
+            }
+            var app_post = {
+                zip_url: zipFileName,
+                guideline_img: files_img
+            };
+            apper.putSource(id, app_post || [])
+            res.writeHead(303, {
+                Location: "/app/" + id
+            });
+            res.end();
         });
-        res.end();
     });
 
     app.get("/app/:id", appUtils.csrfProtection(), function (req, res) { getFlow(req.params.id, null, req, res); });
@@ -97,7 +112,7 @@ if (setting.template.apps) {
             var imgCollection = app.guideline_img || [];
             imgCollection.forEach((img, index) => {
                 let url = `${setting.server.url}/${app._id}/${img}`;
-                imgUrl.push({idx : index,url: url})
+                imgUrl.push({ idx: index, url: url })
             })
 
             app.imgGuidelineUrl = imgUrl;
@@ -298,7 +313,7 @@ if (setting.template.apps) {
             var imgCollection = app.guideline_img || [];
             imgCollection.forEach((img, index) => {
                 let url = `${setting.server.url}/${app._id}/${img}`;
-                imgUrl.push({idx : index,url: url})
+                imgUrl.push({ idx: index, url: url })
             })
 
             app.imgGuidelineUrl = imgUrl;
@@ -316,35 +331,49 @@ if (setting.template.apps) {
         });
     });
 
-    app.post('/source-update', multi_upload.any(), (req, res) => {
-        const id = req.body.id;
-        let zipFileName = "";
-        let files_img = [];
-        if (req.files) {
-            let files = req.files;
-            files.forEach(file => {
-                if (file.mimetype === 'application/zip' || file.mimetype === 'application/x-zip-compressed') {
-                    zipFileName = file.originalname;
+    app.post('/source-update', (req, res) => {
+        upload_file(req, res, function (err) {
+            if (err instanceof multer.MulterError) {
+                // A Multer error occurred when uploading.
+                res.status(500).send({ error: { message: `Multer uploading error: ${err.message}` } }).end();
+                return;
+            } else if (err) {
+                if (err.name == 'ExtensionError') {
+                    res.status(413).send({ error: { message: err.message } }).end();
+                } else {
+                    res.status(500).send({ error: { message: `unknown uploading error: ${err.message}` } }).end();
                 }
-                if (file.mimetype.startsWith('image/')) {
-                    files_img.push(file.originalname)
-                }
-            });
-        } else {
+                return;
+            }
+            const id = req.body.id;
+            let zipFileName = "";
+            let files_img = [];
+            if (req.files) {
+                let files = req.files;
+                files.forEach(file => {
+                    if (file.mimetype === 'application/zip' || file.mimetype === 'application/x-zip-compressed') {
+                        zipFileName = file.originalname;
+                    }
+                    if (file.mimetype.startsWith('image/')) {
+                        files_img.push(file.originalname)
+                    }
+                });
+            } else {
 
-            console.log("No file was uploaded with the request.");
-            res.status(400).send({ error: "No file was uploaded with the request." });
-            return;
-        }
-        var app_post = {
-            zip_url: zipFileName,
-            guideline_img: files_img
-        };
-        apper.updateSource(id, app_post || [])
-        res.writeHead(303, {
-            Location: "/app/" + id
+                console.log("No file was uploaded with the request.");
+                res.status(400).send({ error: "No file was uploaded with the request." });
+                return;
+            }
+            var app_post = {
+                zip_url: zipFileName,
+                guideline_img: files_img
+            };
+            apper.updateSource(id, app_post || [])
+            res.writeHead(303, {
+                Location: "/app/" + id
+            });
+            res.end();
         });
-        res.end();
     });
 
     app.post("/app/:id/tags", verifyOwner, function (req, res) {
