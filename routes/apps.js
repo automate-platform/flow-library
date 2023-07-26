@@ -96,6 +96,7 @@ if (setting.template.apps) {
 
     app.get("/app/:id", appUtils.csrfProtection(), function (req, res) { getFlow(req.params.id, null, req, res); });
     app.get("/app/:id/in/:collection", appUtils.csrfProtection(), function (req, res) { getFlow(req.params.id, req.params.collection, req, res); });
+
     function getFlow(id, collection, req, res) {
         apper.get(id).then(function (app) {
             app.sessionuser = req.session.user;
@@ -307,6 +308,7 @@ if (setting.template.apps) {
 
             app.sessionuser = req.session.user;
             app.display = setting.template;
+            app.lastVersion = app.version.pop();
 
             var imgUrl = [];
             var imgCollection = app.guideline_img || [];
