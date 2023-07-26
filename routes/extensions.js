@@ -34,7 +34,7 @@ if (setting.template.extensions) {
             extensioner.create(req.session.accessToken, extension_post, req.body.tags || []).then(function (id) {
                 res.send(id);
             }).catch(function (err) {
-                console.log("Error creating extention:", err);
+                console.error("Error creating extention:", err);
                 res.send(err);
             });
         } else {
@@ -70,15 +70,16 @@ if (setting.template.extensions) {
                     }
                 });
             } else {
-                console.log("No file was uploaded with the request.");
+                console.error("No file was uploaded with the request.");
                 res.status(400).send({ error: "No file was uploaded with the request." });
                 return;
             }
-            var app_post = {
+            var extension_post = {
                 zip_url: zipFileName,
                 guideline_img: files_img
             };
-            extensioner.putSource(id, app_post || []).then(result => {
+            extension_post.version = ["1.0.0"];
+            extensioner.putSource(id, extension_post || []).then(result => {
                 res.status(200).end("/extension/" + id);
             }).catch((err) => {
                 console.error('Error', err)
@@ -167,12 +168,12 @@ if (setting.template.extensions) {
             }
         }).catch(function (err) {
             // TODO: better error logging without the full stack trace
-            console.log("Error loading extension:", id);
-            console.log(err);
+            console.error("Error loading extension:", id);
+            console.error(err);
             try {
                 res.status(404).send(mustache.render(templates['404'], { sessionuser: req.session.user }, templates.partials));
             } catch (err2) {
-                console.log(err2);
+                console.error(err2);
             }
         });
     }
@@ -199,6 +200,7 @@ if (setting.template.extensions) {
         extensioner.get(req.params.id).then(extension => {
             extension.sessionuser = req.session.user;
             extension.display = setting.template;
+            extension.lastVersion = extension.version.pop();
 
             var imgUrl = [];
             var imgCollection = extension.guideline_img || [];
@@ -211,11 +213,11 @@ if (setting.template.extensions) {
             res.send(mustache.render(templates.updateExtension, extension, templates.partials));
         }).catch(function (err) {
             // TODO: better error logging without the full stack trace
-            console.log(err);
+            console.error(err);
             try {
                 res.status(404).send(mustache.render(templates['404'], { sessionuser: req.session.user }, templates.partials));
             } catch (err2) {
-                console.log(err2);
+                console.error(err2);
             }
         });
     })
@@ -237,7 +239,7 @@ if (setting.template.extensions) {
             .then(function (data) {
                 res.send(data);
             }).catch(function (err) {
-                console.log("Error creating app:", err);
+                console.error("Error creating app:", err);
                 res.send(err);
             });
 
@@ -258,12 +260,13 @@ if (setting.template.extensions) {
                 return;
             }
             const id = req.body.id;
+            const version = req.body.version;
             let zipFileName = "";
             let files_img = [];
             if (req.files) {
                 let files = req.files;
                 files.forEach(file => {
-                    if (file.mimetype === 'application/zip' || file.mimetype === 'application/x-zip-compressed') {
+                    if (file.mimetype === 'application/zip' || file.mimetype === 'application/x-zip-compressed' || path.extname(file.originalname) === '.zip') {
                         zipFileName = file.originalname;
                     }
                     if (file.mimetype.startsWith('image/')) {
@@ -271,13 +274,14 @@ if (setting.template.extensions) {
                     }
                 });
             } else {
-                console.log("No file was uploaded with the request.");
+                console.error("No file was uploaded with the request.");
                 res.status(400).send({ error: "No file was uploaded with the request." });
                 return;
             }
             var extension_post = {
                 zip_url: zipFileName,
-                guideline_img: files_img
+                guideline_img: files_img,
+                version: version
             };
             extensioner.updateSource(id, extension_post || []).then(result => {
                 res.status(200).end("/extension/" + id);
@@ -293,7 +297,7 @@ if (setting.template.extensions) {
         extensioner.updateTags(req.params.id, req.body.tags).then(function () {
             res.status(200).end();
         }).catch(function (err) {
-            console.log("Error updating tags:", err);
+            console.error("Error updating tags:", err);
             res.status(200).end();
         });
 

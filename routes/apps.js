@@ -1,8 +1,9 @@
 var express = require("express");
 var mustache = require('mustache');
 var { marked } = require('marked');
+var multer = require("multer");
+const path = require('path');
 var fs = require("fs");
-var multer = require("multer")
 
 var settings = require("../config");
 var setting = require("../default-settings");
@@ -12,7 +13,7 @@ var npmNodes = require("../lib/nodes");
 var templates = require("../lib/templates");
 var collections = require("../lib/collections");
 var ratings = require("../lib/ratings");
-var mark = require('../public/js/marked')
+var mark = require('../public/js/marked');
 var uuid = require('uuid');
 var upload_file = require("../lib/apps").multi_upload.any();
 
@@ -41,7 +42,7 @@ if (setting.template.apps) {
                 let url = '/add/app/source?id=' + id + '&name=' + encodeURIComponent(req.body.title);
                 res.send(url);
             }).catch(function (err) {
-                console.log("Error creating app:", err);
+                console.error("Error creating app:", err);
                 res.send(err);
             });
         } else {
@@ -69,7 +70,8 @@ if (setting.template.apps) {
             if (req.files) {
                 let files = req.files;
                 files.forEach(file => {
-                    if (file.mimetype === 'application/zip' || file.mimetype === 'application/x-zip-compressed') {
+                    if (file.mimetype === 'application/zip' ||
+                        file.mimetype === 'application/x-zip-compressed' ||  path.extname(file.originalname) === '.zip') {
                         zipFileName = file.originalname;
                     }
                     if (file.mimetype.startsWith('image/')) {
@@ -77,7 +79,7 @@ if (setting.template.apps) {
                     }
                 });
             } else {
-                console.log("No file was uploaded with the request.");
+                console.error("No file was uploaded with the request.");
                 res.status(400).send({ error: "No file was uploaded with the request." });
                 return;
             }
@@ -230,12 +232,12 @@ if (setting.template.apps) {
             });
         }).catch(function (err) {
             // TODO: better error logging without the full stack trace
-            console.log("Error loading app:", id);
-            console.log(err);
+            console.error("Error loading app:", id);
+            console.error(err);
             try {
                 res.status(404).send(mustache.render(templates['404'], { sessionuser: req.session.user }, templates.partials));
             } catch (err2) {
-                console.log(err2);
+                console.error(err2);
             }
         });
     }
@@ -265,11 +267,11 @@ if (setting.template.apps) {
             res.send(mustache.render(templates.updateApp, app, templates.partials));
         }).catch(function (err) {
             // TODO: better error logging without the full stack trace
-            console.log(err);
+            console.error(err);
             try {
                 res.status(404).send(mustache.render(templates['404'], { sessionuser: req.session.user }, templates.partials));
             } catch (err2) {
-                console.log(err2);
+                console.error(err2);
             }
         });
     })
@@ -292,12 +294,11 @@ if (setting.template.apps) {
         };
         apper.update(req.body.id, app_post, req.body.tags || [])
             .then(function (data) {
-                console.log(data);
                 let url = `/update/app/source/${req.body.id}`;
 
                 res.send(url);
             }).catch(function (err) {
-                console.log("Error creating app:", err);
+                console.error("Error creating app:", err);
                 res.send(err);
             });
 
@@ -321,11 +322,11 @@ if (setting.template.apps) {
             res.send(mustache.render(templates.updateSourceApp, app, templates.partials));
         }).catch(function (err) {
             // TODO: better error logging without the full stack trace
-            console.log(err);
+            console.error(err);
             try {
                 res.status(404).send(mustache.render(templates['404'], { sessionuser: req.session.user }, templates.partials));
             } catch (err2) {
-                console.log(err2);
+                console.error(err2);
             }
         });
     });
@@ -360,7 +361,7 @@ if (setting.template.apps) {
                 });
             } else {
 
-                console.log("No file was uploaded with the request.");
+                console.error("No file was uploaded with the request.");
                 res.status(400).send({ error: "No file was uploaded with the request." });
                 return;
             }
@@ -382,7 +383,7 @@ if (setting.template.apps) {
         apper.updateTags(req.params.id, req.body.tags).then(function () {
             res.status(200).end();
         }).catch(function (err) {
-            console.log("Error updating tags:", err);
+            console.error("Error updating tags:", err);
             res.status(200).end();
         });
 

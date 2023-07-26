@@ -161,7 +161,6 @@
             } else {
                 const file = fileList[0];
                 const fileSizeKB = file.size / 1024;
-                console.log(fileSizeKB)
                 if (!checkIcon(file)) {
                     $(".add-collection-icon-warning").show();
                     $(".add-collection-icon-limit-warning").hide();
@@ -205,7 +204,7 @@
                     };
 
                     reader.onerror = function (error) {
-                        console.log("Error: ", error);
+                        console.error("Error: ", error);
                     };
                 }
                 iconValid = true;
@@ -291,7 +290,7 @@
                     window.location.reload();
                 }
                 createSubmitted = false;
-                console.log("ERROR", err);
+                console.error("ERROR", err);
                 $("#add-flow-create").removeClass("submitted");
                 $("#add-flow-loader").hide();
                 $("#add-flow-label").show();

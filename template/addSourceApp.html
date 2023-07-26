@@ -264,7 +264,6 @@
     function checkFileZip() {
       const fileInput = zipInput;
       const filePath = fileInput.value;
-      console.log(fileInput.files[0]);
       const allowedExtensions = /(\.zip)$/i;
 
       zipPreview.textContent = 'Zip File';
@@ -310,6 +309,7 @@
       var xhr = new XMLHttpRequest();
       var formData = new FormData()
       formData.append('id', $('#myId').val());
+      formData.append('version', '1.0.0');
       formData.append('zip', zip);
       for (var x = 0; x < guideline.length; x++) {
         formData.append('guideline', guideline[x]);
@@ -328,7 +328,6 @@
         if (xhr.status === 200) {
           // Request was successful, process the response
           var response = xhr.responseText;
-          console.log(response);
           window.location = response
         } else {
           // Request failed, handle the error

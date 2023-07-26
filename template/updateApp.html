@@ -219,7 +219,7 @@
                     };
 
                     reader.onerror = function (error) {
-                        console.log("Error: ", error);
+                        console.error("Error: ", error);
                     };
                 }
                 iconValid = true;
@@ -302,7 +302,6 @@
             console.log(app);
 
             $.post("/update-app", app, function (data) {
-                console.log(data);
                 window.location = data;
             }).fail(function (err) {
                 if (err.status == 403) {

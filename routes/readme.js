@@ -28,7 +28,6 @@ app.post("/readme-img/upload", (req, res) => {
             return;
         }
         const files = req.files;
-        console.log(files);
         res.status(200).end(setting.server.url + '/readme/' + files[0].filename);
     });
 });

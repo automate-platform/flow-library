@@ -509,7 +509,7 @@
                     $('#edit-tags').show();
                     $("#edit-tags-done-loader").hide();
                 }).fail(function (err) {
-                    console.log(err);
+                    console.error(err);
                     $("#edit-tags-done-loader").hide();
                 });
             }

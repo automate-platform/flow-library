@@ -158,24 +158,24 @@
         })
 
         function isNewVersionGreater(lastVersion, newVersion) {
-            const last = lastVersion.split('.').map(Number);
-            const new = newVersion.split('.').map(Number);
+            const lastVer = lastVersion.split('.').map(Number);
+            const newVer = newVersion.split('.').map(Number);
 
-            if (new[0] === last[0] + 1 &&
-                new[1] === 0 && new[2] === 0) {
+            if (newVer[0] === lastVer[0] + 1 &&
+                newVer[1] === 0 && newVer[2] === 0) {
                 return true;
             }
             if (
-                new[0] === last[0] &&
-                new[1] === last[1] + 1 &&
-                new[2] === 0
+                newVer[0] === lastVer[0] &&
+                newVer[1] === lastVer[1] + 1 &&
+                newVer[2] === 0
             ) {
                 return true;
             }
             if (
-                new[0] === last[0] &&
-                new[1] === last[1] &&
-                new[2] === last[2] + 1
+                newVer[0] === lastVer[0] &&
+                newVer[1] === lastVer[1] &&
+                newVer[2] === lastVer[2] + 1
             ) {
                 return true;
             }
@@ -323,7 +323,6 @@
 
             const fileInput = zipInput;
             const filePath = fileInput.value;
-            console.log(fileInput.files[0]);
             const allowedExtensions = /(\.zip)$/i;
 
             zipPreview.textContent = 'Zip File';
@@ -374,8 +373,8 @@
             var xhr = new XMLHttpRequest();
             var formData = new FormData()
             formData.append('id', $('#myId').val());
-            formData.append('zip', zip);
             formData.append('version', $('.input-version-tab').val());
+            formData.append('zip', zip);
             for (var x = 0; x < guideline.length; x++) {
                 formData.append('guideline', guideline[x]);
             }
@@ -393,7 +392,6 @@
                 if (xhr.status === 200) {
                     // Request was successful, process the response
                     var response = xhr.responseText;
-                    console.log(response);
                     window.location = response
                 } else {
                     // Request failed, handle the error

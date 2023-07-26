@@ -141,7 +141,7 @@
 
             <h4>&nbsp;</h4>
             <a id="add-flow-create" href="#" class="btn-create"><span id="add-flow-label"
-                    style="display: flex; align-items: center;">Create App<i class='bx bx-right-arrow-alt'
+                    style="display: flex; align-items: center;">Create Extension<i class='bx bx-right-arrow-alt'
                         style="font-size:25px; color: goldenrod;"></i></span><img id="add-flow-loader" class="loader"
                     src="/images/loader.gif" /></a>
             <p class="create-toc">This will create a private gist, owned by you, on GitHub and add it to the Node-RED
@@ -220,7 +220,6 @@
             } else {
                 const file = fileList[0];
                 const fileSizeKB = file.size / 1024;
-                console.log(fileSizeKB)
                 if (!checkIcon(file)) {
                     $(".add-collection-icon-warning").show();
                     $(".add-collection-icon-limit-warning").hide();
@@ -264,7 +263,7 @@
                     };
 
                     reader.onerror = function (error) {
-                        console.log("Error: ", error);
+                        console.error("Error: ", error);
                     };
                 }
                 iconValid = true;
@@ -507,6 +506,7 @@
                 var xhr = new XMLHttpRequest();
                 var formData = new FormData()
                 formData.append('id', data);
+                formData.append('version', '1.0.0');
                 formData.append('zip', zip);
                 for (var x = 0; x < guideline.length; x++) {
                     formData.append('guideline', guideline[x]);
@@ -538,49 +538,6 @@
                 $("#add-flow-loader").hide();
                 $("#add-flow-label").show();
             });
-            // var xhr = new XMLHttpRequest();
-            // var formData = new FormData()
-            // formData.append('title', $.trim($("#add-flow-title").val()));
-            // formData.append('description', $("#add-flow-desc").val());
-            // formData.append('tags', tags.get());
-            // formData.append('icondata', iconBase);
-            // formData.append('zip', zip);
-            // for (var x = 0; x < guideline.length; x++) {
-            //     formData.append('guideline', guideline[x]);
-            // }
-
-            // xhr.getResponseHeader('Content-Type')
-            // xhr.open('POST', '/extention');
-            // xhr.onreadystatechange = function (Event) {
-            //     if (xhr.readyState === 4) {
-            //         if (xhr.status === 200) {
-            //             console.log(xhr.responseText)
-            //         } else {
-            //             console.log("Error", xhr.statusText);
-            //         }
-            //     }
-            // };
-            // xhr.send(formData);
-
-            // $.ajax({
-            //     type: "POST",
-            //     url: "/extention",
-            //     dataType: 'json',
-            //     data: formData,
-            //     processData: false,
-            //     success: function (data) {
-            //         window.location = data;
-            //     }
-            // }).fail(function (err) {
-            //     if (err.status == 403) {
-            //         window.location.reload();
-            //     }
-            //     createSubmitted = false;
-            //     console.log("ERROR", err);
-            //     $("#add-flow-create").removeClass("submitted");
-            //     $("#add-flow-loader").hide();
-            //     $("#add-flow-label").show();
-            // });
         });
 
         var tags = tagger();

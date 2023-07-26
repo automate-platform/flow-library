@@ -107,42 +107,55 @@
                 </svg><span>Update Image</span></label>
             <input type="file" name="img_guilde" id="img_guilde" accept="image/jpeg, image/png, image/jpg"
                 style="display: none;" multiple>
-            <h4 class="add-guideline-label zip-label-txt"><label>Zip File</label></h4>
-            <p>Uploading the source code of an application is a mandatory requirement.Uploading the source code of an
-                application is a mandatory requirement
-            </p>
-            <label for="source" class="icon-label"><svg height="50px" width="50px" version="1.1" id="Layer_1"
-                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"
-                    xml:space="preserve" fill="#000000">
-                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                    <g id="SVGRepo_iconCarrier">
-                        <path style="fill:#E2E5E7;"
-                            d="M128,0c-17.6,0-32,14.4-32,32v448c0,17.6,14.4,32,32,32h320c17.6,0,32-14.4,32-32V128L352,0H128z">
-                        </path>
-                        <path style="fill:#B0B7BD;" d="M384,128h96L352,0v96C352,113.6,366.4,128,384,128z"></path>
-                        <polygon style="fill:#CAD1D8;" points="480,224 384,128 480,128 "></polygon>
-                        <path style="fill:#84BD5A;"
-                            d="M416,416c0,8.8-7.2,16-16,16H48c-8.8,0-16-7.2-16-16V256c0-8.8,7.2-16,16-16h352c8.8,0,16,7.2,16,16 V416z">
-                        </path>
-                        <g>
-                            <path style="fill:#FFFFFF;"
-                                d="M132.64,384c-8.064,0-11.264-7.792-6.656-13.296l45.552-60.512h-37.76 c-11.12,0-10.224-15.712,0-15.712h51.568c9.712,0,12.528,9.184,5.632,16.624l-43.632,56.656h41.584 c10.24,0,11.52,16.256-1.008,16.256h-55.28V384z">
-                            </path>
-                            <path style="fill:#FFFFFF;"
-                                d="M212.048,303.152c0-10.496,16.896-10.88,16.896,0v73.04c0,10.608-16.896,10.88-16.896,0V303.152z">
-                            </path>
-                            <path style="fill:#FFFFFF;"
-                                d="M251.616,303.152c0-4.224,3.328-8.832,8.704-8.832h29.552c16.64,0,31.616,11.136,31.616,32.48 c0,20.224-14.976,31.488-31.616,31.488h-21.36v16.896c0,5.632-3.584,8.816-8.192,8.816c-4.224,0-8.704-3.184-8.704-8.816 L251.616,303.152L251.616,303.152z M268.496,310.432v31.872h21.36c8.576,0,15.36-7.568,15.36-15.504 c0-8.944-6.784-16.368-15.36-16.368H268.496z">
-                            </path>
-                        </g>
-                        <path style="fill:#CAD1D8;"
-                            d="M400,432H96v16h304c8.8,0,16-7.2,16-16v-16C416,424.8,408.8,432,400,432z">
-                        </path>
-                    </g>
-                </svg><span class="zip-name">{{zip_url}}</span></label>
-            <input type="file" id="source" name="source" accept=".zip" style="display: none;">
-            <div class="add-collection-zip-warning dialog-warning">File must have type is .zip</div><br><br>
+            <div style="display: flex;">
+                <div style="flex: 50%;margin: 0 30px 0 0px;">
+                    <h4 class="add-guideline-label"><label>Zip File</label></h4>
+                    <p>Uploading the source code of an application is a mandatory requirement.Uploading the source
+                        code of
+                        an
+                        application is a mandatory requirement.
+                    </p>
+                    <label for="source" class="icon-label"><svg height="50px" width="50px" version="1.1" id="Layer_1"
+                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                            viewBox="0 0 512 512" xml:space="preserve" fill="#000000">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                            <g id="SVGRepo_iconCarrier">
+                                <path style="fill:#E2E5E7;"
+                                    d="M128,0c-17.6,0-32,14.4-32,32v448c0,17.6,14.4,32,32,32h320c17.6,0,32-14.4,32-32V128L352,0H128z">
+                                </path>
+                                <path style="fill:#B0B7BD;" d="M384,128h96L352,0v96C352,113.6,366.4,128,384,128z">
+                                </path>
+                                <polygon style="fill:#CAD1D8;" points="480,224 384,128 480,128 "></polygon>
+                                <path style="fill:#84BD5A;"
+                                    d="M416,416c0,8.8-7.2,16-16,16H48c-8.8,0-16-7.2-16-16V256c0-8.8,7.2-16,16-16h352c8.8,0,16,7.2,16,16 V416z">
+                                </path>
+                                <g>
+                                    <path style="fill:#FFFFFF;"
+                                        d="M132.64,384c-8.064,0-11.264-7.792-6.656-13.296l45.552-60.512h-37.76 c-11.12,0-10.224-15.712,0-15.712h51.568c9.712,0,12.528,9.184,5.632,16.624l-43.632,56.656h41.584 c10.24,0,11.52,16.256-1.008,16.256h-55.28V384z">
+                                    </path>
+                                    <path style="fill:#FFFFFF;"
+                                        d="M212.048,303.152c0-10.496,16.896-10.88,16.896,0v73.04c0,10.608-16.896,10.88-16.896,0V303.152z">
+                                    </path>
+                                    <path style="fill:#FFFFFF;"
+                                        d="M251.616,303.152c0-4.224,3.328-8.832,8.704-8.832h29.552c16.64,0,31.616,11.136,31.616,32.48 c0,20.224-14.976,31.488-31.616,31.488h-21.36v16.896c0,5.632-3.584,8.816-8.192,8.816c-4.224,0-8.704-3.184-8.704-8.816 L251.616,303.152L251.616,303.152z M268.496,310.432v31.872h21.36c8.576,0,15.36-7.568,15.36-15.504 c0-8.944-6.784-16.368-15.36-16.368H268.496z">
+                                    </path>
+                                </g>
+                                <path style="fill:#CAD1D8;"
+                                    d="M400,432H96v16h304c8.8,0,16-7.2,16-16v-16C416,424.8,408.8,432,400,432z">
+                                </path>
+                            </g>
+                        </svg><span class="zip-name">{{zip_url}}</span></label>
+                    <input type="file" id="source" name="source" accept=".zip" style="display: none;">
+                    <div class="add-collection-zip-warning dialog-warning">File must have type is .zip</div><br><br>
+                </div>
+                <div style="flex: 50%; margin: 0 0px 0 5px;">
+                    <h4 class="add-version-label"><label>Version</label></h4>
+                    <p>If you change your zip file you must change your version.</p>
+                    <input class="input-version-tab" type="text" placeholder="{{lastVersion}}" disabled>
+                    <div class="add-version-text dialog-warning"></div>
+                </div>
+            </div>
 
             <h4 class="add-flow-label"><label for="add-flow-tags">Tags</label></h4>
             <p>Add some tags to your extension that will help others find it. Comma- or space-separate the tags.</p>
@@ -184,6 +197,8 @@
         var descValid = true;
         var zipValid = true;
         var guidelineValid = true;
+        var versionValid = true;
+
 
         var iconBase = document.getElementById('image-preview').src;
         var guideline = "";
@@ -213,6 +228,52 @@
                 $(this).removeClass("input-error");
             }
         });
+
+        $('.input-version-tab').keyup(() => {
+            const regexVersionNumber = /^\d+\.\d+\.\d+$/;
+            if (!regexVersionNumber.test($('.input-version-tab').val())) {
+                versionValid = false;
+                $('.add-version-text').show();
+                $('.add-version-text').html('Please input regex : x.y.z');
+            } else {
+                let lastVersion = '{{lastVersion}}';
+                let newVersion = $('.input-version-tab').val();
+                if (isNewVersionGreater(lastVersion, newVersion)) {
+                    versionValid = true;
+                    $('.add-version-text').hide();
+                    $('.add-version-text').html('');
+                } else {
+                    versionValid = false;
+                    $('.add-version-text').show();
+                    $('.add-version-text').html('Your last version is {{lastVersion}}');
+                }
+            }
+        })
+
+        function isNewVersionGreater(lastVersion, newVersion) {
+            const lastVer = lastVersion.split('.').map(Number);
+            const newVer = newVersion.split('.').map(Number);
+
+            if (newVer[0] === lastVer[0] + 1 &&
+                newVer[1] === 0 && newVer[2] === 0) {
+                return true;
+            }
+            if (
+                newVer[0] === lastVer[0] &&
+                newVer[1] === lastVer[1] + 1 &&
+                newVer[2] === 0
+            ) {
+                return true;
+            }
+            if (
+                newVer[0] === lastVer[0] &&
+                newVer[1] === lastVer[1] &&
+                newVer[2] === lastVer[2] + 1
+            ) {
+                return true;
+            }
+            return false;
+        }
 
         const inputElement = document.getElementById("icon");
         const imagePreview = document.getElementById('image-preview');
@@ -294,7 +355,7 @@
                     };
 
                     reader.onerror = function (error) {
-                        console.log("Error: ", error);
+                        console.error("Error: ", error);
                     };
                 }
                 iconValid = true;
@@ -451,9 +512,11 @@
         zipInput.addEventListener("change", checkFileZip, false);
 
         function checkFileZip() {
+            document.querySelector('.input-version-tab').disabled = false;
+            versionValid = false
+
             const fileInput = zipInput;
             const filePath = fileInput.value;
-            console.log(fileInput.files[0]);
             const allowedExtensions = /(\.zip)$/i;
 
             zipPreview.textContent = 'Zip File';
@@ -526,6 +589,10 @@
                 $(window).scrollTop($('.zip-label-txt').offset().top);
                 return;
             }
+            if (!versionValid) {
+                $(window).scrollTop($('.add-version-label').offset().top);
+                return;
+            }
             createSubmitted = true;
             $("#add-flow-label").hide();
             $("#add-flow-create").addClass("submitted");
@@ -543,6 +610,7 @@
                 var xhr = new XMLHttpRequest();
                 var formData = new FormData()
                 formData.append('id', $('#add-flow-id').val());
+                formData.append('version', $('.input-version-tab').val());
                 formData.append('zip', zip);
                 for (var x = 0; x < guideline.length; x++) {
                     formData.append('guideline', guideline[x]);
@@ -556,7 +624,6 @@
                     if (xhr.status === 200) {
                         // Request was successful, process the response
                         var response = xhr.responseText;
-                        console.log(response);
                         window.location = response
                     } else {
                         // Request failed, handle the error
@@ -570,7 +637,7 @@
                     window.location.reload();
                 }
                 createSubmitted = false;
-                console.log("ERROR", err);
+                console.error("ERROR", err);
                 $("#add-flow-create").removeClass("submitted");
                 $("#add-flow-loader").hide();
                 $("#add-flow-label").show();

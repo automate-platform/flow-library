@@ -157,7 +157,7 @@ $(function() {
                 window.location.reload();
             }
             createSubmitted = false;
-            console.log("ERROR",err);
+            console.error("ERROR",err);
             $("#add-flow-create").removeClass("submitted");
             $("#add-flow-loader").hide();
             $("#add-flow-label").show();
