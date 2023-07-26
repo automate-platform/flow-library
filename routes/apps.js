@@ -39,7 +39,6 @@ if (setting.template.apps) {
             };
             apper.create(req.session.accessToken, app_post, req.body.tags || []).then(function (id) {
                 let url = '/add/app/source?id=' + id + '&name=' + encodeURIComponent(req.body.title);
-
                 res.send(url);
             }).catch(function (err) {
                 console.log("Error creating app:", err);
@@ -78,7 +77,6 @@ if (setting.template.apps) {
                     }
                 });
             } else {
-
                 console.log("No file was uploaded with the request.");
                 res.status(400).send({ error: "No file was uploaded with the request." });
                 return;
@@ -87,11 +85,12 @@ if (setting.template.apps) {
                 zip_url: zipFileName,
                 guideline_img: files_img
             };
-            apper.putSource(id, app_post || [])
-            res.writeHead(303, {
-                Location: "/app/" + id
-            });
-            res.end();
+            app_post.version = ["1.0.0"];
+            apper.putSource(id, app_post || []).then(result => {
+                res.status(200).end("/app/" + id);
+            }).catch((err) => {
+                console.error('Error', err)
+            })
         });
     });
 
@@ -317,8 +316,6 @@ if (setting.template.apps) {
             })
 
             app.imgGuidelineUrl = imgUrl;
-            console.log(app);
-
             res.send(mustache.render(templates.updateSourceApp, app, templates.partials));
         }).catch(function (err) {
             // TODO: better error logging without the full stack trace
@@ -346,6 +343,7 @@ if (setting.template.apps) {
                 return;
             }
             const id = req.body.id;
+            const version = req.body.version;
             let zipFileName = "";
             let files_img = [];
             if (req.files) {
@@ -366,13 +364,14 @@ if (setting.template.apps) {
             }
             var app_post = {
                 zip_url: zipFileName,
-                guideline_img: files_img
+                guideline_img: files_img,
+                version: version
             };
-            apper.updateSource(id, app_post || [])
-            res.writeHead(303, {
-                Location: "/app/" + id
-            });
-            res.end();
+            apper.updateSource(id, app_post || []).then(result => {
+                res.status(200).end("/app/" + id);
+            }).catch((err) => {
+                console.error('Error', err)
+            })
         });
     });
 

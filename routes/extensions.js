@@ -78,9 +78,11 @@ if (setting.template.extensions) {
                 zip_url: zipFileName,
                 guideline_img: files_img
             };
-            extensioner.putSource(id, app_post || [])
-            res.send("/extension/" + id);
-            res.end();
+            extensioner.putSource(id, app_post || []).then(result => {
+                res.status(200).end("/extension/" + id);
+            }).catch((err) => {
+                console.error('Error', err)
+            })
         });
     })
 
@@ -277,10 +279,11 @@ if (setting.template.extensions) {
                 zip_url: zipFileName,
                 guideline_img: files_img
             };
-            extensioner.updateSource(id, extension_post || [])
-            res.send("/extension/" + id);
-
-            res.end();
+            extensioner.updateSource(id, extension_post || []).then(result => {
+                res.status(200).end("/extension/" + id);
+            }).catch((err) => {
+                console.error('Error', err)
+            })
         });
     });
 

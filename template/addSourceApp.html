@@ -1,185 +1,135 @@
-<script src="/js/marked.js"></script>
-<script src="/js/tags.js"></script>
-
 {{>_header}}
 <div class="grid add-form" style="background: none;">
   <div class="add-form-row">
     <div class="col-1-12">&nbsp;</div>
     <div class="col-10-12 thing-list-section" style="background: white; padding: 10px 50px;">
-      <h2 class="pagetitle">Add detail app: <span id="title" style="color: rgb(65, 65, 65);"></span></h2>
-      <form id="form_el" action="/source" method="post" enctype="multipart/form-data">
-        <input type="hidden" id="myId" name="id" value="" readonly>
-        <h4 class="add-guideline-label"><label>Guideline Image</label></h4>
-        <p>Upload your guideline image picture how to setup and use your app.</p>
-        <div class="img-guildeline">
-          <div class="preview_title">
-            <p>Preview image <i>Step by &gt; Step</i>.<br>This will your app <i>Guideline</i> tab.</p>
+      <h2 class="pagetitle">Update detail app: <span id="title" style="color: rgb(65, 65, 65);">{{description}}</span>
+      </h2>
+      <input type="hidden" id="myId" name="id" value="" readonly>
+      <h4 class="add-guideline-label"><label>Guideline Image</label></h4>
+      <p>Upload your guideline image picture how to setup and use your app.</p>
+      <div class="img-guildeline">
+        <div class="preview_title">
+          <p>Preview image <i>Step by &gt; Step</i>.<br>This will your app <i>Guideline</i> tab.</p>
+        </div>
+        <div class="w3-content w3-display-container preview-img">
+          <div class="inner-preview-img">
+            {{#imgGuidelineUrl}}
+            <img class="mySlides" src="{{url}}" style="width:100%">
+            {{/imgGuidelineUrl}}
           </div>
-          <div class="w3-content w3-display-container preview-img">
-            <div class="inner-preview-img">
-            </div>
-            <div class="w3-move-button">
-              <div class="w3-left " onclick="plusDivs(-1)"> &#10094;</div>
-              <div class="w3-right" onclick="plusDivs(1)">&#10095;</div>
-            </div>
-            <div class="w3-center-button">
-            </div>
+          <div class="w3-move-button">
+            <div class="w3-left " onclick="plusDivs(-1)"> &#10094;</div>
+            <div class="w3-right" onclick="plusDivs(1)">&#10095;</div>
           </div>
-          <div class="preview-img-edit">
-            <div class="preview-img-edit-left">
-              <span class="move-img"> <i class='bx bx-left-arrow-alt'></i>
-                <span class="move_txt">Move</span></span>
-              <span><i class='bx bx-info-circle'></i></span>
-            </div>
-            <div class="preview-img-edit-mid">
-            </div>
-            <div class="preview-img-edit-right">
-              <label for="img_change"><span class="change-img"><i class='bx bx-refresh'></i></span></label>
-              <span class="del-img"><i class='bx bx-trash'></i></span>
-              <div class="input-img-change"><input type="file" id="img_change" name="img_change"
-                  accept="image/jpeg, image/png, image/jpg" style="display: none;"></div>
-            </div>
+          <div class="w3-center-button">
+            {{#imgGuidelineUrl}}
+            <span class="w3-badge demo" onclick="currentDiv({{idx}} + 1)"></span>
+            {{/imgGuidelineUrl}}
           </div>
         </div>
-
-        <label for="img_guilde" class="img_guilde_label"><svg fill="#000000" viewBox="0 0 24 24" id="curve-arrow-up-10"
-            data-name="Flat Color" xmlns="http://www.w3.org/2000/svg" class="icon flat-color">
-            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-            <g id="SVGRepo_iconCarrier">
-              <path id="secondary"
-                d="M18.71,5.29l-3-3a1,1,0,0,0-1.42,0l-3,3a1,1,0,0,0,1.42,1.42L14,5.41V7.29a9.82,9.82,0,0,1-5.45,8.82,1,1,0,0,0-.44,1.34A1,1,0,0,0,9,18a.93.93,0,0,0,.45-.11A11.78,11.78,0,0,0,16,7.29V5.41l1.29,1.3a1,1,0,0,0,1.42,0A1,1,0,0,0,18.71,5.29Z"
-                style="fill: #5dba2c;"></path>
-              <path id="primary"
-                d="M19,22H5a2,2,0,0,1-2-2V4A2,2,0,0,1,5,2H8A1,1,0,0,1,8,4H5V20H19V12a1,1,0,0,1,2,0v8A2,2,0,0,1,19,22Z"
-                style="fill: #000000;"></path>
+        <div class="preview-img-edit">
+          <div class="preview-img-edit-left">
+            <span class="move-img"> <i class='bx bx-left-arrow-alt'></i>
+              <span class="move_txt">Move</span></span>
+            <span><i class='bx bx-info-circle'></i></span>
+          </div>
+          <div class="preview-img-edit-mid">
+            {{#imgGuidelineUrl}}
+            <div class="img_preview" onclick="currentDiv({{idx}} + 1)">
+              <img src="{{url}}">
+            </div>
+            {{/imgGuidelineUrl}}
+          </div>
+          <div class="preview-img-edit-right">
+            <label for="img_change"><span class="change-img"><i class='bx bx-refresh'></i></span></label>
+            <span class="del-img"><i class='bx bx-trash'></i></span>
+            <div class="input-img-change">
+              <div class="data-id"></div>
+            </div>
+            <input type="file" id="img_change" name="img_change" accept="image/jpeg, image/png, image/jpg"
+              style="display: none;">
+          </div>
+        </div>
+      </div>
+      <div class="add-collection-guideline-warning dialog-warning"></div>
+      <label for="img_guilde" class="img_guilde_label"><svg fill="#000000" viewBox="0 0 24 24" id="curve-arrow-up-10"
+          data-name="Flat Color" xmlns="http://www.w3.org/2000/svg" class="icon flat-color">
+          <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+          <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+          <g id="SVGRepo_iconCarrier">
+            <path id="secondary"
+              d="M18.71,5.29l-3-3a1,1,0,0,0-1.42,0l-3,3a1,1,0,0,0,1.42,1.42L14,5.41V7.29a9.82,9.82,0,0,1-5.45,8.82,1,1,0,0,0-.44,1.34A1,1,0,0,0,9,18a.93.93,0,0,0,.45-.11A11.78,11.78,0,0,0,16,7.29V5.41l1.29,1.3a1,1,0,0,0,1.42,0A1,1,0,0,0,18.71,5.29Z"
+              style="fill: #5dba2c;"></path>
+            <path id="primary"
+              d="M19,22H5a2,2,0,0,1-2-2V4A2,2,0,0,1,5,2H8A1,1,0,0,1,8,4H5V20H19V12a1,1,0,0,1,2,0v8A2,2,0,0,1,19,22Z"
+              style="fill: #000000;"></path>
+          </g>
+        </svg><span>Update Image</span></label>
+      <input type="file" name="img_guilde" id="img_guilde" accept="image/jpeg, image/png, image/jpg"
+        style="display: none;" multiple>
+      <h4 class="add-guideline-label"><label>Zip File</label></h4>
+      <p>Uploading the source code of an application is a mandatory requirement.Uploading the source
+        code of
+        an
+        application is a mandatory requirement.
+      </p>
+      <label for="source" class="icon-label"><svg height="50px" width="50px" version="1.1" id="Layer_1"
+          xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"
+          xml:space="preserve" fill="#000000">
+          <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+          <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+          <g id="SVGRepo_iconCarrier">
+            <path style="fill:#E2E5E7;"
+              d="M128,0c-17.6,0-32,14.4-32,32v448c0,17.6,14.4,32,32,32h320c17.6,0,32-14.4,32-32V128L352,0H128z">
+            </path>
+            <path style="fill:#B0B7BD;" d="M384,128h96L352,0v96C352,113.6,366.4,128,384,128z">
+            </path>
+            <polygon style="fill:#CAD1D8;" points="480,224 384,128 480,128 "></polygon>
+            <path style="fill:#84BD5A;"
+              d="M416,416c0,8.8-7.2,16-16,16H48c-8.8,0-16-7.2-16-16V256c0-8.8,7.2-16,16-16h352c8.8,0,16,7.2,16,16 V416z">
+            </path>
+            <g>
+              <path style="fill:#FFFFFF;"
+                d="M132.64,384c-8.064,0-11.264-7.792-6.656-13.296l45.552-60.512h-37.76 c-11.12,0-10.224-15.712,0-15.712h51.568c9.712,0,12.528,9.184,5.632,16.624l-43.632,56.656h41.584 c10.24,0,11.52,16.256-1.008,16.256h-55.28V384z">
+              </path>
+              <path style="fill:#FFFFFF;"
+                d="M212.048,303.152c0-10.496,16.896-10.88,16.896,0v73.04c0,10.608-16.896,10.88-16.896,0V303.152z">
+              </path>
+              <path style="fill:#FFFFFF;"
+                d="M251.616,303.152c0-4.224,3.328-8.832,8.704-8.832h29.552c16.64,0,31.616,11.136,31.616,32.48 c0,20.224-14.976,31.488-31.616,31.488h-21.36v16.896c0,5.632-3.584,8.816-8.192,8.816c-4.224,0-8.704-3.184-8.704-8.816 L251.616,303.152L251.616,303.152z M268.496,310.432v31.872h21.36c8.576,0,15.36-7.568,15.36-15.504 c0-8.944-6.784-16.368-15.36-16.368H268.496z">
+              </path>
             </g>
-          </svg><span>Add Image</span></label>
-        <input type="file" name="img_guilde" id="img_guilde" accept="image/jpeg, image/png, image/jpg"
-          style="display: none;" multiple>
-        <h4 class="add-guideline-label"><label>Zip File</label></h4>
-        <p>Uploading the source code of an application is a mandatory requirement.Uploading the source code of an
-          application is a mandatory requirement
-        </p>
-        <label for="source" class="icon-label"><svg height="50px" width="50px" version="1.1" id="Layer_1"
-            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"
-            xml:space="preserve" fill="#000000">
-            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-            <g id="SVGRepo_iconCarrier">
-              <path style="fill:#E2E5E7;"
-                d="M128,0c-17.6,0-32,14.4-32,32v448c0,17.6,14.4,32,32,32h320c17.6,0,32-14.4,32-32V128L352,0H128z">
-              </path>
-              <path style="fill:#B0B7BD;" d="M384,128h96L352,0v96C352,113.6,366.4,128,384,128z"></path>
-              <polygon style="fill:#CAD1D8;" points="480,224 384,128 480,128 "></polygon>
-              <path style="fill:#84BD5A;"
-                d="M416,416c0,8.8-7.2,16-16,16H48c-8.8,0-16-7.2-16-16V256c0-8.8,7.2-16,16-16h352c8.8,0,16,7.2,16,16 V416z">
-              </path>
-              <g>
-                <path style="fill:#FFFFFF;"
-                  d="M132.64,384c-8.064,0-11.264-7.792-6.656-13.296l45.552-60.512h-37.76 c-11.12,0-10.224-15.712,0-15.712h51.568c9.712,0,12.528,9.184,5.632,16.624l-43.632,56.656h41.584 c10.24,0,11.52,16.256-1.008,16.256h-55.28V384z">
-                </path>
-                <path style="fill:#FFFFFF;"
-                  d="M212.048,303.152c0-10.496,16.896-10.88,16.896,0v73.04c0,10.608-16.896,10.88-16.896,0V303.152z">
-                </path>
-                <path style="fill:#FFFFFF;"
-                  d="M251.616,303.152c0-4.224,3.328-8.832,8.704-8.832h29.552c16.64,0,31.616,11.136,31.616,32.48 c0,20.224-14.976,31.488-31.616,31.488h-21.36v16.896c0,5.632-3.584,8.816-8.192,8.816c-4.224,0-8.704-3.184-8.704-8.816 L251.616,303.152L251.616,303.152z M268.496,310.432v31.872h21.36c8.576,0,15.36-7.568,15.36-15.504 c0-8.944-6.784-16.368-15.36-16.368H268.496z">
-                </path>
-              </g>
-              <path style="fill:#CAD1D8;" d="M400,432H96v16h304c8.8,0,16-7.2,16-16v-16C416,424.8,408.8,432,400,432z">
-              </path>
-            </g>
-          </svg><span class="zip-name">Zip File</span></label>
-        <input onchange="checkFileZip()" type="file" id="source" name="source" accept=".zip" style="display: none;">
-        <div class="add-collection-zip-warning dialog-warning">File must have type is .zip</div><br><br>
-        <hr>
-        <a id="add-flow-create" class="btn-upload"> <input type="submit" value="Submit" id="upload-flow-label"></a>
-
-      </form>
+            <path style="fill:#CAD1D8;" d="M400,432H96v16h304c8.8,0,16-7.2,16-16v-16C416,424.8,408.8,432,400,432z">
+            </path>
+          </g>
+        </svg><span class="zip-name">Zip file</span></label>
+      <input type="file" id="source" name="source" accept=".zip" style="display: none;">
+      <div class="add-collection-zip-warning dialog-warning">File must have type is .zip</div><br><br>
+      <hr>
+      <a id="add-flow-create" href="#" class="btn-create"><span id="add-flow-label"
+          style="display: flex; align-items: center;">Update App<i class='bx bx-right-arrow-alt'
+            style="font-size:25px; color: goldenrod;"></i></span><img id="add-flow-loader" class="loader"
+          src="/images/loader.gif" /></a>
     </div>
   </div>
-  <!-- -->
-  <script src="/js/marked.js"></script>
-  <script src="/js/tags.js"></script>
-  <script>
-    const urlParams = new URLSearchParams(window.location.search);
-    const ids = urlParams.get('id');
-    const name = urlParams.get('name');
-    const zipPreview = document.querySelector('.icon-label .zip-name');
-    const uploadButton = document.getElementById('upload-flow-label');
+</div>
+<script src="/js/marked.js"></script>
+<script src="/js/tags.js"></script>
+<script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const ids = urlParams.get('id');
+  const name = urlParams.get('name');
+  document.getElementById('myId').value = ids;
+  document.getElementById('title').textContent = decodeURIComponent(name);
 
-    document.getElementById('myId').value = ids;
-    document.getElementById('title').textContent = decodeURIComponent(name);
-
+  $(function () {
     var zipValid = false;
-    function checkFileZip() {
-      const fileInput = document.getElementById('source');
-      const filePath = fileInput.value;
-      const allowedExtensions = /(\.zip)$/i;
+    var guidelineValid = false;
 
-      if (!allowedExtensions.exec(filePath)) {
+    var guideline = "";
+    var zip = "";
 
-        $(".add-collection-zip-warning").show();
-        zipValid = false
-        return false;
-      }
-      const file = fileInput.files[0];
-      if (file) {
-        $(".add-collection-zip-warning").hide();
-        zipPreview.textContent = file.name;
-        zipValid = true;
-        return true
-      } else {
-        $(".add-collection-zip-warning").show();
-        zipPreview.textContent = '';
-        zipValid = false
-        return false;
-      }
-    }
-
-    uploadButton.addEventListener('click', (event) => {
-      if (!zipValid) {
-        event.preventDefault();
-        $(".add-collection-zip-warning").show();
-      }
-    });
-  </script>
-  <script>
-    var delete_btn = document.querySelector('.del-img')
-    var move_btn = document.querySelector('.move-img')
-    var change_btn = document.querySelector('.input-img-change')
-    var slideIndex = 1;
-    showDivs(slideIndex);
-
-    function plusDivs(n) {
-      showDivs(slideIndex += n);
-    }
-
-    function currentDiv(n) {
-      showDivs(slideIndex = n);
-    }
-
-    function showDivs(n) {
-      var i;
-      var x = document.getElementsByClassName("mySlides");
-      var dots = document.getElementsByClassName("demo");
-      if (n > x.length) { slideIndex = 1 }
-      if (n < 1) { slideIndex = x.length }
-      for (i = 0; i < x.length; i++) {
-        x[i].style.display = "none";
-      }
-      for (i = 0; i < dots.length; i++) {
-        dots[i].className = dots[i].className.replace(" w3-white", "");
-      }
-      x[slideIndex - 1].style.display = "block";
-      dots[slideIndex - 1].className += " w3-white";
-      delete_btn.innerHTML = `<i onclick="deleteImage(${n - 1})" class='bx bx-trash'></i>`
-      change_btn.innerHTML = `<input type="file" id="img_change" accept="image/jpeg, image/png, image/jpg" style="display: none;" onchange="changeImage(${n - 1})">`
-      move_btn.innerHTML = `<i class='bx bx-left-arrow-alt' onclick="moveImageToTop(${n - 1})"></i>
-                            <span class="move_txt" onclick="moveImageToTop(${n - 1})">Move</span>`
-    }
-  </script>
-  <script>
     document.querySelector('.preview-img-edit').style.display = 'none';
     document.querySelector('.preview-img').style.display = 'none';
 
@@ -189,42 +139,104 @@
     const dot_btn = document.querySelector('.w3-center-button');
     var dots = document.getElementsByClassName("demo");
 
-    let imagesArray = [];
+    var imagesArray = [];
 
     input.addEventListener("change", () => {
       imagesArray = [];
       const files = input.files
-      for (let i = 0; i < files.length; i++) {
-        imagesArray.push(files[i])
+      if (files.length === 0) {
+        $(".add-collection-guideline-warning").html('Guideline img must be .png, .jpeg or .jpg.');
+        $(".add-collection-guideline-warning").show();
+        document.querySelector('.preview-img-edit').style.display = 'none';
+        document.querySelector('.preview-img').style.display = 'none';
+        guidelineValid = false;
+        displayImages();
+      } else {
+        var check_size = true;
+        $(".add-collection-guideline-warning").hide();
+        for (let i = 0; i < files.length; i++) {
+          if (Math.round((files[i].size / 1024)) < 3072) {
+            imagesArray.push(files[i])
+          } else {
+            $(".add-collection-guideline-warning").html(`File ${files[i].name} is bigger than 3Mb`);
+            $(".add-collection-guideline-warning").show();
+            check_size = false;
+          }
+        }
+        if (check_size) {
+          document.querySelector('.preview-img-edit').style.display = 'block';
+          document.querySelector('.preview-img').style.display = 'block';
+          const dataTransfer = new DataTransfer();
+          imagesArray.forEach((file) => {
+            dataTransfer.items.add(file);
+          });
+          guideline = dataTransfer.files;
+          guidelineValid = true;
+          console.log(guideline);
+          displayImages();
+        } else {
+          guidelineValid = false;
+          console.log(guideline);
+        }
       }
-      document.querySelector('.preview-img-edit').style.display = 'block';
-      document.querySelector('.preview-img').style.display = 'block';
-      displayImages()
-    })
+    });
 
-    function changeImage(index) {
-      let img = document.querySelector('#img_change');
-      console.log(imagesArray);
-      imagesArray = imagesArray.filter(item => imagesArray.indexOf(item) !== index)
-      const files = img.files[0];
-      imagesArray.splice(index, 0, files)
+    document.querySelector('.move-img').addEventListener('click', () => {
+      moveImageToTop(document.querySelector('.move-img').querySelector('.move_txt').getAttribute("data-index-image"));
+    });
+
+    function moveImageToTop(index) {
+      let img_move = imagesArray[index];
+      imagesArray = imagesArray.filter(item => item !== img_move);
+      imagesArray.splice(0, 0, img_move);
       const dataTransfer = new DataTransfer();
       imagesArray.forEach((file) => {
         dataTransfer.items.add(file);
       });
-      input.files = dataTransfer.files;
+      guideline = dataTransfer.files;
+      console.log(guideline);
       displayImages()
     }
 
-    function moveImageToTop(index) {
-      let img_move = imagesArray[index]
-      imagesArray = imagesArray.filter(item => item !== img_move)
-      imagesArray.splice(0, 0, img_move)
+    let img = document.querySelector('#img_change');
+    img.addEventListener("change", () => {
+      const files = img.files[0];
+      if (files.length === 0) {
+        $(".add-collection-guideline-warning").html('Guideline img must be .png, .jpeg or .jpg.');
+        $(".add-collection-guideline-warning").show();
+        document.querySelector('.preview-img-edit').style.display = 'none';
+        document.querySelector('.preview-img').style.display = 'none';
+        displayImages();
+        guidelineValid = false;
+      } else {
+        let index = document.querySelector('.input-img-change .data-index-image').getAttribute("data-index-image");
+        let img_change = imagesArray[index];
+        imagesArray = imagesArray.filter(item => item !== img_change);
+        imagesArray.splice(index, 0, files)
+        const dataTransfer = new DataTransfer();
+        imagesArray.forEach((file) => {
+          dataTransfer.items.add(file);
+        });
+        guideline = dataTransfer.files;
+        guidelineValid = true;
+        console.log(guideline);
+        displayImages()
+      }
+
+    });
+
+    document.querySelector('.del-img').addEventListener('click', () => {
+      deleteImage(document.querySelector('.del-img').querySelector('.bx.bx-trash').getAttribute("data-index-image"))
+    })
+
+    function deleteImage(index) {
+      imagesArray.splice(index, 1)
       const dataTransfer = new DataTransfer();
       imagesArray.forEach((file) => {
         dataTransfer.items.add(file);
       });
-      input.files = dataTransfer.files;
+      guideline = dataTransfer.files;
+      console.log(guideline);
       displayImages()
     }
 
@@ -245,25 +257,135 @@
       dots[0].click();
     }
 
-    function deleteImage(index) {
-      imagesArray.splice(index, 1)
+    const zipPreview = document.querySelector('.icon-label .zip-name');
+    const zipInput = document.getElementById('source');
+    zipInput.addEventListener("change", checkFileZip, false);
 
-      const dataTransfer = new DataTransfer();
-      imagesArray.forEach((file) => {
-        dataTransfer.items.add(file);
-      });
-      input.files = dataTransfer.files;
-      console.log(input.files);
-      displayImages()
+    function checkFileZip() {
+      const fileInput = zipInput;
+      const filePath = fileInput.value;
+      console.log(fileInput.files[0]);
+      const allowedExtensions = /(\.zip)$/i;
+
+      zipPreview.textContent = 'Zip File';
+      if (!allowedExtensions.exec(filePath)) {
+        $(".add-collection-zip-warning").show();
+        zipValid = false
+        return false;
+      }
+      const file = fileInput.files[0];
+      if (file) {
+        zipPreview.textContent = file.name;
+        zip = file;
+        $(".add-collection-zip-warning").hide();
+        zipValid = true;
+        return true
+      } else {
+        zipPreview.textContent = 'Zip File';
+        zip = '';
+        zipValid = false
+        return false;
+      }
     }
+    var createSubmitted = false;
 
-  </script>
-  <script>
-    const scrollContainer = document.querySelector(".preview-img-edit-mid");
+    $('#add-flow-create').click(function (e) {
+      e.preventDefault();
+      if (createSubmitted) {
+        return;
+      }
+      if (!guidelineValid) {
+        $(window).scrollTop($('.img-label-txt').offset().top);
+        return;
+      }
+      if (!zipValid) {
+        $(window).scrollTop($('.zip-label-txt').offset().top);
+        return;
+      }
+      createSubmitted = true;
+      $("#add-flow-label").hide();
+      $("#add-flow-create").addClass("submitted");
+      $("#add-flow-loader").show();
 
-    scrollContainer.addEventListener("wheel", (evt) => {
-      evt.preventDefault();
-      scrollContainer.scrollLeft += evt.deltaY;
+      var xhr = new XMLHttpRequest();
+      var formData = new FormData()
+      formData.append('id', $('#myId').val());
+      formData.append('zip', zip);
+      for (var x = 0; x < guideline.length; x++) {
+        formData.append('guideline', guideline[x]);
+      }
+      xhr.open('POST', '/source', true);
+      xhr.onerror = function () {
+        console.error('XHR request failed.');
+        window.location.reload();
+        createSubmitted = false;
+        $("#add-flow-create").removeClass("submitted");
+        $("#add-flow-loader").hide();
+        $("#add-flow-label").show();
+      };
+
+      xhr.onload = function () {
+        if (xhr.status === 200) {
+          // Request was successful, process the response
+          var response = xhr.responseText;
+          console.log(response);
+          window.location = response
+        } else {
+          // Request failed, handle the error
+          console.error('XHR request failed. Status code: ' + xhr.status);
+          window.location.reload();
+          createSubmitted = false;
+          $("#add-flow-create").removeClass("submitted");
+          $("#add-flow-loader").hide();
+          $("#add-flow-label").show();
+        }
+      };
+
+      xhr.send(formData);
     });
-  </script>
-  {{>_footer}}
+  })
+</script>
+<script>
+  var delete_btn = document.querySelector('.del-img')
+  var move_btn = document.querySelector('.move-img')
+  var change_btn = document.querySelector('.input-img-change')
+  var slideIndex = 1;
+  showDivs(slideIndex);
+
+  function plusDivs(n) {
+    showDivs(slideIndex += n);
+  }
+
+  function currentDiv(n) {
+    showDivs(slideIndex = n);
+  }
+
+  function showDivs(n) {
+    var i;
+    var x = document.getElementsByClassName("mySlides");
+    var dots = document.getElementsByClassName("demo");
+    if (n > x.length) { slideIndex = 1 }
+    if (n < 1) { slideIndex = x.length }
+    for (i = 0; i < x.length; i++) {
+      x[i].style.display = "none";
+    }
+    for (i = 0; i < dots.length; i++) {
+      dots[i].className = dots[i].className.replace(" w3-white", "");
+    }
+    x[slideIndex - 1].style.display = "block";
+    dots[slideIndex - 1].className += " w3-white";
+    delete_btn.innerHTML = `<i data-index-image="${n - 1}" class='bx bx-trash'></i>`
+    change_btn.innerHTML = `<div class="data-index-image" data-index-image="${n - 1}"></div> `
+    move_btn.innerHTML = `<i class='bx bx-left-arrow-alt' data-index-image="${n - 1}"></i>
+      <span class="move_txt" data-index-image="${n - 1}">Move</span>`
+  }
+</script>
+<script>
+  const scrollContainer = document.querySelector(".preview-img-edit-mid");
+
+  scrollContainer.addEventListener("wheel", (evt) => {
+    evt.preventDefault();
+    scrollContainer.scrollLeft += evt.deltaY;
+  });
+</script>
+{{>_footer}}

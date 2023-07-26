@@ -91,7 +91,6 @@
                 </div>
             </div>
             <div class="add-collection-guideline-warning dialog-warning"></div>
-
             <label for="img_guilde" class="img_guilde_label"><svg fill="#000000" viewBox="0 0 24 24"
                     id="curve-arrow-up-10" data-name="Flat Color" xmlns="http://www.w3.org/2000/svg"
                     class="icon flat-color">
@@ -152,7 +151,7 @@
 
             <h4>&nbsp;</h4>
             <a id="add-flow-create" href="#" class="btn-create"><span id="add-flow-label"
-                    style="display: flex; align-items: center;">Update App<i class='bx bx-right-arrow-alt'
+                    style="display: flex; align-items: center;">Update Extension<i class='bx bx-right-arrow-alt'
                         style="font-size:25px; color: goldenrod;"></i></span><img id="add-flow-loader" class="loader"
                     src="/images/loader.gif" /></a>
             <p class="create-toc">This will create a private gist, owned by you, on GitHub and add it to the Node-RED
@@ -186,7 +185,7 @@
         var zipValid = true;
         var guidelineValid = true;
 
-        var iconBase = "";
+        var iconBase = document.getElementById('image-preview').src;
         var guideline = "";
         var zip = "";
 
@@ -543,7 +542,7 @@
                 console.log(data);
                 var xhr = new XMLHttpRequest();
                 var formData = new FormData()
-                formData.append('id',  $('#add-flow-id').val());
+                formData.append('id', $('#add-flow-id').val());
                 formData.append('zip', zip);
                 for (var x = 0; x < guideline.length; x++) {
                     formData.append('guideline', guideline[x]);
