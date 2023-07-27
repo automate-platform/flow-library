@@ -309,7 +309,7 @@ if (setting.template.apps) {
 
             app.sessionuser = req.session.user;
             app.display = setting.template;
-            app.lastVersion = app.version.pop();
+            app.lastVersion = app.versions.pop()['version'];
 
             var imgUrl = [];
             var imgCollection = app.guideline_img || [];
@@ -346,7 +346,6 @@ if (setting.template.apps) {
                 return;
             }
             const id = req.body.id;
-            const version = req.body.version;
             let zipFileName = "";
             let files_img = [];
             if (req.files) {
@@ -368,7 +367,7 @@ if (setting.template.apps) {
             var app_post = {
                 zip_url: zipFileName,
                 guideline_img: files_img,
-                version: version
+                version: req.body.version
             };
             apper.updateSource(id, app_post || []).then(result => {
                 res.status(200).end("/app/" + id);

@@ -78,7 +78,7 @@ if (setting.template.extensions) {
                 zip_url: zipFileName,
                 guideline_img: files_img
             };
-            extension_post.version = ["1.0.0"];
+            extension_post.version = "1.0.0";
             extensioner.putSource(id, extension_post || []).then(result => {
                 res.status(200).end("/extension/" + id);
             }).catch((err) => {
@@ -200,7 +200,7 @@ if (setting.template.extensions) {
         extensioner.get(req.params.id).then(extension => {
             extension.sessionuser = req.session.user;
             extension.display = setting.template;
-            extension.lastVersion = extension.version.pop();
+            extension.lastVersion = extension.versions.pop()['version'];
 
             var imgUrl = [];
             var imgCollection = extension.guideline_img || [];
@@ -260,7 +260,6 @@ if (setting.template.extensions) {
                 return;
             }
             const id = req.body.id;
-            const version = req.body.version;
             let zipFileName = "";
             let files_img = [];
             if (req.files) {
@@ -281,7 +280,7 @@ if (setting.template.extensions) {
             var extension_post = {
                 zip_url: zipFileName,
                 guideline_img: files_img,
-                version: version
+                version: req.body.version
             };
             extensioner.updateSource(id, extension_post || []).then(result => {
                 res.status(200).end("/extension/" + id);
