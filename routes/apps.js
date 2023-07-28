@@ -87,7 +87,7 @@ if (setting.template.apps) {
                 zip_url: zipFileName,
                 guideline_img: files_img
             };
-            app_post.version = ["1.0.0"];
+            app_post.version = "1.0.0";
             apper.putSource(id, app_post || []).then(result => {
                 res.status(200).end("/app/" + id);
             }).catch((err) => {
