@@ -58,8 +58,12 @@ if (!settings.maintenance) {
     app.use(require("./routes/api"));
     if (settings.template.collection) {
         app.use(require("./routes/collections"));
-    }if (settings.template.apps) {
+    }
+    if (settings.template.apps) {
         app.use(require("./routes/apps"));
+    }
+    if (settings.template.extensions) {
+        app.use(require('./routes/extensions'));
     }
     app.use(function (req, res) {
         res.status(404).send(mustache.render(templates['404'], { sessionuser: req.session.user }, templates.partials));

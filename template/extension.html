@@ -75,8 +75,8 @@
                                                             <span class="divider"> | </span>
                                                             <span class="ux-item-rating-control">
                                                                 <span class="rating-control">
-                                                                    <form id="form-rate" action="/app/{{_id}}/rate"
-                                                                        method="POST">
+                                                                    <form id="form-rate"
+                                                                        action="/extension/{{_id}}/rate" method="POST">
                                                                         <input name="_csrf" type="hidden"
                                                                             value="{{csrfToken}}">
                                                                         <input name="rating" type="hidden">
@@ -178,14 +178,14 @@
                                                                                 <div class="ux-section-project-details">
                                                                                     <h3
                                                                                         class="itemdetails-section-header right">
-                                                                                        App Action</h3>
+                                                                                        Extension Action</h3>
                                                                                     <div class="github-details">
                                                                                         <ul>
                                                                                             <li><a class="githubLinks"
-                                                                                                    href="/app/update/{{_id}}"><span
+                                                                                                    href="/extension/update/{{_id}}"><span
                                                                                                         class="bowtie-icon"></span><span
                                                                                                         class="api-github-response">Update
-                                                                                                        app</span></a>
+                                                                                                        extension</span></a>
                                                                                             </li>
                                                                                             <li><img id="refresh-flow-loader"
                                                                                                     style="height: 20px;"
@@ -212,49 +212,12 @@
                                                                                                         class="bowtie-icon"></span><span
                                                                                                         class="api-github-response">Remove
                                                                                                         this
-                                                                                                        app</span></a>
+                                                                                                        extension</span></a>
                                                                                             </li>
                                                                                         </ul>
                                                                                     </div>
                                                                                 </div>
                                                                                 {{/owned}}
-                                                                                <div class="ux-section-meta-data-list">
-                                                                                    <h3
-                                                                                        class="itemdetails-section-header right">
-                                                                                        Node Types
-                                                                                    </h3>
-                                                                                    <div class="meta-data-list"
-                                                                                        role="group"
-                                                                                        style="margin-left: 20px;">
-                                                                                        {{#nodeTypes}}
-                                                                                        {{#core.length}}
-                                                                                        <h5 style="margin-top: 5px;">
-                                                                                            Core
-                                                                                        </h5>
-                                                                                        <ul class="nodeTypeList">
-                                                                                            {{#core}}
-                                                                                            <span>{{type}}
-                                                                                                (x{{count}})</span>
-                                                                                            {{/core}}
-                                                                                        </ul>
-                                                                                        {{/core.length}}
-                                                                                        {{#other.length}}
-                                                                                        <h5 style="margin-top: 5px;">
-                                                                                            Other
-                                                                                        </h5>
-                                                                                        <ul class="nodeTypeList">
-                                                                                            {{#other}}
-                                                                                            <span>{{#module}}<a
-                                                                                                    href="/node/{{module}}">{{/module}}{{type}}{{#module}}</a>{{/module}}
-                                                                                                <span class="small"
-                                                                                                    style="border: none; margin-left: -3px;">(x{{count}})</span>
-                                                                                            </span>
-                                                                                            {{/other}}
-                                                                                        </ul>
-                                                                                        {{/other.length}}
-                                                                                        {{/nodeTypes}}
-                                                                                    </div>
-                                                                                </div>
                                                                                 <div class="ux-section-meta-data-list">
                                                                                     <h3
                                                                                         class="itemdetails-section-header right">
@@ -300,12 +263,9 @@
                                                                                 <h3
                                                                                     class="itemdetails-section-header right">
                                                                                     Using</h3>
-                                                                                <div class="capabilities-list-item">Copy
-                                                                                    this flow JSON to your clipboard and
-                                                                                    then import into RED using the
-                                                                                    <i>Import From &gt;
-                                                                                        Clipboard</i> (Ctrl-I) menu
-                                                                                    option
+                                                                                <div class="capabilities-list-item">
+                                                                                    Install extension to Market-App like
+                                                                                    <i>Install chorme extension</i>
                                                                                 </div>
                                                                             </div>
 
@@ -429,7 +389,7 @@
     $(function () {
         $('#refresh-flow').click(function (event) {
             $("#refresh-flow-loader").show();
-            $.post("/app/{{ id }}/refresh", function (data, textStatus, jqXHR) {
+            $.post("/extension/{{ id }}/refresh", function (data, textStatus, jqXHR) {
                 if (jqXHR.status != 304) {
                     window.location.reload();
                 }
@@ -443,7 +403,7 @@
         $('#remove-flow').click(function (evt) {
             evt.preventDefault();
             var dialog = $('<div class="dialog-shade"><div class="dialog">' +
-                '<form action="/app/{{id}}/delete" method="POST">' +
+                '<form action="/extension/{{id}}/delete" method="POST">' +
                 '<input name="_csrf" type="hidden" value="{{csrfToken}}">' +
                 '<h4>Are you sure you want to remove this app?</h4>' +
                 '<p>It will be removed from the library, but your GitHub Gist will not be affected.' +

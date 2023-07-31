@@ -3,10 +3,48 @@
     <div class="add-form-row">
         <div class="col-1-12">&nbsp;</div>
         <div class="col-10-12 thing-list-section" style="background: white; padding: 10px 50px;">
-            <h2 class="pagetitle">Update detail app: <span id="title"
-                    style="color: rgb(65, 65, 65);">{{description}}</span></h2>
-            <input type="hidden" id="myId" name="id" value="{{_id}}" readonly>
-            <h4 class="add-guideline-label"><label>Guideline Image</label></h4>
+            <h2 class="pagetitle">Update a Extension</h2>
+            <input id="add-flow-id" type="hidden" value="{{_id}}">
+            <h4 class="add-flow-label"><label for="add-flow-title">Title</label></h4>
+            <p>Give your extension a short, descriptive title. </p>
+            <input id="add-flow-title" type="text" value="{{description}}"></input>
+            <div style="position:relative">
+                <div class="add-collection-title-warning dialog-warning">The title must be at least 10 characters long
+                </div>
+            </div>
+
+            <h4 class="add-flow-label"><label for="add-flow-desc">Icon</label></h4>
+            <p>Icon for your extension.</p>
+            <div style="display: flex; align-items: center;">
+                <label for="icon" class="icon-label"><img id="image-preview" src="{{{icon_flow}}}" alt="Preview"
+                        style="width: 128px; height: 128px;"><span class="choose-btn"
+                        style="display: flex; align-items: center;"></span></label>
+                <input type="file" name="icon" id="icon" accept=".jpg,.png,.ico,.icons" style="display: none;">
+
+            </div>
+            <div style="position:relative">
+                <div class="add-collection-icon-limit-warning dialog-warning">Icon file limit is 60kb. </div>
+                <div class="add-collection-icon-warning dialog-warning">Icon file must be .png , .jpeg or .ico.</div>
+                <div class="add-collection-icon-size-warning dialog-warning">Please choose image 128x128.</div>
+                <br>
+            </div>
+
+            <h4 class="add-flow-label"><label for="add-flow-desc">Description</label></h4>
+            <p>Describe what the Extension does and how it is used.</p>
+            <p>This uses <a href="http://github.github.com/github-flavored-markdown/">GitHub Flavoured Markdown</a>
+                for formatting. Use the <i>preview</i> tab to see how it looks.
+            </p>
+
+            <div class="add-collection-description-warning dialog-warning">The description must be at least 30
+                characters long</div>
+            <div style="padding-top: 10px;border: 1px solid #fff; position: relative;">
+                <textarea id="add-flow-desc">{{{ readme }}}</textarea>
+                <div id="add-flow-desc-md"></div>
+                <div class="add-flow-desc-buttons"><a href="#" class="active" id="add-flow-desc-edit">edit</a><a
+                        href="#" class="inactive" id="add-flow-desc-preview">preview</a></div>
+            </div>
+
+            <h4 class="add-guideline-label img-label-txt"><label>Guideline Image</label></h4>
             <p>Upload your guideline image picture how to setup and use your app.</p>
             <div class="img-guildeline">
                 <div class="preview_title">
@@ -30,7 +68,7 @@
                 </div>
                 <div class="preview-img-edit">
                     <div class="preview-img-edit-left">
-                        <span class="move-img"> <i class='bx bx-left-arrow-alt'></i>
+                        <span class="move-img"><i class='bx bx-left-arrow-alt'></i>
                             <span class="move_txt">Move</span></span>
                         <span><i class='bx bx-info-circle'></i></span>
                     </div>
@@ -118,24 +156,79 @@
                     <div class="add-version-text dialog-warning"></div>
                 </div>
             </div>
-            <hr>
+
+            <h4 class="add-flow-label"><label for="add-flow-tags">Tags</label></h4>
+            <p>Add some tags to your extension that will help others find it. Comma- or space-separate the tags.</p>
+            <ul class="flow-tags" id="add-flow-tags">{{#tags}}<li tag="{{.}}">{{.}}<a href="#"><i
+                            class="icon icon-remove"></i></a></li>{{/tags}}</ul>
+
+            <h4>&nbsp;</h4>
             <a id="add-flow-create" href="#" class="btn-create"><span id="add-flow-label"
-                    style="display: flex; align-items: center;">Update App<i class='bx bx-right-arrow-alt'
+                    style="display: flex; align-items: center;">Update Extension<i class='bx bx-right-arrow-alt'
                         style="font-size:25px; color: goldenrod;"></i></span><img id="add-flow-loader" class="loader"
                     src="/images/loader.gif" /></a>
+            <p class="create-toc">This will create a private gist, owned by you, on GitHub and add it to the Node-RED
+                flow library on your behalf.</p>
+
         </div>
     </div>
 </div>
 <script src="/js/marked.js"></script>
 <script src="/js/tags.js"></script>
 <script>
+    let labelInputHover = document.querySelector('.icon-label');
+    labelInputHover.addEventListener('mouseover', () => {
+        document.querySelector('.bx.bx-upload').classList.add('bx-fade-up')
+    })
+    labelInputHover.addEventListener('mouseout', () => {
+        document.querySelector('.bx.bx-upload').classList.remove('bx-fade-up')
+    })
+    let createBtnHover = document.querySelector('.btn-create');
+    createBtnHover.addEventListener('mouseover', () => {
+        document.querySelector('.bx.bx-right-arrow-alt').classList.add('bx-fade-right')
+    })
+    createBtnHover.addEventListener('mouseout', () => {
+        document.querySelector('.bx.bx-right-arrow-alt').classList.remove('bx-fade-right')
+    })
+
     $(function () {
+        var iconValid = true;
+        var titleValid = true;
+        var descValid = true;
         var zipValid = true;
         var guidelineValid = true;
         var versionValid = true;
 
+
+        var iconBase = document.getElementById('image-preview').src;
         var guideline = "";
         var zip = "";
+
+        $("#add-flow-title").keyup(function (e) {
+            var val = $(this).val().trim();
+            if (val.length < 10) {
+                titleValid = false;
+                $(".add-collection-title-warning").show();
+                $(this).addClass("input-error");
+            } else {
+                titleValid = true;
+                $(".add-collection-title-warning").hide();
+                $(this).removeClass("input-error");
+            }
+        });
+        $("#add-flow-desc").keyup(function (e) {
+            var val = $(this).val().trim();
+            if (val.length < 30) {
+                descValid = false;
+                $(".add-collection-description-warning").show();
+                $(this).addClass("input-error");
+            } else {
+                descValid = true;
+                $(".add-collection-description-warning").hide();
+                $(this).removeClass("input-error");
+            }
+        });
+
         $('.input-version-tab').keyup(() => {
             const regexVersionNumber = /^\d+\.\d+\.\d+$/;
             if (!regexVersionNumber.test($('.input-version-tab').val())) {
@@ -182,9 +275,110 @@
             return false;
         }
 
+        const inputElement = document.getElementById("icon");
+        const imagePreview = document.getElementById('image-preview');
+        const labelBtn = document.querySelector('.icon-label .choose-btn');
+
+        inputElement.addEventListener("change", handleIcon, false);
+        function handleIcon() {
+            iconBase = '';
+            const fileList = this.files;
+            if (fileList.length === 0) {
+                imagePreview.src = ''
+                labelBtn.innerHTML = `<i class='bx bx-upload'
+                            style="font-size:25px; color: goldenrod;"></i>Choose
+                        Image`;
+                imagePreview.style.display = 'none';
+                $(".add-collection-icon-warning").show();
+                $(".add-collection-icon-limit-warning").hide();
+                $(".add-collection-icon-size-warning").hide();
+                iconValid = false;
+                return false;
+            } else {
+                const file = fileList[0];
+                const fileSizeKB = file.size / 1024;
+                if (!checkIcon(file)) {
+                    imagePreview.src = ''
+                    labelBtn.innerHTML = `<i class='bx bx-upload'
+                            style="font-size:25px; color: goldenrod;"></i>Choose
+                        Image`;
+                    imagePreview.style.display = 'none';
+                    $(".add-collection-icon-warning").show();
+                    $(".add-collection-icon-limit-warning").hide();
+                    $(".add-collection-icon-size-warning").hide();
+                    iconValid = false;
+                    return false;
+                } else if (fileSizeKB > 60) {
+                    imagePreview.src = ''
+                    labelBtn.innerHTML = `<i class='bx bx-upload'
+                            style="font-size:25px; color: goldenrod;"></i>Choose
+                        Image`;
+                    imagePreview.style.display = 'none';
+                    $(".add-collection-icon-warning").hide();
+                    $(".add-collection-icon-limit-warning").show();
+                    $(".add-collection-icon-size-warning").hide();
+                    iconValid = false;
+                    return false;
+                } else {
+                    const reader = new FileReader();
+                    reader.readAsDataURL(file);
+
+                    reader.onload = function () {
+                        const image = new Image();
+                        image.src = reader.result
+                        image.onload = function () {
+                            const width = image.naturalWidth;
+                            const height = image.naturalHeight;
+
+                            if (width === 128 && height === 128) {
+                                iconBase = reader.result;
+                                labelBtn.innerHTML = '';
+                                imagePreview.src = iconBase;
+                                imagePreview.style.display = 'block';
+                                $(".add-collection-icon-warning").hide();
+                                $(".add-collection-icon-limit-warning").hide();
+                                $(".add-collection-icon-size-warning").hide();
+                            } else {
+                                imagePreview.src = ''
+                                labelBtn.innerHTML = `<i class='bx bx-upload'
+                            style="font-size:25px; color: goldenrod;"></i>Choose
+                        Image`;
+                                imagePreview.style.display = 'none';
+                                $(".add-collection-icon-warning").hide();
+                                $(".add-collection-icon-limit-warning").hide();
+                                $(".add-collection-icon-size-warning").show();
+                                iconValid = false;
+                                return false;
+                            }
+                        };
+
+                    };
+
+                    reader.onerror = function (error) {
+                        console.error("Error: ", error);
+                    };
+                }
+                iconValid = true;
+                $(".add-collection-icon-warning").hide();
+                $(".add-collection-icon-limit-warning").hide();
+                $(".add-collection-icon-size-warning").hide();
+                return true;
+            }
+        };
+        function checkIcon(file) {
+            const validImageTypes = ['image/jpeg', 'image/png', 'image/x-icon', 'image/icons'];
+            if (!validImageTypes.includes(file.type)) {
+                return false;
+            }
+
+            $(".add-collection-icon-warning").hide();
+            return true;
+        }
+
         document.querySelector('.preview-img-edit-right').style.display = 'none';
         document.querySelector('.preview-img-edit-left').style.display = 'none';
         document.querySelector('.img-guildeline .preview-img-edit').style.bottom = '35px';
+
 
         const output = document.querySelector(".preview-img-edit-mid");
         const input = document.querySelector("#img_guilde");
@@ -346,11 +540,45 @@
             }
         }
 
+        $('#add-flow-desc-preview').click(function (e) {
+            var desc = $("#add-flow-desc").val();
+            $("#add-flow-desc-md").html(marked(desc))
+            $("#add-flow-desc").hide();
+            $("#add-flow-desc-md").show();
+            $('#add-flow-desc-preview').removeClass('inactive');
+            $('#add-flow-desc-preview').addClass('active');
+            $('#add-flow-desc-edit').removeClass('active');
+            $('#add-flow-desc-edit').addClass('inactive');
+            e.preventDefault();
+        });
+        $('#add-flow-desc-edit').click(function (e) {
+            $("#add-flow-desc").show();
+            $("#add-flow-desc-md").hide();
+            $('#add-flow-desc-preview').removeClass('active');
+            $('#add-flow-desc-preview').addClass('inactive');
+            $('#add-flow-desc-edit').removeClass('inactive');
+            $('#add-flow-desc-edit').addClass('active');
+            $("#add-flow-desc").focus();
+            e.preventDefault();
+        });
+
         var createSubmitted = false;
 
         $('#add-flow-create').click(function (e) {
             e.preventDefault();
             if (createSubmitted) {
+                return;
+            }
+            if (!titleValid) {
+                $("#add-flow-title").trigger("focus");
+                return;
+            }
+            if (!descValid) {
+                $("#add-flow-desc").trigger("focus");
+                return;
+            }
+            if (!iconValid) {
+                $(window).scrollTop($(".add-flow-label").offset().top);
                 return;
             }
             if (!guidelineValid) {
@@ -369,44 +597,55 @@
             $("#add-flow-label").hide();
             $("#add-flow-create").addClass("submitted");
             $("#add-flow-loader").show();
+            var extension = {
+                id: $('#add-flow-id').val(),
+                title: $.trim($("#add-flow-title").val()),
+                description: $("#add-flow-desc").val(),
+                tags: tags.get(),
+                icondata: iconBase,
+            };
 
-            var xhr = new XMLHttpRequest();
-            var formData = new FormData()
-            formData.append('id', $('#myId').val());
-            formData.append('version', $('.input-version-tab').val());
-            formData.append('zip', zip);
-            for (var x = 0; x < guideline.length; x++) {
-                formData.append('guideline', guideline[x]);
-            }
-            xhr.open('POST', '/source-update', true);
-            xhr.onerror = function () {
-                console.error('XHR request failed.');
-                window.location.reload();
+            $.post("/update-extension", extension, function (data) {
+                console.log(data);
+                var xhr = new XMLHttpRequest();
+                var formData = new FormData()
+                formData.append('id', $('#add-flow-id').val());
+                formData.append('version', $('.input-version-tab').val());
+                formData.append('zip', zip);
+                for (var x = 0; x < guideline.length; x++) {
+                    formData.append('guideline', guideline[x]);
+                }
+                xhr.open('POST', '/extension/source-update', true);
+                xhr.onerror = function () {
+                    console.error('XHR request failed.');
+                };
+
+                xhr.onload = function () {
+                    if (xhr.status === 200) {
+                        // Request was successful, process the response
+                        var response = xhr.responseText;
+                        window.location = response
+                    } else {
+                        // Request failed, handle the error
+                        console.error('XHR request failed. Status code: ' + xhr.status);
+                    }
+                };
+
+                xhr.send(formData);
+            }).fail(function (err) {
+                if (err.status == 403) {
+                    window.location.reload();
+                }
                 createSubmitted = false;
+                console.error("ERROR", err);
                 $("#add-flow-create").removeClass("submitted");
                 $("#add-flow-loader").hide();
                 $("#add-flow-label").show();
-            };
-
-            xhr.onload = function () {
-                if (xhr.status === 200) {
-                    // Request was successful, process the response
-                    var response = xhr.responseText;
-                    window.location = response
-                } else {
-                    // Request failed, handle the error
-                    console.error('XHR request failed. Status code: ' + xhr.status);
-                    window.location.reload();
-                    createSubmitted = false;
-                    $("#add-flow-create").removeClass("submitted");
-                    $("#add-flow-loader").hide();
-                    $("#add-flow-label").show();
-                }
-            };
-
-            xhr.send(formData);
+            });
         });
-    })
+
+        var tags = tagger();
+    });
 </script>
 <script>
     var delete_btn = document.querySelector('.del-img')
@@ -443,12 +682,5 @@
                             <span class="move_txt" data-index-image="${n - 1}">Move</span>`
     }
 </script>
-<script>
-    const scrollContainer = document.querySelector(".preview-img-edit-mid");
 
-    scrollContainer.addEventListener("wheel", (evt) => {
-        evt.preventDefault();
-        scrollContainer.scrollLeft += evt.deltaY;
-    });
-</script>
 {{>_footer}}

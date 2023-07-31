@@ -99,7 +99,6 @@ $(function() {
             return;
         }
         if (!titleValid || !descValid) {
-            console.log(titleValid,descValid)
             $("#add-flow-title").trigger("keyup");
             $("#add-flow-desc").trigger("keyup");
             window.scrollTo(0,0);
@@ -140,7 +139,7 @@ $(function() {
                 window.location.reload();
             }
             createSubmitted = false;
-            console.log("ERROR",err);
+            console.error("ERROR",err);
             $("#add-flow-create").removeClass("submitted");
             $("#add-flow-loader").hide();
             $("#add-flow-label").show();

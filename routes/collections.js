@@ -70,7 +70,7 @@ if (setting.template.collection) {
             collections.create(collection).then(function (id) {
                 res.send("/collection/" + id);
             }).catch(function (err) {
-                console.log("Error creating collection:", err);
+                console.error("Error creating collection:", err);
                 res.send(err);
             });
         } else {
@@ -134,7 +134,7 @@ if (setting.template.collection) {
                 });
             });
         }).catch(function (err) {
-            console.log(err);
+            console.error(err);
             res.sendStatus(404);
         })
     });
@@ -149,7 +149,7 @@ if (setting.template.collection) {
             res.send(mustache.render(templates.addCollection, context, templates.partials));
             res.end();
         }).catch(function (err) {
-            console.log("err", err)
+            console.error("err", err)
             res.sendStatus(400);
         })
     })
@@ -180,7 +180,7 @@ if (setting.template.collection) {
             collections.update(collection).then(function (id) {
                 res.send("/collection/" + id);
             }).catch(function (err) {
-                console.log("Error updating collection:", err);
+                console.error("Error updating collection:", err);
                 res.status(400).json(err);
             });
         } else {
@@ -195,7 +195,7 @@ if (setting.template.collection) {
             });
             res.end();
         }).catch(function (err) {
-            console.log("err", err)
+            console.error("err", err)
             res.sendStatus(400);
         })
     })
@@ -208,7 +208,7 @@ if (setting.template.collection) {
         collections.addItem(req.params.id, thingId).then(function () {
             res.sendStatus(200).end();
         }).catch(function (err) {
-            console.log("err", err)
+            console.error("err", err)
             res.sendStatus(400);
         })
     });
@@ -221,7 +221,7 @@ if (setting.template.collection) {
         collections.removeItem(req.params.id, thingId).then(function () {
             res.sendStatus(200).end();
         }).catch(function (err) {
-            console.log("err", err)
+            console.error("err", err)
             res.sendStatus(400);
         })
     });

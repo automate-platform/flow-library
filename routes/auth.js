@@ -49,7 +49,7 @@ function loginCallback(req, res) {
         redirect_uri: settings.git.authCallback,
     }, function (err, access_token, refresh_token) {
         if (err) {
-            console.log(err);
+            console.error(err);
             res.writeHead(500);
             res.end(err + "");
             return;
