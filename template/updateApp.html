@@ -54,6 +54,11 @@
                 <div class="add-collection-flow-warning dialog-warning">The flow must contain at least one node</div>
             </div>
 
+            <h4 class="add-flow-label"><label for="add-flow-node-module">Node-module</label></h4>
+            <p>Node-module contain in your app. When install app it will install your node-module</p>
+            <ul class="flow-node-module" id="add-flow-node-module">{{#node_module}}<li module="{{.}}">{{.}}<a
+                        href="#"><i class="icon icon-remove"></i></a></li>{{/node_module}}</ul>
+
             <h4 class="add-flow-label"><label for="add-flow-tags">Tags</label></h4>
             <p>Add some tags to your flow that will help others find it. Comma- or space-separate the tags.</p>
             <ul class="flow-tags" id="add-flow-tags">{{#tags}}<li tag="{{.}}">{{.}}<a href="#"><i
@@ -72,6 +77,8 @@
 </div>
 <script src="/js/marked.js"></script>
 <script src="/js/tags.js"></script>
+<script src="/js/node-module.js"></script>
+
 <script>
     let createBtnHover = document.querySelector('.btn-create');
     createBtnHover.addEventListener('mouseover', () => {
@@ -297,6 +304,7 @@
                 description: $("#add-flow-desc").val(),
                 flow: $("#add-flow-flow").val(),
                 tags: tags.get(),
+                modules: modules.get(),
                 icondata: iconBase
             };
             console.log(app);
@@ -316,6 +324,7 @@
         });
 
         var tags = tagger();
+        var modules = moduleer()
     });
 </script>
 

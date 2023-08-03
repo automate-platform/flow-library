@@ -45,7 +45,7 @@ if (setting.template.apps) {
                 visibility: 'private',
                 description: req.body.description,
             };
-            apper.create(req.session.accessToken, app_post, req.body.tags || []).then(function (id) {
+            apper.create(req.session.accessToken, app_post, req.body.tags || [], req.body.modules || []).then(function (id) {
                 let url = '/add/app/source?id=' + id + '&name=' + encodeURIComponent(req.body.title);
                 res.send(url);
             }).catch(function (err) {
@@ -78,7 +78,7 @@ if (setting.template.apps) {
                 let files = req.files;
                 files.forEach(file => {
                     if (file.mimetype === 'application/zip' ||
-                        file.mimetype === 'application/x-zip-compressed' ||  path.extname(file.originalname) === '.zip') {
+                        file.mimetype === 'application/x-zip-compressed' || path.extname(file.originalname) === '.zip') {
                         zipFileName = file.originalname;
                     }
                     if (file.mimetype.startsWith('image/')) {
@@ -299,7 +299,7 @@ if (setting.template.apps) {
                 }
             }
         };
-        apper.update(req.body.id, app_post, req.body.tags || [])
+        apper.update(req.body.id, app_post, req.body.tags || [], req.body.modules || [])
             .then(function (data) {
                 let url = `/update/app/source/${req.body.id}`;
 
@@ -470,6 +470,5 @@ if (setting.template.apps) {
         context.display = setting.template;
         res.send(mustache.render(templates.addSourceApp, context, templates.partials));
     });
-
     module.exports = app;
 }

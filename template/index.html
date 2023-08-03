@@ -40,37 +40,51 @@
                                     var label = $('<span/>').appendTo(link);
                                     var desc = $('<br><span style="font-weight: 100; font-size: 13px;"/>').appendTo(link);
                                     var type = $('<span class="filter-result-type" style="margin-top: 5px;"/>').appendTo(link);
+                                    {{#nodes}}{{#showIndex}}
                                     if (d.isNode) {
                                         link.attr("href", "/node/" + d.name)
                                         label.text(d.name);
                                         desc.text(d.description)
                                         type.addClass("filter-result-node");
                                         type.text("node");
-                                    } else if (d.isFlow) {
+                                    }
+                                    {{/showIndex}}{{/nodes}} 
+                                    {{#flows}}{{#showIndex}}
+                                    if (d.isFlow) {
                                         link.attr("href", "/flow/" + d._id)
                                         label.text(d.description);
                                         desc.text(d.summary)
                                         type.addClass("filter-result-flow");
                                         type.text("flow")
-                                    } else if (d.isApp) {
+                                    }
+                                    {{/showIndex}}{{/flows}}
+                                    {{#apps}}{{#showIndex}}
+                                    if (d.isApp) {
                                         link.attr("href", "/app/" + d._id)
                                         label.text(d.description);
                                         desc.text(d.summary)
                                         type.addClass("filter-result-app");
                                         type.text("app")
-                                    } else if (d.isExtention) {
-                                        link.attr("href", "/extention/" + d._id)
+                                    }
+                                    {{/showIndex}}{{/apps}}
+                                    {{#extensions}}{{#showIndex}}
+                                    if (d.isExtension) {
+                                        link.attr("href", "/extension/" + d._id)
                                         label.text(d.description);
                                         desc.text(d.summary)
-                                        type.addClass("filter-result-extention");
-                                        type.text("extention")
-                                    } else if (d.isCollection) {
+                                        type.addClass("filter-result-extension");
+                                        type.text("extension")
+                                    }
+                                    {{/showIndex}}{{/extensions}}
+                                    {{#collections}}{{#showIndex}}
+                                    if (d.isCollection) {
                                         link.attr("href", "/collection/" + d._id)
                                         label.text(d.name);
                                         desc.text(d.summary)
                                         type.addClass("filter-result-collection");
                                         type.text("collection")
                                     }
+                                    {{/showIndex}}{{/collections}}
                                     $('<li>').appendTo(list).append(link);
                                 })
                                 $('<li>', { style: "text-align: right" }).appendTo(list).append($('<a>').attr("href", "/search?term=" + encodeURIComponent(term)).html("See more (" + results.meta.results.count + ')<i class="icon-caret-right"></i>'));

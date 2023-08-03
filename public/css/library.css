@@ -8,8 +8,8 @@
     --app-type-primary-color: #839473;
     --app-type-secondary-color: #56683e;
 
-    --extention-type-primary-color: #917979;
-    --extention-type-secondary-color: #683e3e;
+    --extension-type-primary-color: #917979;
+    --extension-type-secondary-color: #683e3e;
 
     --collection-type-primary-color: #d9cb8c;
     --collection-type-secondary-color: #bdac5d;
@@ -943,6 +943,74 @@ li.tag-input input:focus {
 ul#add-flow-tags li i.icon {
     color: #aaa;
 }
+
+
+
+ul.flow-node-module {
+    list-style-type: none;
+    margin: 0px;
+    padding: 2px 4px;
+}
+
+ul#add-flow-node-module {
+    border: 1px solid #999;
+    border-radius: 3px;
+    min-height: 45px;
+}
+
+ul#add-flow-node-module.active {
+    box-shadow: 0 0 8px #fbb;
+}
+
+ul.flow-node-module li {
+    transition-property: background;
+    transition-duration: 500ms;
+    transition-timing-function: ease;
+    display: inline-block;
+    padding: 3px 5px 3px 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: white;
+    margin: 3px 3px 3px 1px;
+    cursor: default;
+    font-size: 14px;
+}
+
+ul.flow-node-module li:hover {
+    background: #f0f0f0;
+
+}
+
+ul#add-flow-node-module li.module-input:not(:first-child) {
+    padding: 0;
+}
+
+ul#add-flow-node-module li.module-input {
+    border: none;
+    background: none;
+    height: 28px;
+    vertical-align: middle;
+
+}
+
+li.module-input input[type=text] {
+    border: none !important;
+    box-shadow: none !important;
+    font-size: 14px;
+    color: #666;
+    vertical-align: middle;
+    height: auto;
+    padding: 0;
+}
+
+li.module-input input:focus {
+    outline: none;
+}
+
+ul#add-flow-node-module li i.icon {
+    color: #aaa;
+}
+
 
 .addButton {
     border: 2px solid #ddd;
@@ -2306,8 +2374,8 @@ input[type="text"] {
     background: var(--app-type-primary-color);
 }
 
-.filter-result-extention {
-    background: var(--extention-type-primary-color);
+.filter-result-extension {
+    background: var(--extension-type-primary-color);
 }
 
 .filter-result-collection {
@@ -2390,9 +2458,9 @@ input[name="type"][value="app"]:checked+label {
 }
 
 input[name="type"][value="extension"]:checked+label {
-    background: var(--extention-type-primary-color);
+    background: var(--extension-type-primary-color);
     color: white;
-    border-color: var(--extention-type-secondary-color);
+    border-color: var(--extension-type-secondary-color);
 }
 
 input[name="type"][value="collection"]:checked+label {

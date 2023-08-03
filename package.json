@@ -3,7 +3,7 @@
     "version": "0.2.0",
     "scripts": {
         "test": "mocha test/**/*_spec.js --exit",
-        "start": "node app.js",
+        "start": "cls && node app.js",
         "nodemon": "nodemon --ext js,html --inspect=0.0.0.0:5858 --ignore data/ ./app.js",
         "dev": "npm run nodemon",
         "docker": "docker-compose -f docker-compose.yml up --build"
