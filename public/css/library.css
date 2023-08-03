@@ -944,6 +944,74 @@ ul#add-flow-tags li i.icon {
     color: #aaa;
 }
 
+
+
+ul.flow-node-module {
+    list-style-type: none;
+    margin: 0px;
+    padding: 2px 4px;
+}
+
+ul#add-flow-node-module {
+    border: 1px solid #999;
+    border-radius: 3px;
+    min-height: 45px;
+}
+
+ul#add-flow-node-module.active {
+    box-shadow: 0 0 8px #fbb;
+}
+
+ul.flow-node-module li {
+    transition-property: background;
+    transition-duration: 500ms;
+    transition-timing-function: ease;
+    display: inline-block;
+    padding: 3px 5px 3px 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: white;
+    margin: 3px 3px 3px 1px;
+    cursor: default;
+    font-size: 14px;
+}
+
+ul.flow-node-module li:hover {
+    background: #f0f0f0;
+
+}
+
+ul#add-flow-node-module li.module-input:not(:first-child) {
+    padding: 0;
+}
+
+ul#add-flow-node-module li.module-input {
+    border: none;
+    background: none;
+    height: 28px;
+    vertical-align: middle;
+
+}
+
+li.module-input input[type=text] {
+    border: none !important;
+    box-shadow: none !important;
+    font-size: 14px;
+    color: #666;
+    vertical-align: middle;
+    height: auto;
+    padding: 0;
+}
+
+li.module-input input:focus {
+    outline: none;
+}
+
+ul#add-flow-node-module li i.icon {
+    color: #aaa;
+}
+
+
 .addButton {
     border: 2px solid #ddd;
     padding: 7px 9px;
