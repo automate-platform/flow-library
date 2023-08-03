@@ -34,7 +34,7 @@ if (setting.template.extensions) {
             extensioner.create(req.session.accessToken, extension_post, req.body.tags || []).then(function (id) {
                 res.send(id);
             }).catch(function (err) {
-                console.error("Error creating extention:", err);
+                console.error("Error creating extension:", err);
                 res.send(err);
             });
         } else {

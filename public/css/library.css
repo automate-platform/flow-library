@@ -8,8 +8,8 @@
     --app-type-primary-color: #839473;
     --app-type-secondary-color: #56683e;
 
-    --extention-type-primary-color: #917979;
-    --extention-type-secondary-color: #683e3e;
+    --extension-type-primary-color: #917979;
+    --extension-type-secondary-color: #683e3e;
 
     --collection-type-primary-color: #d9cb8c;
     --collection-type-secondary-color: #bdac5d;
@@ -2306,8 +2306,8 @@ input[type="text"] {
     background: var(--app-type-primary-color);
 }
 
-.filter-result-extention {
-    background: var(--extention-type-primary-color);
+.filter-result-extension {
+    background: var(--extension-type-primary-color);
 }
 
 .filter-result-collection {
@@ -2390,9 +2390,9 @@ input[name="type"][value="app"]:checked+label {
 }
 
 input[name="type"][value="extension"]:checked+label {
-    background: var(--extention-type-primary-color);
+    background: var(--extension-type-primary-color);
     color: white;
-    border-color: var(--extention-type-secondary-color);
+    border-color: var(--extension-type-secondary-color);
 }
 
 input[name="type"][value="collection"]:checked+label {
