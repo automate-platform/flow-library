@@ -4,8 +4,8 @@ var settings = {
     port: 8080,
    
     git:{
-        host: "pap-gitlab-test.fsoft.com.vn",
-        domain:"https://pap-gitlab-test.fsoft.com.vn/",
+        host: "pap-gitlab-test.pap.com.vn",
+        domain:"https://pap-gitlab-test.pap.com.vn/",
         clientId: "680d6974c7ad54b3f53071ef6d737edc59ff83969227c99ea39e3605807fa149",
         secret: "bbce0b269067c48445e2de4ed0999976572878ba250d28d743d99ed74ee5e23a",
         authCallback: "http://localhost:8080/login/callback",
