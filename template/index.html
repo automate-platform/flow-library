@@ -40,31 +40,51 @@
                                     var label = $('<span/>').appendTo(link);
                                     var desc = $('<br><span style="font-weight: 100; font-size: 13px;"/>').appendTo(link);
                                     var type = $('<span class="filter-result-type" style="margin-top: 5px;"/>').appendTo(link);
+                                    {{#nodes}}{{#showIndex}}
                                     if (d.isNode) {
                                         link.attr("href", "/node/" + d.name)
                                         label.text(d.name);
                                         desc.text(d.description)
                                         type.addClass("filter-result-node");
                                         type.text("node");
-                                    } else if (d.isFlow) {
+                                    }
+                                    {{/showIndex}}{{/nodes}} 
+                                    {{#flows}}{{#showIndex}}
+                                    if (d.isFlow) {
                                         link.attr("href", "/flow/" + d._id)
                                         label.text(d.description);
                                         desc.text(d.summary)
                                         type.addClass("filter-result-flow");
                                         type.text("flow")
-                                    } else if (d.isApp) {
+                                    }
+                                    {{/showIndex}}{{/flows}}
+                                    {{#apps}}{{#showIndex}}
+                                    if (d.isApp) {
                                         link.attr("href", "/app/" + d._id)
                                         label.text(d.description);
                                         desc.text(d.summary)
-                                        type.addClass("filter-result-collection");
+                                        type.addClass("filter-result-app");
                                         type.text("app")
-                                    }else if (d.isCollection) {
+                                    }
+                                    {{/showIndex}}{{/apps}}
+                                    {{#extensions}}{{#showIndex}}
+                                    if (d.isExtension) {
+                                        link.attr("href", "/extension/" + d._id)
+                                        label.text(d.description);
+                                        desc.text(d.summary)
+                                        type.addClass("filter-result-extension");
+                                        type.text("extension")
+                                    }
+                                    {{/showIndex}}{{/extensions}}
+                                    {{#collections}}{{#showIndex}}
+                                    if (d.isCollection) {
                                         link.attr("href", "/collection/" + d._id)
                                         label.text(d.name);
                                         desc.text(d.summary)
                                         type.addClass("filter-result-collection");
                                         type.text("collection")
                                     }
+                                    {{/showIndex}}{{/collections}}
                                     $('<li>').appendTo(list).append(link);
                                 })
                                 $('<li>', { style: "text-align: right" }).appendTo(list).append($('<a>').attr("href", "/search?term=" + encodeURIComponent(term)).html("See more (" + results.meta.results.count + ')<i class="icon-caret-right"></i>'));
@@ -106,16 +126,6 @@
 </div>{{/showIndex}}
 {{/flows}}
 
-{{#collections}}{{#showIndex}}
-<div class="grid thing-list-section" id="collection">
-    <div class="col-1-1 thing-list-section-header">
-        <h2>Recent collections</h2> <a href="/search?type=collection">See more<i
-                class='bx bx-right-arrow-circle bx-fade-right-hover'></i></a>
-    </div>
-    {{>_gistlist}}
-</div>{{/showIndex}}
-{{/collections}}
-
 {{#apps}}{{#showIndex}}
 <div class="grid thing-list-section" id="collection">
     <div class="col-1-1 thing-list-section-header">
@@ -125,5 +135,25 @@
     {{>_gistlist}}
 </div>{{/showIndex}}
 {{/apps}}
+
+{{#extensions}}{{#showIndex}}
+<div class="grid thing-list-section" id="collection">
+    <div class="col-1-1 thing-list-section-header">
+        <h2>Recent extensions</h2> <a href="/search?type=extension">See more<i
+                class='bx bx-right-arrow-circle bx-fade-right-hover'></i></a>
+    </div>
+    {{>_gistlist}}
+</div>{{/showIndex}}
+{{/extensions}}
+
+{{#collections}}{{#showIndex}}
+<div class="grid thing-list-section" id="collection">
+    <div class="col-1-1 thing-list-section-header">
+        <h2>Recent collections</h2> <a href="/search?type=collection">See more<i
+                class='bx bx-right-arrow-circle bx-fade-right-hover'></i></a>
+    </div>
+    {{>_gistlist}}
+</div>{{/showIndex}}
+{{/collections}}
 
 {{>_footer}}

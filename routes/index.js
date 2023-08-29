@@ -16,7 +16,7 @@ function queryFromRequest(req) {
     query.page = Number(query.page) || 1;
     query.num_pages = Number(query.num_pages) || 1;
     query.page_size = Number(query.page_size) || viewster.DEFAULT_PER_PAGE;
-    query.type = query.type || "app";
+    query.type = query.type;
     return query;
 }
 function getNextPageQueryString(count, query) {
@@ -56,6 +56,23 @@ app.get("/", function (req, res) {
         ignoreQueryParams: true,
         showIndex: setting.template.flows
     }
+    context.apps = {
+        type: 'app',
+        per_page: context.sessionuser ? 6 : 6,
+        hideOptions: true,
+        hideNav: true,
+        ignoreQueryParams: true,
+        showIndex: setting.template.apps
+    }
+
+    context.extensions = {
+        type: 'extension',
+        per_page: context.sessionuser ? 6 : 6,
+        hideOptions: true,
+        hideNav: true,
+        ignoreQueryParams: true,
+        showIndex: setting.template.extensions
+    }
 
     context.collections = {
         type: 'collection',
@@ -66,20 +83,12 @@ app.get("/", function (req, res) {
         showIndex: setting.template.collection
     }
 
-    context.apps = {
-        type: 'app',
-        per_page: context.sessionuser ? 6 : 6,
-        hideOptions: true,
-        hideNav: true,
-        ignoreQueryParams: true,
-        showIndex: setting.template.apps
-    }
-
     viewster.getTypeCounts().then(function (counts) {
         context.nodes.count = counts.node;
         context.flows.count = counts.flow;
-        context.collections.count = counts.collection;
         context.apps.count = counts.app;
+        context.extensions.count = counts.extension;
+        context.collections.count = counts.collection;
 
         res.send(mustache.render(templates.index, context, templates.partials));
     });
@@ -107,14 +116,16 @@ app.get("/things", function (req, res) {
     viewster.getForQuery(query).then(function (result) {
         result.things = result.things || [];
         result.things.forEach(function (thing) {
-            thing.isApp = thing.type === 'app';
             thing.isNode = thing.type === 'node';
             thing.isFlow = thing.type === 'flow';
+            thing.isApp = thing.type === 'app';
+            thing.isExtension = thing.type === 'extension';
             thing.isCollection = thing.type === 'collection';
             thing.nodeShow = setting.template.nodes;
             thing.flowsShow = setting.template.flows;
-            thing.collectionShow = setting.template.collection;
             thing.appsShow = setting.template.apps;
+            thing.extensionsShow = setting.template.extensions;
+            thing.collectionShow = setting.template.collection;
         })
         response.meta.results.count = result.count;
         response.meta.results.total = result.total;
@@ -194,4 +205,4 @@ app.get("/readme-img", function (req, res) {
     res.send(mustache.render(templates.uploadReadmeImg, context, templates.partials));
 });
 
-module.exports = app;
+module.exports = app; 

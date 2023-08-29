@@ -1,6 +1,8 @@
 var express = require("express");
 var mustache = require('mustache');
 var { marked } = require('marked');
+var multer = require("multer");
+const path = require('path');
 var fs = require("fs");
 
 var settings = require("../config");
@@ -11,44 +13,63 @@ var npmNodes = require("../lib/nodes");
 var templates = require("../lib/templates");
 var collections = require("../lib/collections");
 var ratings = require("../lib/ratings");
-var mark = require('../public/js/marked')
+var mark = require('../public/js/marked');
 var uuid = require('uuid');
-var { storage, multi_upload } = require("../lib/apps");
+var upload_file = require("../lib/apps").multi_upload.any();
 
 var app = express();
 if (setting.template.apps) {
 
     app.post("/app", function (req, res) {
         if (req.session.accessToken) {
+            var app_post = {};
+            if (settings.git.gitlab == true) {
 
-            const files = [
+                const files = [
 
-                {
-                    file_path: 'app.json',
-                    content: req.body.flow
-                },
-                {
-                    file_path: 'README.md',
-                    content: req.body.description
-                },
-                 {
-                    file_path: 'icon.ico',
-                    content: req.body.icondata
-                }
+                    {
+                        file_path: 'app.json',
+                        content: req.body.flow
+                    },
+                    {
+                        file_path: 'README.md',
+                        content: req.body.description
+                    },
+                    {
+                        file_path: 'icon.ico',
+                        content: req.body.icondata
+                    }
 
-            ];
-            var app_post = {
-                title: req.body.title,
-                files: files,
-                visibility: 'private',
-                description: req.body.description,
-            };
-            apper.create(req.session.accessToken, app_post, req.body.tags || []).then(function (id) {
+                ];
+                app_post = {
+                    title: req.body.title,
+                    files: files,
+                    visibility: 'private',
+                    description: req.body.description,
+                };
+            }
+            else if (settings.git.github == true) {
+                app_post = {
+                    description: req.body.title,
+                    public: false,
+                    files: {
+                        'app.json': {
+                            content: req.body.flow
+                        },
+                        'README.md': {
+                            content: req.body.description
+                        },
+                        'icon.ico': {
+                            content: req.body.icondata
+                        }
+                    }
+                };
+            }
+            apper.create(req.session.accessToken, app_post, req.body.tags || [], req.body.modules || []).then(function (id) {
                 let url = '/add/app/source?id=' + id + '&name=' + encodeURIComponent(req.body.title);
-
                 res.send(url);
             }).catch(function (err) {
-                console.log("Error creating app:", err);
+                console.error("Error creating app:", err);
                 res.send(err);
             });
         } else {
@@ -56,39 +77,55 @@ if (setting.template.apps) {
         }
     });
 
-    app.post('/source', multi_upload.any(), (req, res) => {
-        const id = req.body.id;
-        let zipFileName = "";
-        let files_img = [];
-        if (req.files) {
-            let files = req.files;
-            files.forEach(file => {
-                if (file.mimetype === 'application/zip' || file.mimetype === 'application/x-zip-compressed') {
-                    zipFileName = file.originalname;
+    app.post('/source', (req, res) => {
+        upload_file(req, res, function (err) {
+            if (err instanceof multer.MulterError) {
+                // A Multer error occurred when uploading.
+                res.status(500).send({ error: { message: `Multer uploading error: ${err.message}` } }).end();
+                return;
+            } else if (err) {
+                if (err.name == 'ExtensionError') {
+                    res.status(413).send({ error: { message: err.message } }).end();
+                } else {
+                    res.status(500).send({ error: { message: `unknown uploading error: ${err.message}` } }).end();
                 }
-                if (file.mimetype.startsWith('image/')) {
-                    files_img.push(file.originalname)
-                }
-            });
-        } else {
-
-            console.log("No file was uploaded with the request.");
-            res.status(400).send({ error: "No file was uploaded with the request." });
-            return;
-        }
-        var app_post = {
-            zip_url: zipFileName,
-            guideline_img: files_img
-        };
-        apper.putSource(id, app_post || [])
-        res.writeHead(303, {
-            Location: "/app/" + id
+                return;
+            }
+            const id = req.body.id;
+            let zipFileName = "";
+            let files_img = [];
+            if (req.files) {
+                let files = req.files;
+                files.forEach(file => {
+                    if (file.mimetype === 'application/zip' ||
+                        file.mimetype === 'application/x-zip-compressed' || path.extname(file.originalname) === '.zip') {
+                        zipFileName = file.originalname;
+                    }
+                    if (file.mimetype.startsWith('image/')) {
+                        files_img.push(file.originalname)
+                    }
+                });
+            } else {
+                console.error("No file was uploaded with the request.");
+                res.status(400).send({ error: "No file was uploaded with the request." });
+                return;
+            }
+            var app_post = {
+                zip_url: zipFileName,
+                guideline_img: files_img
+            };
+            app_post.version = "1.0.0";
+            apper.putSource(id, app_post || []).then(result => {
+                res.status(200).end("/app/" + id);
+            }).catch((err) => {
+                console.error('Error', err)
+            })
         });
-        res.end();
     });
 
     app.get("/app/:id", appUtils.csrfProtection(), function (req, res) { getFlow(req.params.id, null, req, res); });
     app.get("/app/:id/in/:collection", appUtils.csrfProtection(), function (req, res) { getFlow(req.params.id, req.params.collection, req, res); });
+
     function getFlow(id, collection, req, res) {
         apper.get(id).then(function (app) {
             app.sessionuser = req.session.user;
@@ -103,8 +140,8 @@ if (setting.template.apps) {
             var imgUrl = [];
             var imgCollection = app.guideline_img || [];
             imgCollection.forEach((img, index) => {
-                let url = `${setting.server.url}/${app._id}/${img}`;
-                imgUrl.push({idx : index,url: url})
+                let url = `${setting.app.server_url}/${app._id}/${img}`;
+                imgUrl.push({ idx: index, url: url })
             })
 
             app.imgGuidelineUrl = imgUrl;
@@ -222,12 +259,12 @@ if (setting.template.apps) {
             });
         }).catch(function (err) {
             // TODO: better error logging without the full stack trace
-            console.log("Error loading app:", id);
-            console.log(err);
+            console.error("Error loading app:", id);
+            console.error(err);
             try {
                 res.status(404).send(mustache.render(templates['404'], { sessionuser: req.session.user }, templates.partials));
             } catch (err2) {
-                console.log(err2);
+                console.error(err2);
             }
         });
     }
@@ -257,11 +294,11 @@ if (setting.template.apps) {
             res.send(mustache.render(templates.updateApp, app, templates.partials));
         }).catch(function (err) {
             // TODO: better error logging without the full stack trace
-            console.log(err);
+            console.error(err);
             try {
                 res.status(404).send(mustache.render(templates['404'], { sessionuser: req.session.user }, templates.partials));
             } catch (err2) {
-                console.log(err2);
+                console.error(err2);
             }
         });
     })
@@ -282,14 +319,13 @@ if (setting.template.apps) {
                 }
             }
         };
-        apper.update(req.body.id, app_post, req.body.tags || [])
+        apper.update(req.body.id, app_post, req.body.tags || [], req.body.modules || [])
             .then(function (data) {
-                console.log(data);
                 let url = `/update/app/source/${req.body.id}`;
 
                 res.send(url);
             }).catch(function (err) {
-                console.log("Error creating app:", err);
+                console.error("Error creating app:", err);
                 res.send(err);
             });
 
@@ -300,58 +336,72 @@ if (setting.template.apps) {
 
             app.sessionuser = req.session.user;
             app.display = setting.template;
+            app.lastVersion = app.versions.pop()['version'];
 
             var imgUrl = [];
             var imgCollection = app.guideline_img || [];
             imgCollection.forEach((img, index) => {
-                let url = `${setting.server.url}/${app._id}/${img}`;
-                imgUrl.push({idx : index,url: url})
+                let url = `${setting.app.server_url}/${app._id}/${img}`;
+                imgUrl.push({ idx: index, url: url })
             })
 
             app.imgGuidelineUrl = imgUrl;
-            console.log(app);
-
             res.send(mustache.render(templates.updateSourceApp, app, templates.partials));
         }).catch(function (err) {
             // TODO: better error logging without the full stack trace
-            console.log(err);
+            console.error(err);
             try {
                 res.status(404).send(mustache.render(templates['404'], { sessionuser: req.session.user }, templates.partials));
             } catch (err2) {
-                console.log(err2);
+                console.error(err2);
             }
         });
     });
 
-    app.post('/source-update', multi_upload.any(), (req, res) => {
-        const id = req.body.id;
-        let zipFileName = "";
-        let files_img = [];
-        if (req.files) {
-            let files = req.files;
-            files.forEach(file => {
-                if (file.mimetype === 'application/zip' || file.mimetype === 'application/x-zip-compressed') {
-                    zipFileName = file.originalname;
+    app.post('/source-update', (req, res) => {
+        upload_file(req, res, function (err) {
+            if (err instanceof multer.MulterError) {
+                // A Multer error occurred when uploading.
+                res.status(500).send({ error: { message: `Multer uploading error: ${err.message}` } }).end();
+                return;
+            } else if (err) {
+                if (err.name == 'ExtensionError') {
+                    res.status(413).send({ error: { message: err.message } }).end();
+                } else {
+                    res.status(500).send({ error: { message: `unknown uploading error: ${err.message}` } }).end();
                 }
-                if (file.mimetype.startsWith('image/')) {
-                    files_img.push(file.originalname)
-                }
-            });
-        } else {
+                return;
+            }
+            const id = req.body.id;
+            let zipFileName = "";
+            let files_img = [];
+            if (req.files) {
+                let files = req.files;
+                files.forEach(file => {
+                    if (file.mimetype === 'application/zip' || file.mimetype === 'application/x-zip-compressed') {
+                        zipFileName = file.originalname;
+                    }
+                    if (file.mimetype.startsWith('image/')) {
+                        files_img.push(file.originalname)
+                    }
+                });
+            } else {
 
-            console.log("No file was uploaded with the request.");
-            res.status(400).send({ error: "No file was uploaded with the request." });
-            return;
-        }
-        var app_post = {
-            zip_url: zipFileName,
-            guideline_img: files_img
-        };
-        apper.updateSource(id, app_post || [])
-        res.writeHead(303, {
-            Location: "/app/" + id
+                console.error("No file was uploaded with the request.");
+                res.status(400).send({ error: "No file was uploaded with the request." });
+                return;
+            }
+            var app_post = {
+                zip_url: zipFileName,
+                guideline_img: files_img,
+                version: req.body.version
+            };
+            apper.updateSource(id, app_post || []).then(result => {
+                res.status(200).end("/app/" + id);
+            }).catch((err) => {
+                console.error('Error', err)
+            })
         });
-        res.end();
     });
 
     app.post("/app/:id/tags", verifyOwner, function (req, res) {
@@ -359,7 +409,7 @@ if (setting.template.apps) {
         apper.updateTags(req.params.id, req.body.tags).then(function () {
             res.status(200).end();
         }).catch(function (err) {
-            console.log("Error updating tags:", err);
+            console.error("Error updating tags:", err);
             res.status(200).end();
         });
 
@@ -398,7 +448,7 @@ if (setting.template.apps) {
             res.cookie('rateID', rateID, { maxAge: 31556952000 })
             ratings.rateThing(id, rateID, Number(req.body.rating)).then(function () {
                 res.writeHead(303, {
-                    Location: "/flow/" + id
+                    Location: "/app/" + id
                 });
                 res.end();
             })
@@ -440,6 +490,5 @@ if (setting.template.apps) {
         context.display = setting.template;
         res.send(mustache.render(templates.addSourceApp, context, templates.partials));
     });
-
     module.exports = app;
 }

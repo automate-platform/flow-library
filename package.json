@@ -3,7 +3,7 @@
     "version": "0.2.0",
     "scripts": {
         "test": "mocha test/**/*_spec.js --exit",
-        "start": "node app.js",
+        "start": "cls && nodemon app.js",
         "nodemon": "nodemon --ext js,html --inspect=0.0.0.0:5858 --ignore data/ ./app.js",
         "dev": "npm run nodemon",
         "docker": "docker-compose -f docker-compose.yml up --build"
@@ -22,6 +22,7 @@
         "fs-extra": "10.1.0",
         "marked": "4.1.1",
         "mastodon": "1.2.2",
+        "mongodb": "^6.0.0",
         "mongojs": "3.1.0",
         "multer": "^1.4.5-lts.1",
         "mustache": "^4.2.0",
@@ -35,7 +36,7 @@
     },
     "devDependencies": {
         "mocha": "8.2.1",
-        "nodemon": "2.0.20",
+        "nodemon": "^3.0.1",
         "should": "13.2.3",
         "sinon": "9.2.1",
         "vanilla-cookieconsent": "^2.8.8"

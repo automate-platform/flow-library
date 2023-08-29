@@ -3,7 +3,7 @@
     <div class="add-form-row">
         <div class="col-1-12">&nbsp;</div>
         <div class="col-10-12 thing-list-section" style="background: white; padding: 10px 50px;">
-            <h2 class="pagetitle">Add a App</h2>
+            <h2 class="pagetitle">Update a App</h2>
             <input id="add-flow-id" type="hidden" value="{{_id}}">
             <h4 class="add-flow-label"><label for="add-flow-title">Title</label></h4>
             <p>Give your flow a short, descriptive title. </p>
@@ -54,8 +54,13 @@
                 <div class="add-collection-flow-warning dialog-warning">The flow must contain at least one node</div>
             </div>
 
+            <h4 class="add-flow-label"><label for="add-flow-node-module">Node-module</label></h4>
+            <p>Node-module contain in your app. When install app it will install your node-module</p>
+            <ul class="flow-node-module" id="add-flow-node-module">{{#node_module}}<li module="{{.}}">{{.}}<a
+                        href="#"><i class="icon icon-remove"></i></a></li>{{/node_module}}</ul>
+
             <h4 class="add-flow-label"><label for="add-flow-tags">Tags</label></h4>
-            <p>Add some tags to your flow that will help others find it. Comma- or space-separate the tags.</p>
+            <p>Update some tags to your flow that will help others find it. Comma- or space-separate the tags.</p>
             <ul class="flow-tags" id="add-flow-tags">{{#tags}}<li tag="{{.}}">{{.}}<a href="#"><i
                             class="icon icon-remove"></i></a></li>{{/tags}}</ul>
 
@@ -64,14 +69,16 @@
                     style="display: flex; align-items: center;">Update App<i class='bx bx-right-arrow-alt'
                         style="font-size:25px; color: goldenrod;"></i></span><img id="add-flow-loader" class="loader"
                     src="/images/loader.gif" /></a>
-            <p class="create-toc">This will create a private gist, owned by you, on GitHub and add it to the Node-RED
-                flow library on your behalf.</p>
+            <p class="create-toc">This will update a private gist, owned by you, on GitHub and add it to the Market
+                library on your behalf.</p>
 
         </div>
     </div>
 </div>
 <script src="/js/marked.js"></script>
 <script src="/js/tags.js"></script>
+<script src="/js/node-module.js"></script>
+
 <script>
     let createBtnHover = document.querySelector('.btn-create');
     createBtnHover.addEventListener('mouseover', () => {
@@ -161,7 +168,6 @@
             } else {
                 const file = fileList[0];
                 const fileSizeKB = file.size / 1024;
-                console.log(fileSizeKB)
                 if (!checkIcon(file)) {
                     imagePreview.src = ''
                     labelBtn.innerHTML = `<i class='bx bx-upload'
@@ -220,7 +226,7 @@
                     };
 
                     reader.onerror = function (error) {
-                        console.log("Error: ", error);
+                        console.error("Error: ", error);
                     };
                 }
                 iconValid = true;
@@ -272,16 +278,20 @@
             if (createSubmitted) {
                 return;
             }
-            console.log(titleValid);
-            console.log(descValid);
-            console.log(flowValid);
-            console.log(iconValid);
-            if (!titleValid || !descValid || !flowValid || !iconValid) {
-                $("#add-flow-title").trigger("keyup");
-                $("#add-flow-desc").trigger("keyup");
-                $("#add-flow-flow").trigger("keyup");
-                $("#icon").trigger("keyup");
-                window.scrollTo(0, 0);
+            if (!titleValid) {
+                $("#add-flow-title").trigger("focus");
+                return;
+            }
+            if (!descValid) {
+                $("#add-flow-desc").trigger("focus");
+                return;
+            }
+            if (!flowValid) {
+                $("#add-flow-flow").trigger("focus");
+                return;
+            }
+            if (!iconValid) {
+                $(window).scrollTop($(".add-flow-label").offset().top);
                 return;
             }
             createSubmitted = true;
@@ -294,12 +304,12 @@
                 description: $("#add-flow-desc").val(),
                 flow: $("#add-flow-flow").val(),
                 tags: tags.get(),
+                modules: modules.get(),
                 icondata: iconBase
             };
             console.log(app);
 
             $.post("/update-app", app, function (data) {
-                console.log(data);
                 window.location = data;
             }).fail(function (err) {
                 if (err.status == 403) {
@@ -314,6 +324,7 @@
         });
 
         var tags = tagger();
+        var modules = moduleer()
     });
 </script>
 

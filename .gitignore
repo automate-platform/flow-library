@@ -4,4 +4,7 @@ data
 node_modules
 settings*.js
 npm-debug.log
+default-settings.js
+node_modules
+package-lock.json
 logs/*access.log

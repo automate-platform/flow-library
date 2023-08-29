@@ -9,9 +9,9 @@ var settings = {
         domain:"https://github.com/",
         authorize_url:"login/oauth/authorize",
         token_url:"login/oauth/access_token",
-        clientId: "5cf8323b641b1fcbbaa2",
-        secret: "b5eda517f321b1cacbd0fc37d412fe04228188ca",
-        authCallback: "http://localhost:8080/login/callback",
+        clientId: "dcc940d820163cb391c6",
+        secret: "c73907138d1500b350c1f4770d4a1f0623dca38f",
+        authCallback: "https://flows.vtgo.vn/login/callback",
         accessToken: "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"
     },
     mongo: {
@@ -21,7 +21,7 @@ var settings = {
         key: 'nr.sid',
         secret: 'giraffe'
     },
-    admins: ["knolleary", "dceejay"],
+    admins: ["knolleary","dceejay"],
     twitter: {
         consumer_key: '',
         consumer_secret: '',
@@ -50,12 +50,12 @@ var settings = {
         collection: false,
         apps: true,
         extensions: true,
-        footer: false
+        footer:false
     },
     app: {
-        zipUrl: 'C:/Users/haiqd/Test_Market/app',
-        readme: 'C:/Users/haiqd/Test_Market/output',
-        server_url: 'C:/Users/haiqd/Test_Market/output'
+        zipUrl: '/flow-library/data',
+        readme: '/flow-library/data/readme' ,
+        server_url:'https://filepap.vtgo.vn'
     }
 };
 

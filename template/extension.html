@@ -75,8 +75,8 @@
                                                             <span class="divider"> | </span>
                                                             <span class="ux-item-rating-control">
                                                                 <span class="rating-control">
-                                                                    <form id="form-rate" action="/app/{{_id}}/rate"
-                                                                        method="POST">
+                                                                    <form id="form-rate"
+                                                                        action="/extension/{{_id}}/rate" method="POST">
                                                                         <input name="_csrf" type="hidden"
                                                                             value="{{csrfToken}}">
                                                                         <input name="rating" type="hidden">
@@ -154,7 +154,7 @@
                                                         </span>
                                                         <ul>
                                                             <li>
-                                                                <a href="/app/update/{{_id}}" title="Update app"><svg
+                                                                <a href="/extension/update/{{_id}}" title="Update extension"><svg
                                                                         width="20px" height="20px" viewBox="0 0 24 24"
                                                                         fill="none" xmlns="http://www.w3.org/2000/svg">
                                                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -178,7 +178,7 @@
                                                                     </svg></a>
                                                             </li>
                                                             <li>
-                                                                <a id="remove-flow" title="Remove app"><svg width="20px"
+                                                                <a id="remove-flow" title="Remove extension"><svg width="20px"
                                                                         height="20px" viewBox="0 0 24 24" fill="none"
                                                                         xmlns="http://www.w3.org/2000/svg">
                                                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -269,43 +269,6 @@
                                                                                 <div class="ux-section-meta-data-list">
                                                                                     <h3
                                                                                         class="itemdetails-section-header right">
-                                                                                        Node Types
-                                                                                    </h3>
-                                                                                    <div class="meta-data-list"
-                                                                                        role="group"
-                                                                                        style="margin-left: 20px;">
-                                                                                        {{#nodeTypes}}
-                                                                                        {{#core.length}}
-                                                                                        <h5 style="margin-top: 5px;">
-                                                                                            Core
-                                                                                        </h5>
-                                                                                        <ul class="nodeTypeList">
-                                                                                            {{#core}}
-                                                                                            <span>{{type}}
-                                                                                                (x{{count}})</span>
-                                                                                            {{/core}}
-                                                                                        </ul>
-                                                                                        {{/core.length}}
-                                                                                        {{#other.length}}
-                                                                                        <h5 style="margin-top: 5px;">
-                                                                                            Other
-                                                                                        </h5>
-                                                                                        <ul class="nodeTypeList">
-                                                                                            {{#other}}
-                                                                                            <span>{{#module}}<a
-                                                                                                    href="/node/{{module}}">{{/module}}{{type}}{{#module}}</a>{{/module}}
-                                                                                                <span class="small"
-                                                                                                    style="border: none; margin-left: -3px;">(x{{count}})</span>
-                                                                                            </span>
-                                                                                            {{/other}}
-                                                                                        </ul>
-                                                                                        {{/other.length}}
-                                                                                        {{/nodeTypes}}
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="ux-section-meta-data-list">
-                                                                                    <h3
-                                                                                        class="itemdetails-section-header right">
                                                                                         Tags
                                                                                     </h3>
                                                                                     <div class="meta-data-list"
@@ -348,12 +311,9 @@
                                                                                 <h3
                                                                                     class="itemdetails-section-header right">
                                                                                     Using</h3>
-                                                                                <div class="capabilities-list-item">Copy
-                                                                                    this flow JSON to your clipboard and
-                                                                                    then import into RED using the
-                                                                                    <i>Import From &gt;
-                                                                                        Clipboard</i> (Ctrl-I) menu
-                                                                                    option
+                                                                                <div class="capabilities-list-item">
+                                                                                    Install extension to Market-App like
+                                                                                    <i>Install chorme extension</i>
                                                                                 </div>
                                                                             </div>
 
@@ -476,7 +436,7 @@
     $(function () {
         $('#refresh-flow').click(function (event) {
             $("#refresh-flow-loader").show();
-            $.post("/app/{{ id }}/refresh", function (data, textStatus, jqXHR) {
+            $.post("/extension/{{ id }}/refresh", function (data, textStatus, jqXHR) {
                 if (jqXHR.status != 304) {
                     window.location.reload();
                 }
@@ -490,7 +450,7 @@
         $('#remove-flow').click(function (evt) {
             evt.preventDefault();
             var dialog = $('<div class="dialog-shade"><div class="dialog">' +
-                '<form action="/app/{{id}}/delete" method="POST">' +
+                '<form action="/extension/{{id}}/delete" method="POST">' +
                 '<input name="_csrf" type="hidden" value="{{csrfToken}}">' +
                 '<h4>Are you sure you want to remove this app?</h4>' +
                 '<p>It will be removed from the library, but your GitHub Gist will not be affected.' +

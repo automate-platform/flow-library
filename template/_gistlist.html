@@ -1,6 +1,5 @@
-
 <div class="thing-list col-1-1 ">
-    <div class="filter-options"{{#hideOptions}} style="display: none"{{/hideOptions}}>
+    <div class="filter-options" {{#hideOptions}} style="display: none" {{/hideOptions}}>
         <input type="hidden" name="ignoreQueryParams" value="{{ignoreQueryParams}}">
         <input type="hidden" name="seedType" value="{{type}}">
         <input type="hidden" name="seedSort" value="{{type}}">
@@ -13,23 +12,35 @@
             <input type="hidden" name="per_page" value="{{per_page}}">
             <ul class="filter-options-filter">
                 {{#display.nodes}}
-                <li><input name="type" value="node" type="checkbox" id="thing-list-{{id}}-type-node"/><label class="gistbox-filter-label" for="thing-list-{{id}}-type-node">nodes</label></li>
+                <li><input name="type" value="node" type="checkbox" id="thing-list-{{id}}-type-node" /><label
+                        class="gistbox-filter-label" for="thing-list-{{id}}-type-node">nodes</label></li>
                 {{/display.nodes}}
                 {{#display.flows}}
-                <li><input name="type" value="flow" type="checkbox" id="thing-list-{{id}}-type-flow"/><label class="gistbox-filter-label" for="thing-list-{{id}}-type-flow">flows</label></li>
+                <li><input name="type" value="flow" type="checkbox" id="thing-list-{{id}}-type-flow" /><label
+                        class="gistbox-filter-label" for="thing-list-{{id}}-type-flow">flows</label></li>
                 {{/display.flows}}
                 {{#display.apps}}
-                <li><input name="type" value="app" type="checkbox" id="thing-list-{{id}}-type-app"/><label class="gistbox-filter-label" for="thing-list-{{id}}-type-app">apps</label></li>
+                <li><input name="type" value="app" type="checkbox" id="thing-list-{{id}}-type-app" /><label
+                        class="gistbox-filter-label" for="thing-list-{{id}}-type-app">apps</label></li>
                 {{/display.apps}}
+                {{#display.extensions}}
+                <li><input name="type" value="extension" type="checkbox" id="thing-list-{{id}}-type-extension" /><label
+                        class="gistbox-filter-label" for="thing-list-{{id}}-type-extension">extensions</label></li>
+                {{/display.extensions}}
                 {{#display.collection}}
-                <li><input name="type" value="collection" type="checkbox" id="thing-list-{{id}}-type-collection"/><label class="gistbox-filter-label" for="thing-list-{{id}}-type-collection">collections</label></li>
+                <li><input name="type" value="collection" type="checkbox"
+                        id="thing-list-{{id}}-type-collection" /><label class="gistbox-filter-label"
+                        for="thing-list-{{id}}-type-collection">collections</label></li>
                 {{/display.collection}}
             </ul>
             <span class="filter-sort">
                 <ul class="filter-options-filter">
-                    <li><input type="radio" name="sort" value="recent" id="thing-list-{{id}}-sort-recent"> <label class="gistbox-sort-label" for="thing-list-{{id}}-sort-recent">recent</label></li>
-                    <li><input type="radio" name="sort" value="downloads" id="thing-list-{{id}}-sort-downloads"> <label class="gistbox-sort-label" for="thing-list-{{id}}-sort-downloads">downloads</label></li>
-                    <li><input type="radio" name="sort" value="rating" id="thing-list-{{id}}-sort-rating"> <label class="gistbox-sort-label" for="thing-list-{{id}}-sort-rating">rating</label></li>
+                    <li><input type="radio" name="sort" value="recent" id="thing-list-{{id}}-sort-recent"> <label
+                            class="gistbox-sort-label" for="thing-list-{{id}}-sort-recent">recent</label></li>
+                    <li><input type="radio" name="sort" value="downloads" id="thing-list-{{id}}-sort-downloads"> <label
+                            class="gistbox-sort-label" for="thing-list-{{id}}-sort-downloads">downloads</label></li>
+                    <li><input type="radio" name="sort" value="rating" id="thing-list-{{id}}-sort-rating"> <label
+                            class="gistbox-sort-label" for="thing-list-{{id}}-sort-rating">rating</label></li>
                 </ul>
             </span>
         </form>
@@ -45,9 +56,5 @@
             <a href="#" class="thing-list-nav-link thing-list-nav-next">Next <i class="icon-caret-right"></i></a>
         </div>
         {{/hideNav}}
-        <!-- <div style="text-align:center;">
-        <a href="#" class="btn btn-load-more">Load More...</a>
-    </div> -->
     </div>
 </div>
-

@@ -18,26 +18,32 @@ try {
     module.exports.twitter.access_token_key = process.env.NR_TWITTER_ACCESS_TOKEN_KEY || module.exports.twitter.access_token_key;
     module.exports.twitter.access_token_secret = process.env.NR_TWITTER_ACCESS_TOKEN_SECRET || module.exports.twitter.access_token_secret;
 
-    module.exports.mastodon.url = process.env.NR_MASTODON_URL || module.exports.mastodon.url
-    module.exports.mastodon.token = process.env.NR_MASTODON_TOKEN || module.exports.mastodon.token
+    module.exports.mastodon.url = process.env.NR_MASTODON_URL || module.exports.mastodon.url;
+    module.exports.mastodon.token = process.env.NR_MASTODON_TOKEN || module.exports.mastodon.token;
 
     module.exports.slack.webhook = process.env.NR_SLACK_WEBHOOK || module.exports.slack.webhook;
 
     if (process.env.NR_MODULE_BLOCKLIST) {
         module.exports.modules.block = process.env.NR_MODULE_BLOCKLIST.split(",").map(t =>t.trim())
     }
-    module.exports.aws.iconBucket = process.env.NR_AWS_BUCKET || module.exports.aws.iconBucket
-    module.exports.aws.accessKeyId = process.env.NR_AWS_ACCESS_KEY_ID || module.exports.aws.accessKeyId
-    module.exports.aws.secretAccessKey = process.env.NR_AWS_SECRET_ACCESS_KEY || module.exports.aws.secretAccessKey
-    module.exports.aws.region = process.env.NR_AWS_REGION || module.exports.aws.region
+    module.exports.aws.iconBucket = process.env.NR_AWS_BUCKET || module.exports.aws.iconBucket;
+    module.exports.aws.accessKeyId = process.env.NR_AWS_ACCESS_KEY_ID || module.exports.aws.accessKeyId;
+    module.exports.aws.secretAccessKey = process.env.NR_AWS_SECRET_ACCESS_KEY || module.exports.aws.secretAccessKey;
+    module.exports.aws.region = process.env.NR_AWS_REGION || module.exports.aws.region;
 
-    module.exports.app.zipUrl = process.env.APP_FLOW_URL ||  module.exports.app.zipUrl
+    module.exports.app.zipUrl = process.env.APP_FLOW_URL ||  module.exports.app.zipUrl;
 
     
     module.exports.git.domain = process.env.NR_GIT_DOMAIN || module.exports.git.domain;
+    module.exports.git.authorize_url = process.env.NR_GIT_AUTHORIZE_URL || module.exports.git.authorize_url;
+    module.exports.git.token_url = process.env.NR_GIT_TOKEN_URL || module.exports.git.token_url;
     module.exports.git.clientId = process.env.NR_GIT_CLIENTID || module.exports.git.clientId;
     module.exports.git.secret = process.env.NR_GIT_SECRET || module.exports.git.secret;
-    module.exports.git.domain = process.env.NR_GIT_DOMAIN || module.exports.git.domain;
     module.exports.git.host = process.env.NR_GIT_HOST || module.exports.git.host;
+    module.exports.git.github = process.env.NR_GIT_GITHUB || module.exports.git.github;
+    module.exports.git.gitlab = process.env.NR_GIT_GITLAB || module.exports.git.gitlab;
+    module.exports.git.authCallback = process.env.NR_GIT_AUTHCALLBACK || module.exports.git.authCallback;
+
     module.exports.git.accessToken = process.env.NR_GIT_ACCESSTOKEN || module.exports.git.accessToken;
+
 }
