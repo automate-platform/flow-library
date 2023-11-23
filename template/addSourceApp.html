@@ -7,18 +7,19 @@
       </h2>
       <input type="hidden" id="myId" name="id" value="" readonly>
       <h4 class="add-guideline-label"><label>Guideline Image</label></h4>
-      <p>Upload your guideline image picture how to setup and use your app.</p>
+      <p>Upload your guideline image picture how to setup and use your app. </p>
       <div class="img-guildeline">
         <div class="preview_title">
           <p>Preview image <i>Step by &gt; Step</i>.<br>This will your app <i>Guideline</i> tab.</p>
         </div>
-        <div class="w3-content w3-display-container preview-img">
+
+        <div class="w3-content w3-display-container preview-img" style="overflow: hidden;">
           <div class="inner-preview-img">
             {{#imgGuidelineUrl}}
-            <img class="mySlides" src="{{url}}" style="width:100%">
+            <img class="mySlides" src="{{url}}" >
             {{/imgGuidelineUrl}}
           </div>
-          <div class="w3-move-button">
+          <div class="w3-move-button">  
             <div class="w3-left " onclick="plusDivs(-1)"> &#10094;</div>
             <div class="w3-right" onclick="plusDivs(1)">&#10095;</div>
           </div>
@@ -307,6 +308,7 @@
       $("#add-flow-loader").show();
 
       var xhr = new XMLHttpRequest();
+
       var formData = new FormData()
       formData.append('id', $('#myId').val());
       formData.append('version', '1.0.0');
@@ -314,6 +316,7 @@
       for (var x = 0; x < guideline.length; x++) {
         formData.append('guideline', guideline[x]);
       }
+      
       xhr.open('POST', '/source', true);
       xhr.onerror = function () {
         console.error('XHR request failed.');

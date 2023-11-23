@@ -1,4 +1,4 @@
-# Node-RED Library1
+# Node-RED Library
 
 This is the source of the application behind <http://flows.nodered.org>.
 

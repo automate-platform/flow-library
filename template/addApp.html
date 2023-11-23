@@ -24,7 +24,7 @@
 
             </div>
             <div style="position:relative">
-                <div class="add-collection-icon-limit-warning dialog-warning">Icon file limit is 60kb. </div>
+                <div class="add-collection-icon-limit-warning dialog-warning">Icon file limit is 1.2mb. </div>
                 <div class="add-collection-icon-warning dialog-warning">Icon file must be .png , .jpeg or .ico.</div>
                 <div class="add-collection-icon-size-warning dialog-warning">Please choose image 128x128.</div>
                 <br>
@@ -153,9 +153,30 @@
         const inputElement = document.getElementById("icon");
         const imagePreview = document.getElementById('image-preview');
         const labelBtn = document.querySelector('.icon-label .choose-btn');
+        
+        const canvas = document.createElement('canvas');
+        inputElement.addEventListener("change", handleIcon, false)
+        ;
 
-        inputElement.addEventListener("change", handleIcon, false);
-        function handleIcon() {
+
+        function resizeImage(imgToResize) {
+            const canvas = document.createElement("canvas");
+            const context = canvas.getContext("2d");
+          
+            const canvasWidth = 128;
+            const canvasHeight = 128;
+          
+            canvas.width = canvasWidth;
+            canvas.height = canvasHeight;
+          
+            context.drawImage(
+              imgToResize,
+              0, 0, 128,128
+            );
+            return canvas.toDataURL();
+          }
+
+         function handleIcon() {
             const fileList = this.files;
             if (fileList.length === 0) {
                 $(".add-collection-icon-warning").show();
@@ -172,7 +193,10 @@
                     $(".add-collection-icon-size-warning").hide();
                     iconValid = false;
                     return false;
-                } else if (fileSizeKB > 60) {
+
+                } 
+                //check size of picture
+                else if (fileSizeKB > 1200) {
                     $(".add-collection-icon-warning").hide();
                     $(".add-collection-icon-limit-warning").show();
                     $(".add-collection-icon-size-warning").hide();
@@ -183,12 +207,14 @@
                     reader.readAsDataURL(file);
 
                     reader.onload = function () {
+
                         const image = new Image();
-                        image.src = reader.result
+                        image.src = reader.result;
+                        image.src = resizeImage(image);
                         image.onload = function () {
                             const width = image.naturalWidth;
                             const height = image.naturalHeight;
-
+                            
                             if (width === 128 && height === 128) {
                                 iconBase = reader.result;
                                 labelBtn.innerHTML = '';

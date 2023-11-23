@@ -307,7 +307,6 @@
                 modules: modules.get(),
                 icondata: iconBase
             };
-            console.log(app);
 
             $.post("/update-app", app, function (data) {
                 window.location = data;

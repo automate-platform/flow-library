@@ -81,7 +81,8 @@
                                                                             value="{{csrfToken}}">
                                                                         <input name="rating" type="hidden">
                                                                         <div class="flowinfo">Rate: <span
-                                                                                id="set-stars"></span></div>
+                                                                                id="set-stars"></span>
+                                                                        </div>
                                                                     </form>
                                                                 </span>
                                                             </span>
@@ -89,6 +90,13 @@
                                                                 <span>{{count}}</span></span>
                                                         </span>
                                                     </div>
+                                                    <span class="divider"> | </span>
+                                                        <div>
+                                                            <div class="rating-control" style="font-size: 14px; margin-left: 10px;">
+                                                                {{#rating}} Rating: {{score}}  <i class="icon-star" style="color: yellowgreen;"></i><span class="gistbox-score"></span>  {{count}} <i class="icon-user" style="color: yellowgreen;"></i>{{/rating}}
+                                                                    
+                                                            </div>
+                                                        </div>
                                                     <span class="divider"> | </span>
                                                     <span class="item-price-category"><a href="{{ html_url }}"
                                                             style="color: #1163f0;" target="_blank">View on
@@ -377,13 +385,12 @@
                                                                     in the slideshow, and which slide the user is
                                                                     currently
                                                                     viewing.
-                                                                </p>
+                                                                </p>    
                                                             </div>
                                                             <div class="w3-content w3-display-container">
                                                                 <div class="inner-preview-img">
                                                                     {{#imgGuidelineUrl}}
-                                                                    <img class="mySlides" src="{{url}}"
-                                                                        style="width:100%">
+                                                                    <img class="mySlides" src={{url}} style="height: 550px">
                                                                     {{/imgGuidelineUrl}}
                                                                 </div>
                                                                 <div class="w3-move-button">

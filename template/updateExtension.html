@@ -424,11 +424,11 @@
                     });
                     guideline = dataTransfer.files;
                     guidelineValid = true;
-                    console.log(guideline);
+                    
                     displayImages();
                 } else {
                     guidelineValid = false;
-                    console.log(guideline);
+                    
                 }
             }
         });
@@ -446,7 +446,7 @@
                 dataTransfer.items.add(file);
             });
             guideline = dataTransfer.files;
-            console.log(guideline);
+            
             displayImages()
         }
 
@@ -469,7 +469,7 @@
                 });
                 guideline = dataTransfer.files;
                 guidelineValid = true;
-                console.log(guideline);
+                
                 displayImages()
             }
 
@@ -486,7 +486,7 @@
                 dataTransfer.items.add(file);
             });
             guideline = dataTransfer.files;
-            console.log(guideline);
+            
             displayImages()
         }
 
@@ -606,7 +606,6 @@
             };
 
             $.post("/update-extension", extension, function (data) {
-                console.log(data);
                 var xhr = new XMLHttpRequest();
                 var formData = new FormData()
                 formData.append('id', $('#add-flow-id').val());

@@ -82,7 +82,6 @@ function openDetail(_id) {
                 }
                 clickedIds.push(clickedElementId);
                 sessionStorage.setItem('clickedIds', JSON.stringify(clickedIds));
-                console.log(clickedIds);
             }).catch(function (error) {
                 console.error(error);
             });
@@ -183,7 +182,6 @@ function installExtension(_id) {
     fetch(base_url + '/app/' + _id)
         .then(response => response.json()).then(dataRes => {
             currentApp = dataRes;
-            console.log(currentApp._id);
             const data = JSON.parse(currentApp.flow);
             const param = data[0];
             param.nodes = [];
@@ -202,7 +200,7 @@ function installExtension(_id) {
                     result = JSON.parse(result)
                     // console.log(currentApp._id);
                     // sessionStorage.setItem('Id', JSON.stringify(clickedIds));
-                    console.log(result.id)
+                    // console.log(result.id)
                     if (result.id) {
                         setTimeout(() => {
                             getResource(currentApp._id, result.id);
@@ -238,7 +236,7 @@ function getResource(appId, flowId) {
         .then((result) => {
             // showMessage("install extension successfully");
             showSpinner(true);
-            console.log(result);
+            // console.log(result);
         })
         .catch((error) => { showSpinner(false); console.log("error", error) });
 }

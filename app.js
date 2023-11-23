@@ -38,7 +38,6 @@ if (!settings.maintenance) {
 app.use("/", serveStatic(path.join(__dirname, 'public')));
 if (process.env.FLOW_ENV !== "PRODUCTION") {
     app.use("*", function (req, res, next) {
-        console.log(">", req.url);
         next();
     })
 }
